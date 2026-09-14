@@ -191,7 +191,7 @@
     '    <p id="muralia-construccion-label"><span id="muralia-construccion-dot"></span>Sitio en construcción</p>',
     '    <h1 id="muralia-construccion-title">Estamos renovando nuestro sitio</h1>',
     '    <p id="muralia-construccion-text">Estamos actualizando la información de esta página. Muy pronto vas a encontrar todo al día.</p>',
-    '    <a id="muralia-construccion-cta" href="mailto:contacto@muralia.cl">Escríbenos</a>',
+    '    <a id="muralia-construccion-cta" href="mailto:ventas@muralia.cl">Escríbenos</a>',
     '    <p id="muralia-construccion-foot">© 2026 Muralia</p>',
     "  </div>",
     "</div>"
