@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 2000 2000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <rect x="0" y="0" width="2000" height="2000" style="fill:#C2551F;"/>
+    <g transform="matrix(1,0,0,1,2050,0)">
+        <g transform="matrix(3.491181,0,0,3.309055,-10729.299149,-2213.09252)">
+            <rect x="2534" y="717" width="477" height="508" style="fill:none;stroke:#FFFDF9;stroke-width:33.08px;"/>
+        </g>
+        <g transform="matrix(2.159314,0,0,1.85909,-3288.628435,-690.982053)" style="fill:#FFFDF9;">
+            <text x="710.963px" y="878px" style="font-family:'Bebas Neue','Oswald','Arial Narrow',sans-serif;font-size:485.824px;">MUR</text>
+            <text x="712.178px" y="1278px" style="font-family:'Bebas Neue','Oswald','Arial Narrow',sans-serif;font-size:485.824px;">ALIA</text>
+        </g>
+    </g>
+</svg>
