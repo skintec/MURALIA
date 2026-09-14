@@ -57,7 +57,7 @@ header{
   backdrop-filter:blur(6px);
   border-bottom:1px solid var(--line);
 }
-.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:20px;}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;gap:20px;}
 .brand{display:flex;align-items:center;gap:12px;}
 .brand-mark{width:32px;height:32px;flex-shrink:0;display:block;}
 .brand-name{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;letter-spacing:1.5px;}
@@ -93,7 +93,7 @@ nav a.active{color:var(--graphite);border-color:var(--clay);}
   background-size:cover;
   background-position:center;
 }
-.page-hero-content{position:relative;z-index:2;padding:64px 0;color:var(--paper);}
+.page-hero-content{position:relative;z-index:2;padding-top:64px;padding-bottom:64px;color:var(--paper);}
 .page-hero .kicker{color:#e98a52;}
 .page-hero h1{font-size:clamp(34px,5vw,54px);max-width:20ch;}
 .page-hero p.lead{font-size:var(--fs-lead);max-width:52ch;color:#e7e3d8;margin-top:14px;}
@@ -118,7 +118,7 @@ nav a.active{color:var(--graphite);border-color:var(--clay);}
   background-size:cover;
   background-position:center 65%;
 }
-.hero-content{position:relative;z-index:2;padding:88px 0;color:var(--paper);}
+.hero-content{position:relative;z-index:2;padding-top:88px;padding-bottom:88px;color:var(--paper);}
 .hero-mark{
   position:absolute;
   right:-40px;bottom:-60px;
