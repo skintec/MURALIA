@@ -230,10 +230,31 @@ section{padding:96px 0;}
 .catalog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 26px;flex-wrap:wrap;}
 .catalog-head h3{font-size:26px;}
 .catalog-head p{font-size:var(--fs-body-sm);color:#54534c;max-width:56ch;}
-.catalog-photo{height:170px;overflow:hidden;}
+.catalog-photo{position:relative;height:170px;overflow:hidden;}
 .catalog-photo img{width:100%;height:100%;object-fit:cover;}
+.catalog-photo-tag{
+  position:absolute;bottom:0;left:0;
+  background:var(--clay);color:var(--paper);
+  font-size:var(--fs-meta);font-weight:700;
+  padding:9px 16px;
+  max-width:calc(100% - 32px);
+}
+.catalog-detail{
+  margin:0 26px 18px;
+  padding:14px 18px;
+  background:var(--plaster);
+  border-left:3px solid var(--clay);
+  font-size:var(--fs-body-sm);
+  color:#3a3934;
+}
 .chip-row{display:flex;flex-wrap:wrap;gap:8px;padding:0 26px 24px;}
-.chip{border:1px solid var(--line);background:var(--plaster);color:var(--graphite);font-size:var(--fs-meta);font-weight:600;padding:7px 13px;}
+.chip{
+  border:1px solid var(--line);background:var(--plaster);color:var(--graphite);
+  font-size:var(--fs-meta);font-weight:600;padding:7px 13px;
+  font-family:inherit;cursor:pointer;transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.chip:hover{border-color:var(--clay);}
+.chip.active{background:var(--clay);border-color:var(--clay);color:var(--paper);}
 
 /* light tag pill (for sector lists on light backgrounds, e.g. Empresa page) */
 .tag-pill-light{border:1px solid var(--line);padding:9px 16px;font-size:var(--fs-meta);font-weight:600;color:var(--graphite);background:var(--paper);transition:border-color .15s ease;}
