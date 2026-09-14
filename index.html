@@ -16,17 +16,16 @@
 <body>
 <header>
   <div class="wrap header-inner">
-    <a class="brand" href="index.html">
+    <a class="brand" href="/">
       <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
       <span class="brand-name">MURALIA</span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"></button>
     <nav>
       <ul id="nav-list">
-        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="/" class="active">Inicio</a></li>
         <li><a href="empresa.html">Empresa</a></li>
         <li><a href="productos.html">Productos</a></li>
-        <li><a href="presencia.html">Dónde estamos</a></li>
         <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
       </ul>
     </nav>
@@ -61,7 +60,7 @@
       <div class="about-grid">
         <div>
           <span class="kicker">Empresa</span>
-          <h2 style="font-size:clamp(28px,4vw,40px);margin-bottom:18px;">Muros protegidos, obras que avanzan</h2>
+          <h2 class="teaser-title">Muros protegidos, obras que avanzan</h2>
           <p>Muralia es una empresa chilena con más de 25 años de trayectoria ligada a la construcción, dedicada a dar forma y protección a los muros que sostienen la industria y la vida de las personas.</p>
           <p>Importamos y distribuimos productos de las fábricas más importantes de Chile y el mundo, trabajando como socio estratégico en proyectos de minería, celulosas, centrales termoeléctricas y también en escuelas, edificios y casas.</p>
           <a class="btn btn-dark" href="empresa.html" style="margin-top:10px;">Conoce la empresa</a>
@@ -127,8 +126,8 @@
     <div class="wrap">
       <div class="section-head">
         <div>
-          <span class="kicker" style="color:#e98a52;">Cobertura</span>
-          <h2 style="color:var(--paper);">De la minería a tu casa</h2>
+          <span class="kicker">Cobertura</span>
+          <h2>De la minería a tu casa</h2>
         </div>
         <p>Minería, celulosas, centrales termoeléctricas, túneles — y también escuelas, clínicas y hogares.</p>
       </div>
@@ -141,7 +140,7 @@
         <span class="tag-pill">Casas</span>
         <span class="tag-pill">Hoteles</span>
       </div>
-      <a class="btn btn-secondary" href="presencia.html" style="margin-top:32px;">Ver cobertura completa</a>
+      <a class="btn btn-secondary" href="empresa.html#sectores" style="margin-top:32px;">Ver todos los sectores</a>
     </div>
   </section>
 
@@ -155,15 +154,15 @@
 </main>
 <footer>
   <div class="wrap footer-inner">
-    <a class="brand" href="index.html">
-      <img class="brand-mark" style="width:26px;height:26px;" src="logo-paper.png" alt="Muralia">
+    <a class="brand" href="/">
+      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper.png" alt="Muralia">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">
       <a href="empresa.html">Empresa</a>
       <a href="productos.html">Productos</a>
-      <a href="presencia.html">Dónde estamos</a>
       <a href="contacto.html">Contacto</a>
+      <a class="social-link" href="https://instagram.com/muralia.cl" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@muralia.cl</a>
     </nav>
     <span class="footer-note">© 2026 Muralia. Aislación térmica, acústica y protección pasiva contra incendios.</span>
   </div>

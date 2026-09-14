@@ -16,17 +16,16 @@
 <body>
 <header>
   <div class="wrap header-inner">
-    <a class="brand" href="index.html">
+    <a class="brand" href="/">
       <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
       <span class="brand-name">MURALIA</span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"></button>
     <nav>
       <ul id="nav-list">
-        <li><a href="index.html">Inicio</a></li>
+        <li><a href="/">Inicio</a></li>
         <li><a href="empresa.html" class="active">Empresa</a></li>
         <li><a href="productos.html">Productos</a></li>
-        <li><a href="presencia.html">Dónde estamos</a></li>
         <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
       </ul>
     </nav>
@@ -37,7 +36,7 @@
   <section class="page-hero" style="padding:0;">
     <div class="page-hero-bg" style="background-image:linear-gradient(100deg, rgba(20,19,17,0.92) 0%, rgba(20,19,17,0.65) 100%), url('https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1600&q=70');"></div>
     <div class="wrap page-hero-content">
-      <div class="breadcrumb"><a href="index.html">Inicio</a> / Empresa</div>
+      <div class="breadcrumb"><a href="/">Inicio</a> / Empresa</div>
       <span class="kicker">Empresa</span>
       <h1>25 años construyendo confianza, capa por capa</h1>
       <p class="lead">Especialistas en aislamiento térmico y acústico, con soluciones para protección pasiva contra incendios, tabiques, cielos y fachadas ventiladas.</p>
@@ -48,8 +47,7 @@
     <div class="wrap about-grid">
       <div>
         <p>Muralia es una empresa chilena con más de 25 años de trayectoria ligada a la construcción, dedicada a dar forma y protección a los muros que sostienen la industria y la vida de las personas.</p>
-        <p>Importamos y distribuimos productos de las fábricas más importantes de Chile y el mundo, y trabajamos como socio estratégico en proyectos de minería, celulosas, centrales termoeléctricas, túneles, aviones y barcos. También estamos en lo cotidiano: escuelas, edificios, casas, clínicas, estadios y hoteles.</p>
-        <p>Nuestro objetivo es entregar un servicio profesional, eficiente y oportuno, con tecnología y productos de calidad certificada, para que cada proyecto quede protegido del frío, del ruido y del fuego.</p>
+        <p>Importamos y distribuimos productos de las fábricas más importantes de Chile y el mundo, y trabajamos como socio estratégico en proyectos industriales de gran escala. Nuestro objetivo es entregar un servicio profesional, eficiente y oportuno, con tecnología y productos de calidad certificada, para que cada proyecto quede protegido del frío, del ruido y del fuego.</p>
       </div>
       <div class="about-photo">
         <img src="https://images.unsplash.com/photo-1660367439240-d38cb03a4365?auto=format&fit=crop&w=1000&q=75" alt="Obra de construcción con grúa">
@@ -58,14 +56,31 @@
     </div>
   </section>
 
-  <div class="stat-strip">
+  <section id="sectores" class="section-plaster">
     <div class="wrap">
-      <div class="stat-cell"><div class="stat-num">25+</div><div class="stat-label">Años en el rubro de la construcción</div></div>
-      <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Líneas principales de producto</div></div>
-      <div class="stat-cell"><div class="stat-num">12+</div><div class="stat-label">Rubros atendidos</div></div>
-      <div class="stat-cell"><div class="stat-num">100%</div><div class="stat-label">Venta y asesoría directa</div></div>
+      <div class="section-head">
+        <div>
+          <span class="kicker">Cobertura</span>
+          <h2>Sectores que atendemos</h2>
+        </div>
+        <p>Los mismos productos que protegen la gran industria están detrás de los espacios donde vives y trabajas.</p>
+      </div>
+      <div class="tag-field">
+        <span class="tag-pill-light hi">Minería</span>
+        <span class="tag-pill-light hi">Fábricas</span>
+        <span class="tag-pill-light hi">Celulosas</span>
+        <span class="tag-pill-light hi">Centrales termoeléctricas</span>
+        <span class="tag-pill-light hi">Túneles</span>
+        <span class="tag-pill-light hi">Aviones y barcos</span>
+        <span class="tag-pill-light">Escuelas</span>
+        <span class="tag-pill-light">Edificios</span>
+        <span class="tag-pill-light">Casas</span>
+        <span class="tag-pill-light">Clínicas</span>
+        <span class="tag-pill-light">Estadios</span>
+        <span class="tag-pill-light">Hoteles</span>
+      </div>
     </div>
-  </div>
+  </section>
 
   <section class="cta-banner section-tight">
     <div class="wrap">
@@ -77,15 +92,15 @@
 </main>
 <footer>
   <div class="wrap footer-inner">
-    <a class="brand" href="index.html">
-      <img class="brand-mark" style="width:26px;height:26px;" src="logo-paper.png" alt="Muralia">
+    <a class="brand" href="/">
+      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper.png" alt="Muralia">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">
       <a href="empresa.html">Empresa</a>
       <a href="productos.html">Productos</a>
-      <a href="presencia.html">Dónde estamos</a>
       <a href="contacto.html">Contacto</a>
+      <a class="social-link" href="https://instagram.com/muralia.cl" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@muralia.cl</a>
     </nav>
     <span class="footer-note">© 2026 Muralia. Aislación térmica, acústica y protección pasiva contra incendios.</span>
   </div>

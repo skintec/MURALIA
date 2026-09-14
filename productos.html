@@ -16,17 +16,16 @@
 <body>
 <header>
   <div class="wrap header-inner">
-    <a class="brand" href="index.html">
+    <a class="brand" href="/">
       <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
       <span class="brand-name">MURALIA</span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"></button>
     <nav>
       <ul id="nav-list">
-        <li><a href="index.html">Inicio</a></li>
+        <li><a href="/">Inicio</a></li>
         <li><a href="empresa.html">Empresa</a></li>
         <li><a href="productos.html" class="active">Productos</a></li>
-        <li><a href="presencia.html">Dónde estamos</a></li>
         <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
       </ul>
     </nav>
@@ -37,7 +36,7 @@
   <section class="page-hero" style="padding:0;">
     <div class="page-hero-bg" style="background-image:linear-gradient(100deg, rgba(20,19,17,0.92) 0%, rgba(20,19,17,0.65) 100%), url('https://images.unsplash.com/photo-1473876637954-4b493d59fd97?auto=format&fit=crop&w=1600&q=70');"></div>
     <div class="wrap page-hero-content">
-      <div class="breadcrumb"><a href="index.html">Inicio</a> / Productos</div>
+      <div class="breadcrumb"><a href="/">Inicio</a> / Productos</div>
       <span class="kicker">Catálogo</span>
       <h1>Nuestros productos</h1>
       <p class="lead">Tres líneas centrales que cubren todo el sistema constructivo, de la estructura al acabado.</p>
@@ -46,44 +45,68 @@
 
   <section>
     <div class="wrap">
-      <div class="product-grid">
-        <div class="product-card">
-          <div class="product-photo">
-            <span class="product-num">01 — Confort</span>
-            <img src="https://images.unsplash.com/photo-1473876637954-4b493d59fd97?auto=format&fit=crop&w=800&q=75" alt="Instalación industrial de aislación térmica">
-          </div>
-          <div class="product-body">
+
+      <div class="catalog-block">
+        <div class="catalog-photo"><img src="https://images.unsplash.com/photo-1473876637954-4b493d59fd97?auto=format&fit=crop&w=1200&q=75" alt="Instalación industrial de aislación térmica"></div>
+        <div class="catalog-head">
+          <div>
+            <span class="kicker" style="margin-bottom:4px;">01 — Confort</span>
             <h3>Aislación térmica y acústica</h3>
-            <p>Lana mineral, lana de vidrio, fibra cerámica y espuma elastomérica para uso residencial, industrial y en climatización — control de temperatura y ruido en un solo sistema.</p>
-            <span class="product-link">Consultar disponibilidad</span>
           </div>
+          <p>Control de temperatura y ruido para uso residencial, industrial y en climatización.</p>
         </div>
-        <div class="product-card">
-          <div class="product-photo">
-            <span class="product-num">02 — Seguridad</span>
-            <img src="https://images.unsplash.com/photo-1600965581129-eef8a214ec9d?auto=format&fit=crop&w=800&q=75" alt="Trabajador con casco de seguridad en obra">
-          </div>
-          <div class="product-body">
+        <div class="chip-row">
+          <span class="chip">Lana de Vidrio Aislanglass</span>
+          <span class="chip">Lana Mineral Aislán</span>
+          <span class="chip">Fibra Cerámica</span>
+          <span class="chip">Espuma Elastomérica</span>
+          <span class="chip">Panel Climaver para Ductos</span>
+          <span class="chip">Cinta de Aluminio</span>
+        </div>
+      </div>
+
+      <div class="catalog-block">
+        <div class="catalog-photo"><img src="https://images.unsplash.com/photo-1600965581129-eef8a214ec9d?auto=format&fit=crop&w=1200&q=75" alt="Trabajador con casco de seguridad en obra"></div>
+        <div class="catalog-head">
+          <div>
+            <span class="kicker" style="margin-bottom:4px;">02 — Seguridad</span>
             <h3>Protección pasiva contra incendios</h3>
-            <p>Placas fibrosilicato, yeso cartón resistente al fuego, sellos de pasada y muros cortina certificados — barreras que contienen el fuego donde importa.</p>
-            <span class="product-link">Consultar disponibilidad</span>
           </div>
+          <p>Barreras certificadas que contienen el fuego y protegen la estructura y las vías de evacuación.</p>
         </div>
-        <div class="product-card">
-          <div class="product-photo">
-            <span class="product-num">03 — Estructura</span>
-            <img src="https://images.unsplash.com/photo-1727870752423-4d51d5b500c7?auto=format&fit=crop&w=800&q=75" alt="Estructura industrial con ductos y ventanas">
-          </div>
-          <div class="product-body">
+        <div class="chip-row">
+          <span class="chip">Fibrosilicato PROMATECT-H</span>
+          <span class="chip">DURASTEEL resistente a explosiones</span>
+          <span class="chip">Yeso Cartón KNAUF (RF)</span>
+          <span class="chip">Paneles Lana Mineral — Muros Cortina</span>
+          <span class="chip">Cinta Intumescente</span>
+          <span class="chip">Sellante PROMASTOP-CC</span>
+          <span class="chip">Masilla PROMASEAL-S</span>
+        </div>
+      </div>
+
+      <div class="catalog-block">
+        <div class="catalog-photo"><img src="https://images.unsplash.com/photo-1727870752423-4d51d5b500c7?auto=format&fit=crop&w=1200&q=75" alt="Estructura industrial con ductos y ventanas"></div>
+        <div class="catalog-head">
+          <div>
+            <span class="kicker" style="margin-bottom:4px;">03 — Estructura</span>
             <h3>Tabiques y cielos</h3>
-            <p>Planchas de yeso cartón KNAUF, fibrocemento, fachadas ventiladas y cielos falsos, en versiones estándar, húmedas, acústicas o de alto tráfico.</p>
-            <span class="product-link">Consultar disponibilidad</span>
           </div>
+          <p>Sistemas de tabiquería y cielos falsos en versiones estándar, húmedas, acústicas o de alto tráfico.</p>
+        </div>
+        <div class="chip-row">
+          <span class="chip">Yeso Cartón KNAUF (RF) Resistente al Fuego</span>
+          <span class="chip">Yeso Cartón KNAUF (RH) Resistente a la Humedad</span>
+          <span class="chip">Yeso Cartón KNAUF Resistente al Impacto</span>
+          <span class="chip">Yeso Cartón KNAUF Cleaneo — Atenuación Acústica</span>
+          <span class="chip">Planchas de Fibrocemento</span>
+          <span class="chip">Fachadas Ventiladas</span>
+          <span class="chip">Cielos Falsos</span>
         </div>
       </div>
 
       <div class="also-row">
-        <div class="also-item">Recubrimientos metálicos térmicos<span class="small">Aluminio, acero inoxidable y zincalum: chaquetas, bobinas, codos y accesorios</span></div>
+        <div class="also-item">Recubrimientos metálicos térmicos<span class="small">Chaquetas, bobinas, codos, curvas y barrera de vapor en aluminio, acero inoxidable y zincalum</span></div>
         <div class="also-item">Calefacción eléctrica<span class="small">Cinta calefactora para trazado térmico industrial</span></div>
         <div class="also-item">Corte y pintado de fibrocemento<span class="small">Placas a medida, listas para instalar</span></div>
       </div>
@@ -100,15 +123,15 @@
 </main>
 <footer>
   <div class="wrap footer-inner">
-    <a class="brand" href="index.html">
-      <img class="brand-mark" style="width:26px;height:26px;" src="logo-paper.png" alt="Muralia">
+    <a class="brand" href="/">
+      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper.png" alt="Muralia">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">
       <a href="empresa.html">Empresa</a>
       <a href="productos.html">Productos</a>
-      <a href="presencia.html">Dónde estamos</a>
       <a href="contacto.html">Contacto</a>
+      <a class="social-link" href="https://instagram.com/muralia.cl" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@muralia.cl</a>
     </nav>
     <span class="footer-note">© 2026 Muralia. Aislación térmica, acústica y protección pasiva contra incendios.</span>
   </div>
