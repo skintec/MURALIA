@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi cotización | Muralia</title>
+<meta name="description" content="Revisa los productos que agregaste y genera un correo con tu solicitud de cotización a Muralia.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=4">
+<script src="cart.js" defer></script>
+</head>
+<body>
+<header>
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
+      <span class="brand-name">MURALIA</span>
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"><span></span></button>
+    <nav>
+      <ul id="nav-list">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="empresa.html">Empresa</a></li>
+        <li><a href="productos.html">Productos</a></li>
+        <li><a href="cotizacion.html" class="cart-link active">Cotización <span class="cart-count" style="display:none;">0</span></a></li>
+        <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+
+  <section class="page-hero" style="padding:0;min-height:220px;">
+    <div class="page-hero-bg" style="background:linear-gradient(135deg, #2b2a26 0%, #3e4a3c 100%);"></div>
+    <div class="wrap page-hero-content">
+      <div class="breadcrumb"><a href="/">Inicio</a> / Mi cotización</div>
+      <span class="kicker">Cotización</span>
+      <h1>Tu solicitud de cotización</h1>
+      <p class="lead">Revisa los productos que agregaste y envíanoslos por correo cuando estés listo.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+
+      <div id="cart-empty" style="display:none;">
+        <p style="font-size:var(--fs-lead);color:#54534c;margin-bottom:24px;">Todavía no has agregado productos a tu cotización.</p>
+        <a class="btn btn-dark" href="productos.html">Ver catálogo</a>
+      </div>
+
+      <div id="cart-full" style="display:none;">
+        <div class="product-list" id="cart-list" style="border-top:1px solid var(--line);margin-bottom:32px;"></div>
+
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+          <a class="btn btn-primary" id="cart-email-btn" href="#">Enviar por correo</a>
+          <button type="button" class="btn btn-secondary" id="cart-clear-btn" style="border-color:var(--line);color:var(--graphite);">Vaciar cotización</button>
+        </div>
+        <p class="detail-note" style="margin-top:18px;">Al hacer clic en "Enviar por correo" se abrirá tu programa de correo con el detalle ya escrito, listo para enviar a ventas@muralia.cl.</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+<footer>
+  <div class="wrap footer-inner">
+    <a class="brand" href="/">
+      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper.png" alt="Muralia">
+      <span class="brand-name">MURALIA</span>
+    </a>
+    <nav class="footer-nav">
+      <a href="empresa.html">Empresa</a>
+      <a href="productos.html">Productos</a>
+      <a href="contacto.html">Contacto</a>
+      <a class="social-link" href="https://instagram.com/muralia.cl" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@muralia.cl</a>
+    </nav>
+    <span class="footer-note">© 2026 Muralia. Aislación térmica, acústica y protección pasiva contra incendios.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s == null ? '' : s;
+    return d.innerHTML;
+  }
+
+  function render() {
+    if (!window.MuraliaCart) return;
+    var items = window.MuraliaCart.getItems();
+    var list = document.getElementById('cart-list');
+    var empty = document.getElementById('cart-empty');
+    var full = document.getElementById('cart-full');
+
+    if (items.length === 0) {
+      empty.style.display = '';
+      full.style.display = 'none';
+      return;
+    }
+    empty.style.display = 'none';
+    full.style.display = '';
+
+    list.innerHTML = '';
+    items.forEach(function (item, index) {
+      var row = document.createElement('div');
+      row.style.display = 'flex';
+      row.style.alignItems = 'center';
+      row.style.justifyContent = 'space-between';
+      row.style.gap = '16px';
+      row.style.padding = '14px 2px';
+      row.style.borderBottom = '1px solid var(--line)';
+
+      var label = document.createElement('div');
+      var thicknessTxt = item.thickness ? (' — Espesor: ' + esc(item.thickness)) : '';
+      label.innerHTML = '<span style="font-weight:700;color:var(--graphite);">' + esc(item.name) + '</span>' +
+        '<span style="color:#7a7969;font-size:var(--fs-meta);">' + thicknessTxt + '</span>';
+
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.textContent = 'Quitar';
+      removeBtn.style.cssText = 'background:none;border:none;color:var(--clay-dark);font-weight:700;font-size:var(--fs-meta);cursor:pointer;flex-shrink:0;';
+      removeBtn.addEventListener('click', function () {
+        window.MuraliaCart.removeItem(index);
+        render();
+      });
+
+      row.appendChild(label);
+      row.appendChild(removeBtn);
+      list.appendChild(row);
+    });
+
+    document.getElementById('cart-email-btn').setAttribute('href', window.MuraliaCart.buildMailto(items));
+  }
+
+  document.getElementById('cart-clear-btn') && document.getElementById('cart-clear-btn').addEventListener('click', function () {
+    if (window.MuraliaCart) {
+      window.MuraliaCart.clearItems();
+      render();
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', render);
+})();
+</script>
+</body>
+</html>

@@ -65,6 +65,13 @@ nav ul{display:flex;list-style:none;gap:30px;align-items:center;}
 nav a{font-size:var(--fs-meta);font-weight:600;letter-spacing:0.3px;padding:6px 2px;border-bottom:2px solid transparent;transition:border-color .15s ease,color .15s ease;color:#454540;}
 nav a:hover{border-color:var(--clay);color:var(--graphite);}
 nav a.active{color:var(--graphite);border-color:var(--clay);}
+.cart-link{display:inline-flex;align-items:center;gap:6px;}
+.cart-count{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:18px;height:18px;padding:0 5px;
+  background:var(--clay);color:var(--paper);
+  border-radius:9px;font-size:11px;font-weight:700;line-height:1;
+}
 .nav-cta{background:var(--graphite);color:var(--paper) !important;padding:9px 18px;font-weight:700;border:none !important;}
 .nav-cta:hover{background:var(--clay);color:var(--paper) !important;border-color:transparent !important;}
 .nav-toggle{display:none;}
@@ -256,37 +263,38 @@ section{padding:96px 0;}
 .featured-body h4{font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;color:var(--graphite);margin-bottom:4px;}
 .featured-body span{font-size:var(--fs-meta);color:var(--clay-dark);font-weight:600;}
 
-/* ---------- CATALOG CHIPS (real named products under each category) ---------- */
-.catalog-block{border:1px solid var(--line);background:var(--paper);margin-bottom:20px;}
-.catalog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 26px;flex-wrap:wrap;}
-.catalog-head h3{font-size:26px;}
-.catalog-head p{font-size:var(--fs-body-sm);color:#54534c;max-width:56ch;}
-.catalog-photo{position:relative;height:170px;overflow:hidden;}
-.catalog-photo img{width:100%;height:100%;object-fit:cover;}
-.catalog-photo-tag{
+/* ---------- CATALOG (category block: media + content in two columns) ---------- */
+.catalog-block{
+  display:grid;grid-template-columns:320px 1fr;
+  border:1px solid var(--line);background:var(--paper);margin-bottom:24px;
+}
+@media (max-width:760px){ .catalog-block{grid-template-columns:1fr;} }
+
+.catalog-media{position:relative;overflow:hidden;min-height:260px;}
+.catalog-media img{width:100%;height:100%;object-fit:cover;display:block;}
+.catalog-media .swatch{height:100%;min-height:260px;}
+@media (max-width:760px){ .catalog-media, .catalog-media .swatch{min-height:180px;} }
+.catalog-media-tag{
   position:absolute;bottom:0;left:0;
   background:var(--clay);color:var(--paper);
   font-size:var(--fs-meta);font-weight:700;
   padding:9px 16px;
   max-width:calc(100% - 32px);
 }
-.catalog-detail{
-  margin:0 26px 18px;
-  padding:14px 18px;
-  background:var(--plaster);
-  border-left:3px solid var(--clay);
-  font-size:var(--fs-body-sm);
-  color:#3a3934;
+
+.catalog-body{padding:26px 28px;display:flex;flex-direction:column;}
+.catalog-body h3{font-size:26px;margin-bottom:8px;}
+.catalog-body .catalog-intro{font-size:var(--fs-body-sm);color:#54534c;max-width:60ch;margin-bottom:20px;}
+
+.product-list{border-top:1px solid var(--line);}
+.product-list a{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:13px 2px;border-bottom:1px solid var(--line);
+  font-size:15px;font-weight:600;color:var(--graphite);text-decoration:none;
+  transition:color .15s ease, padding-left .15s ease;
 }
-.chip-row{display:flex;flex-wrap:wrap;gap:8px;padding:0 26px 24px;}
-.chip{
-  display:inline-block;text-decoration:none;
-  border:1px solid var(--line);background:var(--plaster);color:var(--graphite);
-  font-size:var(--fs-meta);font-weight:600;padding:7px 13px;
-  font-family:inherit;cursor:pointer;transition:background .15s ease,border-color .15s ease,color .15s ease;
-}
-.chip:hover{border-color:var(--clay);}
-.chip.active{background:var(--clay);border-color:var(--clay);color:var(--paper);}
+.product-list a:hover{color:var(--clay-dark);padding-left:8px;}
+.product-list a .arrow{color:var(--clay-dark);font-family:'Bebas Neue',sans-serif;font-size:17px;flex-shrink:0;}
 
 /* light tag pill (for sector lists on light backgrounds, e.g. Empresa page) */
 .tag-pill-light{border:1px solid var(--line);padding:9px 16px;font-size:var(--fs-meta);font-weight:600;color:var(--graphite);background:var(--paper);transition:border-color .15s ease;}
@@ -323,6 +331,14 @@ section{padding:96px 0;}
 .contact-cell.dark .contact-note{color:#a8a69a;}
 
 /* ---------- PRODUCT DETAIL PAGE ---------- */
+.chip{
+  display:inline-block;text-decoration:none;
+  border:1px solid var(--line);background:var(--plaster);color:var(--graphite);
+  font-size:var(--fs-meta);font-weight:600;padding:7px 13px;
+  font-family:inherit;cursor:pointer;transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.chip:hover{border-color:var(--clay);}
+.chip.active{background:var(--clay);border-color:var(--clay);color:var(--paper);}
 .detail-grid{display:grid;grid-template-columns:0.9fr 1fr;gap:56px;align-items:start;}
 @media (max-width:860px){ .detail-grid{grid-template-columns:1fr;} }
 .detail-media{border:1px solid var(--line);}
