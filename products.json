@@ -1,0 +1,557 @@
+{
+  "categories": [
+    {
+      "id": "termica",
+      "num": "01",
+      "tag": "Confort",
+      "name": "Aislación térmica y acústica",
+      "hero_photo": "https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?auto=format&fit=crop&w=1200&q=75",
+      "hero_alt": "Instalación de aislación térmica en muro",
+      "intro": "El material se elige según la temperatura de trabajo y la exigencia acústica — desde vivienda hasta climatización industrial.",
+      "products": [
+        {
+          "slug": "lana-de-vidrio",
+          "name": "Lana de vidrio",
+          "short": "Rollo de lana de vidrio con polipropileno blanco en una cara.",
+          "desc": "Aislante fibroso liviano y flexible, con una cara revestida en polipropileno blanco. Se usa en tabiques, techumbres y ductos de climatización, ofreciendo buen desempeño térmico y acústico a bajo costo.",
+          "media": {
+            "type": "photo",
+            "src": "https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?auto=format&fit=crop&w=900&q=80",
+            "alt": "Lana de vidrio instalada en muro"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "fibra de vidrio con polipropileno blanco"
+            ],
+            [
+              "Aplicación",
+              "residencial e industrial"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "50 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 25 m — rollo de 30 m²"
+                ]
+              ]
+            },
+            {
+              "label": "80 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 12 m — rollo de 14,4 m²"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "lana-mineral",
+          "name": "Lana mineral",
+          "short": "Panel de lana mineral importado, en distintas densidades.",
+          "desc": "Panel rígido de lana mineral, usado donde se requiere mayor densidad y resistencia térmica que la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-wool",
+            "label": "Lana mineral"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "lana mineral"
+            ],
+            [
+              "Formato de panel",
+              "0,6 x 1,2 m"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "50 mm",
+              "specs": [
+                [
+                  "Densidades disponibles",
+                  "80 / 100 / 140 kg/m³"
+                ]
+              ]
+            },
+            {
+              "label": "80 mm",
+              "specs": [
+                [
+                  "Densidad disponible",
+                  "80 kg/m³"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "panel-velo-negro",
+          "name": "Panel velo negro",
+          "short": "Panel de fibra de vidrio con terminación de velo negro.",
+          "desc": "Panel rígido de fibra de vidrio con una cara terminada en velo negro, pensado para ductos de climatización que quedan expuestos a la vista. Entrega aislación y una terminación estética en un solo panel.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-velo",
+            "label": "Panel velo negro"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "fibra de vidrio con velo negro"
+            ],
+            [
+              "Densidad",
+              "35 kg/m³"
+            ],
+            [
+              "Formato de panel",
+              "0,5 x 1,2 m"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "50 mm",
+              "specs": []
+            }
+          ]
+        },
+        {
+          "slug": "banda-elastoacustica",
+          "name": "Banda elastoacústica",
+          "short": "Banda de espuma de polietileno autoadhesiva.",
+          "desc": "Banda de espuma de polietileno autoadhesiva, usada para desolidarizar tabiques y losas del resto de la estructura, cortando puentes acústicos en el perímetro.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-pp",
+            "label": "Banda elastoacústica"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "espuma de polietileno"
+            ],
+            [
+              "Formato",
+              "rollo autoadhesivo de 30 m"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "50 mm de ancho",
+              "specs": []
+            },
+            {
+              "label": "70 mm de ancho",
+              "specs": []
+            }
+          ]
+        },
+        {
+          "slug": "fibra-ceramica",
+          "name": "Fibra cerámica",
+          "short": "Soporta altas temperaturas: hornos, calderas y ductos industriales.",
+          "desc": "Aislante para altas temperaturas, usado en hornos, calderas y ductos industriales donde la lana mineral o de vidrio no son suficientes.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-wool",
+            "label": "Fibra cerámica"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "fibra cerámica"
+            ],
+            [
+              "Uso",
+              "altas temperaturas — hornos, calderas, ductos"
+            ]
+          ],
+          "thicknesses": []
+        },
+        {
+          "slug": "panel-para-ductos",
+          "name": "Panel para ductos",
+          "short": "Panel rígido prearmado para la fabricación de ductos de climatización.",
+          "desc": "Panel rígido prearmado, pensado para fabricar ductos de climatización directamente en obra.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-pp",
+            "label": "Panel para ductos"
+          },
+          "base_specs": [
+            [
+              "Uso",
+              "fabricación de ductos de climatización"
+            ]
+          ],
+          "thicknesses": []
+        }
+      ]
+    },
+    {
+      "id": "incendio",
+      "num": "02",
+      "tag": "Seguridad",
+      "name": "Protección pasiva contra incendios",
+      "hero_photo": null,
+      "hero_alt": "",
+      "intro": "Certificaciones con clasificación F30 a F180 para sectorizar incendios y proteger estructura, vías de evacuación y equipos críticos, avaladas por los principales laboratorios chilenos.",
+      "products": [
+        {
+          "slug": "placa-fibrosilicato",
+          "name": "Placa fibrosilicato",
+          "short": "Placas rígidas con alta resistencia al fuego para muros y cielos cortafuego.",
+          "desc": "Placa rígida a base de silicato, con alta resistencia al fuego. Se usa en muros y cielos cortafuego, y en la protección de estructuras metálicas.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Placa fibrosilicato"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "1200 x 2400 mm"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "6 mm",
+              "specs": [
+                [
+                  "Peso aprox.",
+                  "21 kg por placa"
+                ]
+              ]
+            },
+            {
+              "label": "8 mm",
+              "specs": [
+                [
+                  "Peso aprox.",
+                  "27 kg por placa"
+                ]
+              ]
+            },
+            {
+              "label": "10 mm",
+              "specs": [
+                [
+                  "Peso aprox.",
+                  "33 kg por placa"
+                ]
+              ]
+            },
+            {
+              "label": "12 mm",
+              "specs": [
+                [
+                  "Peso aprox.",
+                  "39 kg por placa"
+                ]
+              ]
+            },
+            {
+              "label": "15 mm",
+              "specs": [
+                [
+                  "Peso aprox.",
+                  "46 kg por placa"
+                ]
+              ]
+            },
+            {
+              "label": "20 mm",
+              "specs": [
+                [
+                  "Peso aprox.",
+                  "69 kg por placa"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "pasta-para-juntas",
+          "name": "Pasta para juntas",
+          "short": "Pasta para el tratamiento de juntas entre placas.",
+          "desc": "Pasta usada para tratar y sellar las juntas entre placas de fibrosilicato, dejando una superficie continua lista para terminación.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Pasta para juntas"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "saco de 25 kg"
+            ],
+            [
+              "Rendimiento aprox.",
+              "350 g por metro lineal"
+            ]
+          ],
+          "thicknesses": []
+        },
+        {
+          "slug": "masilla-cortafuego",
+          "name": "Masilla cortafuego",
+          "short": "Producto flexible para sellar juntas y pasadas de cañerías.",
+          "desc": "Masilla flexible para sellar juntas de dilatación y pasadas de cañerías o cables, manteniendo la resistencia al fuego del elemento constructivo.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Masilla cortafuego"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "unidad"
+            ]
+          ],
+          "thicknesses": []
+        },
+        {
+          "slug": "sellante-cortafuego",
+          "name": "Sellante cortafuego",
+          "short": "Sella penetraciones de instalaciones eléctricas y sanitarias en muros cortafuego.",
+          "desc": "Sellante usado en penetraciones de instalaciones eléctricas y sanitarias que atraviesan muros o losas cortafuego, restituyendo su resistencia al fuego.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Sellante cortafuego"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "balde de 12,5 kg"
+            ]
+          ],
+          "thicknesses": []
+        },
+        {
+          "slug": "cinta-intumescente",
+          "name": "Cinta intumescente",
+          "short": "Se expande con el calor para sellar juntas y evitar el paso de humo y llama.",
+          "desc": "Cinta que se expande al contacto con el calor, sellando juntas y evitando el paso de humo y llama en puertas y elementos cortafuego.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Cinta intumescente"
+          },
+          "base_specs": [],
+          "thicknesses": []
+        },
+        {
+          "slug": "placa-resistente-a-explosiones",
+          "name": "Placa resistente a explosiones",
+          "short": "Sistema reforzado para sectores de alto riesgo industrial.",
+          "desc": "Sistema reforzado para sectores de alto riesgo industrial, donde además de la resistencia al fuego se requiere resistencia a onda de choque.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Placa resistente a explosiones"
+          },
+          "base_specs": [],
+          "thicknesses": []
+        }
+      ]
+    },
+    {
+      "id": "tabiques",
+      "num": "03",
+      "tag": "Estructura",
+      "name": "Tabiques y cielos",
+      "hero_photo": "https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1200&q=75",
+      "hero_alt": "Sala en construcción con estructura de tabiquería",
+      "intro": "Desde tabiques estándar hasta versiones resistentes a la humedad, al impacto o a la radiación, según lo exija el recinto.",
+      "products": [
+        {
+          "slug": "yeso-carton-estandar",
+          "name": "Yeso cartón estándar",
+          "short": "Plancha de yeso cartón para uso general en tabiques y cielos.",
+          "desc": "Plancha de yeso cartón de uso general, para tabiquería y cielos en recintos sin exigencias especiales de humedad, fuego o impacto.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Yeso cartón estándar"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "1200 x 2400 mm"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "10 mm",
+              "specs": []
+            },
+            {
+              "label": "12,5 mm",
+              "specs": []
+            },
+            {
+              "label": "15 mm",
+              "specs": []
+            }
+          ]
+        },
+        {
+          "slug": "yeso-carton-resistente-al-fuego",
+          "name": "Yeso cartón resistente al fuego",
+          "short": "Núcleo especial que retarda la propagación del fuego en tabiques.",
+          "desc": "Plancha de yeso cartón con núcleo especial que retarda la propagación del fuego, para tabiques y cielos que requieren clasificación cortafuego.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Yeso cartón resistente al fuego"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "1200 x 2400 mm"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "12,5 mm",
+              "specs": []
+            },
+            {
+              "label": "15 mm",
+              "specs": []
+            }
+          ]
+        },
+        {
+          "slug": "yeso-carton-resistente-a-la-humedad",
+          "name": "Yeso cartón resistente a la humedad",
+          "short": "Para baños, cocinas y zonas con alta exposición a la humedad.",
+          "desc": "Plancha de yeso cartón formulada para resistir humedad, pensada para baños, cocinas y otras zonas con exposición frecuente a agua.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Yeso cartón resistente a la humedad"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "1200 x 2400 mm"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "12,5 mm",
+              "specs": []
+            },
+            {
+              "label": "15 mm",
+              "specs": []
+            }
+          ]
+        },
+        {
+          "slug": "rayos-x",
+          "name": "Rayos X",
+          "short": "Planchas con blindaje radiológico para salas de rayos X en clínicas y hospitales.",
+          "desc": "Plancha con blindaje radiológico, usada en la construcción de salas de rayos X y otros recintos que requieren protección contra radiación, en clínicas y hospitales.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Rayos X"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "0,625 x 2,5 m"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "12,5 mm",
+              "specs": []
+            }
+          ]
+        },
+        {
+          "slug": "yeso-carton-resistente-al-impacto",
+          "name": "Yeso cartón resistente al impacto",
+          "short": "Mayor resistencia mecánica para recintos de alto tráfico.",
+          "desc": "Plancha de yeso cartón con mayor resistencia mecánica, pensada para recintos de alto tráfico o riesgo de golpes — pasillos, gimnasios, colegios.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Yeso cartón resistente al impacto"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "1200 x 2400 mm"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "12,5 mm",
+              "specs": []
+            },
+            {
+              "label": "15 mm",
+              "specs": []
+            }
+          ]
+        },
+        {
+          "slug": "yeso-carton-con-atenuacion-acustica",
+          "name": "Yeso cartón con atenuación acústica",
+          "short": "Reduce la transmisión de ruido entre recintos.",
+          "desc": "Plancha de yeso cartón perforada, formulada para reducir la transmisión de ruido entre recintos — oficinas, salas de reunión, auditorios.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Yeso cartón con atenuación acústica"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "1200 x 2000 mm"
+            ]
+          ],
+          "thicknesses": []
+        },
+        {
+          "slug": "planchas-de-fibrocemento",
+          "name": "Planchas de fibrocemento",
+          "short": "Revestimiento resistente para interior y exterior.",
+          "desc": "Revestimiento rígido a base de fibrocemento, resistente a la intemperie, usado tanto en interior como en exterior.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Planchas de fibrocemento"
+          },
+          "base_specs": [],
+          "thicknesses": []
+        },
+        {
+          "slug": "cielos-falsos",
+          "name": "Cielos falsos",
+          "short": "Sistema de cielo suspendido para ocultar instalaciones y mejorar la acústica.",
+          "desc": "Sistema de cielo suspendido, usado para ocultar instalaciones (ductos, cañerías, cableado) y mejorar el comportamiento acústico del recinto.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Cielos falsos"
+          },
+          "base_specs": [],
+          "thicknesses": []
+        }
+      ]
+    }
+  ]
+}

@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 <header>
@@ -40,7 +40,7 @@
       <div class="breadcrumb"><a href="/">Inicio</a> / Productos</div>
       <span class="kicker">Catálogo</span>
       <h1>Nuestros productos</h1>
-      <p class="lead">Elige un producto dentro de cada categoría para ver su detalle.</p>
+      <p class="lead">Elige un producto dentro de cada categoría para ver su detalle y, si aplica, sus espesores disponibles.</p>
     </div>
   </section>
 
@@ -48,31 +48,27 @@
     <div class="wrap">
 
       <div class="catalog-block">
-        <div class="catalog-photo">
-          <img src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?auto=format&fit=crop&w=1200&q=75" alt="Instalación de aislación térmica en muro">
-          <span class="catalog-photo-tag" id="tag-1">Lana de vidrio</span>
-        </div>
+        <div class="catalog-photo"><img src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?auto=format&fit=crop&w=1200&q=75" alt="Instalación de aislación térmica en muro"></div>
         <div class="catalog-head">
           <div>
             <span class="kicker" style="margin-bottom:4px;">01 — Confort</span>
             <h3>Aislación térmica y acústica</h3>
           </div>
-          <p>Espesores según la reglamentación térmica chilena y la exigencia acústica — desde vivienda hasta climatización industrial.</p>
+          <p>El material se elige según la temperatura de trabajo y la exigencia acústica — desde vivienda hasta climatización industrial.</p>
         </div>
-        <p class="catalog-detail" id="detail-1">Fibra ligera y flexible, ideal para tabiques y techumbres residenciales.</p>
-        <div class="chip-row" data-group="1">
-          <button type="button" class="chip active" aria-pressed="true" data-name="Lana de vidrio" data-desc="Fibra ligera y flexible, ideal para tabiques y techumbres residenciales.">Lana de vidrio</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Lana mineral" data-desc="Mayor densidad y resistencia térmica, usada en aplicaciones industriales exigentes.">Lana mineral</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Fibra cerámica" data-desc="Soporta altas temperaturas: hornos, calderas y ductos industriales.">Fibra cerámica</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Panel para ductos" data-desc="Panel rígido prearmado para la fabricación de ductos de climatización.">Panel para ductos</button>
+        <div class="chip-row">
+          <a class="chip" href="producto.html?slug=lana-de-vidrio">Lana de vidrio</a>
+<a class="chip" href="producto.html?slug=lana-mineral">Lana mineral</a>
+<a class="chip" href="producto.html?slug=panel-velo-negro">Panel velo negro</a>
+<a class="chip" href="producto.html?slug=banda-elastoacustica">Banda elastoacústica</a>
+<a class="chip" href="producto.html?slug=fibra-ceramica">Fibra cerámica</a>
+<a class="chip" href="producto.html?slug=panel-para-ductos">Panel para ductos</a>
+
         </div>
       </div>
 
       <div class="catalog-block">
-        <div class="catalog-photo">
-          <img src="https://images.unsplash.com/photo-1592838754746-4af9f09f526f?auto=format&fit=crop&w=1200&q=75" alt="Extintor de incendios en muro">
-          <span class="catalog-photo-tag" id="tag-2">Placas fibrosilicato</span>
-        </div>
+        <div class="catalog-photo swatch-board"><span class="catalog-photo-tag">Protección pasiva contra incendios</span></div>
         <div class="catalog-head">
           <div>
             <span class="kicker" style="margin-bottom:4px;">02 — Seguridad</span>
@@ -80,22 +76,19 @@
           </div>
           <p>Certificaciones con clasificación F30 a F180 para sectorizar incendios y proteger estructura, vías de evacuación y equipos críticos, avaladas por los principales laboratorios chilenos.</p>
         </div>
-        <p class="catalog-detail" id="detail-2">Placas rígidas con alta resistencia al fuego para muros y cielos cortafuego.</p>
-        <div class="chip-row" data-group="2">
-          <button type="button" class="chip active" aria-pressed="true" data-name="Placas fibrosilicato" data-desc="Placas rígidas con alta resistencia al fuego para muros y cielos cortafuego.">Placas fibrosilicato</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Placas resistentes a explosiones" data-desc="Sistema reforzado para sectores de alto riesgo industrial.">Placas resistentes a explosiones</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Yeso cartón resistente al fuego" data-desc="Plancha con núcleo especial que retarda la propagación del fuego.">Yeso cartón resistente al fuego</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Cinta intumescente" data-desc="Se expande con el calor para sellar juntas y evitar el paso de humo y llama.">Cinta intumescente</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Sellante cortafuego" data-desc="Sella penetraciones de instalaciones eléctricas y sanitarias en muros cortafuego.">Sellante cortafuego</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Masilla cortafuego" data-desc="Producto flexible para sellar juntas y pasadas de cañerías.">Masilla cortafuego</button>
+        <div class="chip-row">
+          <a class="chip" href="producto.html?slug=placa-fibrosilicato">Placa fibrosilicato</a>
+<a class="chip" href="producto.html?slug=pasta-para-juntas">Pasta para juntas</a>
+<a class="chip" href="producto.html?slug=masilla-cortafuego">Masilla cortafuego</a>
+<a class="chip" href="producto.html?slug=sellante-cortafuego">Sellante cortafuego</a>
+<a class="chip" href="producto.html?slug=cinta-intumescente">Cinta intumescente</a>
+<a class="chip" href="producto.html?slug=placa-resistente-a-explosiones">Placa resistente a explosiones</a>
+
         </div>
       </div>
 
       <div class="catalog-block">
-        <div class="catalog-photo">
-          <img src="https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1200&q=75" alt="Sala en construcción con estructura de tabiquería">
-          <span class="catalog-photo-tag" id="tag-3">Yeso cartón resistente al fuego</span>
-        </div>
+        <div class="catalog-photo"><img src="https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1200&q=75" alt="Sala en construcción con estructura de tabiquería"></div>
         <div class="catalog-head">
           <div>
             <span class="kicker" style="margin-bottom:4px;">03 — Estructura</span>
@@ -103,15 +96,16 @@
           </div>
           <p>Desde tabiques estándar hasta versiones resistentes a la humedad, al impacto o a la radiación, según lo exija el recinto.</p>
         </div>
-        <p class="catalog-detail" id="detail-3">Núcleo especial que retarda la propagación del fuego en tabiques.</p>
-        <div class="chip-row" data-group="3">
-          <button type="button" class="chip active" aria-pressed="true" data-name="Yeso cartón resistente al fuego" data-desc="Núcleo especial que retarda la propagación del fuego en tabiques.">Yeso cartón resistente al fuego</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Yeso cartón resistente a la humedad" data-desc="Para baños, cocinas y zonas con alta exposición a la humedad.">Yeso cartón resistente a la humedad</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Yeso cartón resistente al impacto" data-desc="Mayor resistencia mecánica para recintos de alto tráfico.">Yeso cartón resistente al impacto</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Yeso cartón con atenuación acústica" data-desc="Reduce la transmisión de ruido entre recintos.">Yeso cartón con atenuación acústica</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Planchas de fibrocemento" data-desc="Revestimiento resistente para interior y exterior.">Planchas de fibrocemento</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Rayos X" data-desc="Planchas con blindaje radiológico para salas de rayos X en clínicas y hospitales.">Rayos X</button>
-          <button type="button" class="chip" aria-pressed="false" data-name="Cielos falsos" data-desc="Sistema de cielo suspendido para ocultar instalaciones y mejorar la acústica.">Cielos falsos</button>
+        <div class="chip-row">
+          <a class="chip" href="producto.html?slug=yeso-carton-estandar">Yeso cartón estándar</a>
+<a class="chip" href="producto.html?slug=yeso-carton-resistente-al-fuego">Yeso cartón resistente al fuego</a>
+<a class="chip" href="producto.html?slug=yeso-carton-resistente-a-la-humedad">Yeso cartón resistente a la humedad</a>
+<a class="chip" href="producto.html?slug=rayos-x">Rayos X</a>
+<a class="chip" href="producto.html?slug=yeso-carton-resistente-al-impacto">Yeso cartón resistente al impacto</a>
+<a class="chip" href="producto.html?slug=yeso-carton-con-atenuacion-acustica">Yeso cartón con atenuación acústica</a>
+<a class="chip" href="producto.html?slug=planchas-de-fibrocemento">Planchas de fibrocemento</a>
+<a class="chip" href="producto.html?slug=cielos-falsos">Cielos falsos</a>
+
         </div>
       </div>
 
@@ -124,12 +118,11 @@
       <a class="btn btn-primary" href="contacto.html">Pide asesoría</a>
     </div>
   </section>
-
 </main>
 <footer>
   <div class="wrap footer-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" style="width:25px;height:25px;" src="logo-paper.png" alt="Muralia">
+      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper.png" alt="Muralia">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">
@@ -141,24 +134,5 @@
     <span class="footer-note">© 2026 Muralia. Aislación térmica, acústica y protección pasiva contra incendios.</span>
   </div>
 </footer>
-<script>
-  document.querySelectorAll('.chip-row').forEach(function (row) {
-    var group = row.getAttribute('data-group');
-    var tag = document.getElementById('tag-' + group);
-    var detail = document.getElementById('detail-' + group);
-    row.querySelectorAll('.chip').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        row.querySelectorAll('.chip').forEach(function (b) {
-          b.classList.remove('active');
-          b.setAttribute('aria-pressed', 'false');
-        });
-        btn.classList.add('active');
-        btn.setAttribute('aria-pressed', 'true');
-        if (tag) tag.textContent = btn.getAttribute('data-name');
-        if (detail) detail.textContent = btn.getAttribute('data-desc');
-      });
-    });
-  });
-</script>
 </body>
 </html>

@@ -114,7 +114,7 @@ nav a.active{color:var(--graphite);border-color:var(--clay);}
   position:absolute;inset:0;
   background-image:
     linear-gradient(100deg, rgba(20,19,17,0.94) 0%, rgba(20,19,17,0.78) 45%, rgba(20,19,17,0.5) 100%),
-    url('https://images.unsplash.com/photo-1660367439240-d38cb03a4365?auto=format&fit=crop&w=1920&q=75');
+    url('https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?auto=format&fit=crop&w=1920&q=75');
   background-size:cover;
   background-position:center 65%;
 }
@@ -225,6 +225,37 @@ section{padding:96px 0;}
 .also-item{background:var(--paper);padding:20px 24px;font-size:var(--fs-body-sm);font-weight:600;}
 .also-item .small{display:block;font-weight:400;font-size:var(--fs-meta);color:#6b6a63;margin-top:4px;}
 
+/* ---------- MATERIAL SWATCHES (honest placeholder where no real product photo exists) ---------- */
+.swatch{position:relative;height:190px;overflow:hidden;display:flex;align-items:flex-end;}
+.swatch::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(43,42,38,0) 45%, rgba(43,42,38,0.55) 100%);}
+.swatch-label{position:relative;z-index:2;color:var(--paper);font-size:var(--fs-meta);font-weight:700;padding:14px 16px;}
+.swatch-pp{background:
+    repeating-linear-gradient(120deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 2px, transparent 2px, transparent 14px),
+    linear-gradient(160deg, #efece4 0%, #d9d4c6 100%);}
+.swatch-velo{background:
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1.4px) 0 0/10px 10px,
+    linear-gradient(160deg, #2b2a26 0%, #1a1917 100%);}
+.swatch-board{background:
+    radial-gradient(rgba(43,42,38,0.18) 1px, transparent 1.4px) 0 0/7px 7px,
+    linear-gradient(160deg, #c7c2b4 0%, #aba594 100%);}
+.swatch-wool{background:
+    repeating-linear-gradient(100deg, rgba(255,255,255,0.35) 0px, rgba(255,255,255,0.35) 3px, transparent 3px, transparent 16px),
+    linear-gradient(160deg, #e7c9a3 0%, #d3a86f 100%);}
+
+.featured-note{font-size:var(--fs-meta);color:#7a7969;margin-top:-24px;margin-bottom:44px;max-width:60ch;}
+.featured-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+@media (max-width:900px){ .featured-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:520px){ .featured-grid{grid-template-columns:1fr;} }
+.featured-card{
+  display:block;background:var(--paper);border:1px solid var(--line);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.featured-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(43,42,38,0.14);}
+.featured-card img{width:100%;height:190px;object-fit:cover;}
+.featured-body{padding:16px 18px 20px;}
+.featured-body h4{font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;color:var(--graphite);margin-bottom:4px;}
+.featured-body span{font-size:var(--fs-meta);color:var(--clay-dark);font-weight:600;}
+
 /* ---------- CATALOG CHIPS (real named products under each category) ---------- */
 .catalog-block{border:1px solid var(--line);background:var(--paper);margin-bottom:20px;}
 .catalog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 26px;flex-wrap:wrap;}
@@ -249,6 +280,7 @@ section{padding:96px 0;}
 }
 .chip-row{display:flex;flex-wrap:wrap;gap:8px;padding:0 26px 24px;}
 .chip{
+  display:inline-block;text-decoration:none;
   border:1px solid var(--line);background:var(--plaster);color:var(--graphite);
   font-size:var(--fs-meta);font-weight:600;padding:7px 13px;
   font-family:inherit;cursor:pointer;transition:background .15s ease,border-color .15s ease,color .15s ease;
@@ -289,6 +321,19 @@ section{padding:96px 0;}
 .contact-cell.dark{background:var(--graphite);color:var(--paper);}
 .contact-cell.dark h3{color:var(--paper);}
 .contact-cell.dark .contact-note{color:#a8a69a;}
+
+/* ---------- PRODUCT DETAIL PAGE ---------- */
+.detail-grid{display:grid;grid-template-columns:0.9fr 1fr;gap:56px;align-items:start;}
+@media (max-width:860px){ .detail-grid{grid-template-columns:1fr;} }
+.detail-media{border:1px solid var(--line);}
+.detail-media img, .detail-media .swatch{width:100%;height:340px;object-fit:cover;}
+.detail-media .swatch{align-items:flex-end;}
+.spec-list{list-style:none;margin:22px 0 28px;border-top:1px solid var(--line);}
+.spec-list li{padding:13px 0;border-bottom:1px solid var(--line);font-size:var(--fs-body-sm);color:#3a3934;}
+.spec-list li b{color:var(--graphite);font-weight:700;margin-right:6px;}
+.detail-note{font-size:var(--fs-meta);color:#8f8d81;margin-top:20px;}
+.thickness-select{margin:22px 0 4px;}
+.thickness-select-label{display:block;font-size:var(--fs-label);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--clay-dark);margin-bottom:10px;}
 
 /* ---------- FAQ ---------- */
 .faq-list{max-width:760px;}

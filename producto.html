@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Producto | Muralia</title>
+<meta name="description" content="Detalle de producto Muralia.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+<header>
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
+      <span class="brand-name">MURALIA</span>
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"><span></span></button>
+    <nav>
+      <ul id="nav-list">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="empresa.html">Empresa</a></li>
+        <li><a href="productos.html" class="active">Productos</a></li>
+        <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+
+  <section class="page-hero" style="padding:0;min-height:220px;">
+    <div class="page-hero-bg" style="background:linear-gradient(135deg, #2b2a26 0%, #3e4a3c 100%);"></div>
+    <div class="wrap page-hero-content">
+      <div class="breadcrumb" id="breadcrumb"><a href="/">Inicio</a> / <a href="productos.html">Productos</a> / …</div>
+      <span class="kicker" id="p-kicker">Cargando…</span>
+      <h1 id="p-title">Cargando producto…</h1>
+      <p class="lead" id="p-lead"></p>
+    </div>
+  </section>
+
+  <section id="p-body" style="display:none;">
+    <div class="wrap detail-grid">
+      <div class="detail-media" id="p-media"></div>
+      <div>
+        <p id="p-desc"></p>
+        <div class="thickness-select" id="p-thickness-wrap" style="display:none;">
+          <span class="thickness-select-label">Espesor</span>
+          <div class="chip-row" id="thickness-row" style="padding:0;"></div>
+        </div>
+        <ul class="spec-list" id="p-specs"></ul>
+        <a class="btn btn-dark" href="contacto.html">Solicitar cotización</a>
+        <p class="detail-note" id="p-note" style="display:none;">Aún no contamos con fotografía propia de este producto — apenas la tengamos, la agregamos aquí.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="p-notfound" style="display:none;">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Producto</span>
+          <h2>No encontramos ese producto</h2>
+        </div>
+        <p>Puede que el enlace esté desactualizado.</p>
+      </div>
+      <a class="btn btn-dark" href="productos.html">Volver al catálogo</a>
+    </div>
+  </section>
+
+</main>
+<footer>
+  <div class="wrap footer-inner">
+    <a class="brand" href="/">
+      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper.png" alt="Muralia">
+      <span class="brand-name">MURALIA</span>
+    </a>
+    <nav class="footer-nav">
+      <a href="empresa.html">Empresa</a>
+      <a href="productos.html">Productos</a>
+      <a href="contacto.html">Contacto</a>
+      <a class="social-link" href="https://instagram.com/muralia.cl" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@muralia.cl</a>
+    </nav>
+    <span class="footer-note">© 2026 Muralia. Aislación térmica, acústica y protección pasiva contra incendios.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  function esc(s) {
+    var d = document.createElement('div');
+    d.textContent = s == null ? '' : s;
+    return d.innerHTML;
+  }
+
+  function mediaHTML(media, name) {
+    if (media.type === 'photo') {
+      return '<img src="' + media.src + '" alt="' + esc(media.alt || name) + '">';
+    }
+    var colorStyle = media.class === 'swatch-pp' ? ' style="color:var(--graphite);"' : '';
+    return '<div class="swatch ' + media.class + '" style="height:340px;">' +
+           '<span class="swatch-label"' + colorStyle + '>' + esc(media.label) + '</span></div>';
+  }
+
+  function render(cat, product) {
+    document.title = product.name + ' | Muralia';
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', product.short);
+
+    document.getElementById('breadcrumb').innerHTML =
+      '<a href="/">Inicio</a> / <a href="productos.html">Productos</a> / ' + esc(product.name);
+    document.getElementById('p-kicker').textContent = cat.name;
+    document.getElementById('p-title').textContent = product.name;
+    document.getElementById('p-lead').textContent = product.short;
+    document.getElementById('p-desc').textContent = product.desc;
+    document.getElementById('p-media').innerHTML = mediaHTML(product.media, product.name);
+
+    if (product.media.type !== 'photo') {
+      document.getElementById('p-note').style.display = '';
+    }
+
+    var specsUl = document.getElementById('p-specs');
+    specsUl.innerHTML = '';
+
+    var thicknesses = product.thicknesses || [];
+    if (thicknesses.length > 0) {
+      document.getElementById('p-thickness-wrap').style.display = '';
+      var row = document.getElementById('thickness-row');
+
+      var espesorLi = document.createElement('li');
+      espesorLi.innerHTML = '<b>Espesor:</b> <span id="spec-espesor-val">' + esc(thicknesses[0].label) + '</span>';
+      specsUl.appendChild(espesorLi);
+
+      var dynamicLi = document.createElement('li');
+      dynamicLi.id = 'spec-dynamic';
+      dynamicLi.style.display = 'none';
+      specsUl.appendChild(dynamicLi);
+
+      function applySpecs(specs) {
+        if (!specs || specs.length === 0) { dynamicLi.style.display = 'none'; dynamicLi.innerHTML = ''; return; }
+        var html = '';
+        specs.forEach(function (pair) {
+          html += '<b>' + esc(pair[0]) + ':</b> ' + esc(pair[1]) + '<br>';
+        });
+        dynamicLi.innerHTML = html;
+        dynamicLi.style.display = '';
+      }
+
+      thicknesses.forEach(function (t, i) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'chip' + (i === 0 ? ' active' : '');
+        btn.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+        btn.textContent = t.label;
+        btn.addEventListener('click', function () {
+          row.querySelectorAll('.chip').forEach(function (b) {
+            b.classList.remove('active'); b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+          document.getElementById('spec-espesor-val').textContent = t.label;
+          applySpecs(t.specs);
+        });
+        row.appendChild(btn);
+      });
+
+      applySpecs(thicknesses[0].specs);
+    }
+
+    (product.base_specs || []).forEach(function (pair) {
+      var li = document.createElement('li');
+      li.innerHTML = '<b>' + esc(pair[0]) + ':</b> ' + esc(pair[1]);
+      specsUl.appendChild(li);
+    });
+
+    document.getElementById('p-body').style.display = '';
+  }
+
+  function showNotFound() {
+    document.getElementById('p-title').textContent = 'Producto no encontrado';
+    document.getElementById('p-kicker').textContent = 'Productos';
+    document.getElementById('p-lead').textContent = '';
+    document.getElementById('p-notfound').style.display = '';
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var slug = params.get('slug');
+
+  if (!slug) {
+    showNotFound();
+  } else {
+    fetch('products.json')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        for (var i = 0; i < data.categories.length; i++) {
+          var cat = data.categories[i];
+          for (var j = 0; j < cat.products.length; j++) {
+            if (cat.products[j].slug === slug) {
+              render(cat, cat.products[j]);
+              return;
+            }
+          }
+        }
+        showNotFound();
+      })
+      .catch(function () { showNotFound(); });
+  }
+})();
+</script>
+</body>
+</html>
