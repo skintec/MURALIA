@@ -332,9 +332,10 @@ section{padding:96px 0;}
 
 /* ---------- PRODUCT DETAIL PAGE ---------- */
 .chip{
-  display:inline-block;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+  min-width:76px;box-sizing:border-box;text-align:center;
   border:1px solid var(--line);background:var(--plaster);color:var(--graphite);
-  font-size:var(--fs-meta);font-weight:600;padding:7px 13px;
+  font-size:var(--fs-meta);font-weight:600;padding:9px 14px;
   font-family:inherit;cursor:pointer;transition:background .15s ease,border-color .15s ease,color .15s ease;
 }
 .chip:hover{border-color:var(--clay);}
@@ -357,6 +358,7 @@ section{padding:96px 0;}
 .qty-field input:focus{outline:2px solid var(--clay);outline-offset:1px;}
 .thickness-select{margin:22px 0 4px;}
 .thickness-select-label{display:block;font-size:var(--fs-label);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--clay-dark);margin-bottom:10px;}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;}
 
 /* ---------- FAQ ---------- */
 .faq-list{max-width:760px;}
