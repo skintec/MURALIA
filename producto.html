@@ -183,9 +183,7 @@
         btn.textContent = val;
         btn.addEventListener('click', function () {
           current[dim] = val;
-          selectorDims.forEach(function (otherDim) {
-            if (otherDim !== dim) renderOptions(otherDim);
-          });
+          selectorDims.forEach(function (d) { renderOptions(d); });
           updateSpecs();
           resetFeedback();
         });

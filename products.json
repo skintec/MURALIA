@@ -15,9 +15,9 @@
           "short": "Rollo de lana de vidrio sin revestimiento, en múltiples espesores.",
           "desc": "Rollo de lana de vidrio sin ningún revestimiento superficial, en el rango más amplio de espesores. Se usa donde no se necesita una cara vista, priorizando el desempeño térmico y acústico al menor costo.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-wool",
-            "label": "Lana de vidrio libre"
+            "type": "photo",
+            "src": "https://skintec.cl/media/k2/items/cache/b1d237aad44a95e3871fc116e6241517_XL.jpg",
+            "alt": "Rollo de lana de vidrio libre"
           },
           "base_specs": [
             [
@@ -115,9 +115,9 @@
           "short": "Rollo de lana de vidrio revestido en papel kraft en una cara.",
           "desc": "Rollo de lana de vidrio con una cara revestida en papel kraft, que actúa como barrera de vapor y facilita la manipulación e instalación.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-wool-kraft",
-            "label": "Lana de vidrio con papel kraft"
+            "type": "photo",
+            "src": "https://www.skintec.cl/media/k2/items/cache/52ec984cc72302fd412e2aa145a6526c_XL.jpg",
+            "alt": "Rollo de lana de vidrio con papel kraft"
           },
           "base_specs": [
             [
@@ -290,9 +290,9 @@
           "short": "Panel de lana mineral en formato más angosto, dos densidades.",
           "desc": "Panel rígido de lana mineral en un formato más angosto que el panel estándar, útil cuando el diseño de la obra exige piezas de 0,5 m de ancho.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-wool-panel",
-            "label": "Panel de lana mineral 0,5 x 1,2 m"
+            "type": "photo",
+            "src": "https://skintec.cl/media/k2/items/cache/9caa2793658f3cc387f216157300b1ce_XL.jpg",
+            "alt": "Panel de lana mineral"
           },
           "base_specs": [
             [
@@ -323,9 +323,9 @@
           "short": "Rollo de lana mineral de roca, con malla en una cara.",
           "desc": "Rollo de lana mineral de roca con malla metálica en una cara, que facilita su instalación y le da mayor resistencia mecánica en aplicaciones industriales.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-wool-roll",
-            "label": "Rollo de lana mineral con malla"
+            "type": "photo",
+            "src": "https://www.skintec.cl/media/k2/items/cache/7293a47c0f4cdddd46ff10bcf3d23287_XL.jpg",
+            "alt": "Rollo de lana mineral"
           },
           "base_specs": [
             [
@@ -364,9 +364,9 @@
           "short": "Frazada de lana mineral con malla, en panel o en rollo.",
           "desc": "Frazada de lana mineral con malla en una cara, de mayor espesor, usada en aislación de equipos y superficies de gran formato.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-wool-blanket",
-            "label": "Frazada de lana mineral"
+            "type": "photo",
+            "src": "https://skintec.cl/media/k2/items/cache/184b7cb84d7b456c96a0bdfbbeaa5f14_XL.jpg",
+            "alt": "Frazada de lana mineral"
           },
           "base_specs": [
             [
@@ -394,9 +394,9 @@
           "short": "Colchoneta de lana mineral, libre o con papel kraft.",
           "desc": "Colchoneta de lana mineral en formato compacto, disponible libre (sin revestimiento) o con papel kraft en una o dos caras según la barrera de vapor que necesite el proyecto.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-wool-mat",
-            "label": "Colchoneta de lana mineral"
+            "type": "photo",
+            "src": "https://skintec.cl/media/k2/items/cache/398a8bc2e3f7f879ff0986359513be80_XL.jpg",
+            "alt": "Colchoneta de lana mineral"
           },
           "base_specs": [
             [
