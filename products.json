@@ -181,9 +181,9 @@
           "short": "Panel rígido prearmado para la fabricación de ductos de climatización.",
           "desc": "Panel rígido prearmado, pensado para fabricar ductos de climatización directamente en obra.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-pp",
-            "label": "Panel para ductos"
+            "type": "photo",
+            "src": "img/panel-para-ductos.jpg",
+            "alt": "Panel Climaver para ductos de climatización"
           },
           "base_specs": [
             [
@@ -211,8 +211,8 @@
           "desc": "Placa rígida a base de silicato, con alta resistencia al fuego. Se usa en muros y cielos cortafuego, y en la protección de estructuras metálicas.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/464131a32be92db1eb03bd70266fdd38_M.jpg",
-            "alt": "Placa de fibrosilicato"
+            "src": "img/placa-fibrosilicato.jpg",
+            "alt": "Placa Promatect-H instalada en muro"
           },
           "base_specs": [
             [
