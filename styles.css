@@ -291,17 +291,18 @@ section{padding:96px 0;}
 .featured-body h4{font-family:'Archivo',sans-serif;font-size:15px;font-weight:700;color:var(--graphite);margin-bottom:4px;}
 .featured-body span{font-size:var(--fs-meta);color:var(--clay-dark);font-weight:600;}
 
-/* ---------- CATALOG (category block: media + content in two columns) ---------- */
-.catalog-block{
-  display:grid;grid-template-columns:320px 1fr;
-  border:1px solid var(--line);background:var(--paper);margin-bottom:24px;
-}
-@media (max-width:760px){ .catalog-block{grid-template-columns:1fr;} }
+/* ---------- CATALOG (3 categories side by side as columns) ---------- */
+.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;}
+@media (max-width:900px){ .catalog-grid{grid-template-columns:1fr;gap:24px;} }
 
-.catalog-media{position:relative;overflow:hidden;align-self:stretch;}
+.catalog-block{
+  display:flex;flex-direction:column;
+  border:1px solid var(--line);background:var(--paper);
+}
+
+.catalog-media{position:relative;overflow:hidden;height:160px;}
 .catalog-media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
 .catalog-media .swatch{height:100%;}
-@media (max-width:760px){ .catalog-media{height:280px;} }
 .catalog-media-tag{
   position:absolute;bottom:0;left:0;
   background:var(--clay);color:var(--paper);
@@ -310,15 +311,15 @@ section{padding:96px 0;}
   max-width:calc(100% - 32px);
 }
 
-.catalog-body{padding:26px 28px;display:flex;flex-direction:column;}
-.catalog-body h3{font-size:26px;margin-bottom:8px;}
-.catalog-body .catalog-intro{font-size:var(--fs-body-sm);color:#54534c;max-width:60ch;margin-bottom:20px;}
+.catalog-body{padding:22px 22px 8px;display:flex;flex-direction:column;}
+.catalog-body h3{font-size:23px;margin-bottom:8px;}
+.catalog-body .catalog-intro{font-size:var(--fs-body-sm);color:#54534c;margin-bottom:16px;}
 
-.product-list{border-top:1px solid var(--line);}
+.product-list{border-top:1px solid var(--line);padding:0 22px;}
 .product-list a{
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   padding:13px 2px;border-bottom:1px solid var(--line);
-  font-size:15px;font-weight:600;color:var(--graphite);text-decoration:none;
+  font-size:14.5px;font-weight:600;color:var(--graphite);text-decoration:none;
   transition:color .15s ease, padding-left .15s ease;
 }
 .product-list a:hover{color:var(--clay-dark);padding-left:8px;}
