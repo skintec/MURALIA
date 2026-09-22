@@ -207,8 +207,8 @@
           "desc": "Aislante fibroso liviano y flexible, con una cara revestida en polipropileno blanco. Se usa en tabiques, techumbres y ductos de climatización, ofreciendo buen desempeño térmico y acústico con una terminación reflectante a la vista.",
           "media": {
             "type": "photo",
-            "src": "img/lana-de-vidrio.jpg",
-            "alt": "Lana de vidrio con polipropileno blanco instalada en muro"
+            "src": "https://skintec.cl/media/k2/items/cache/211fb1d06f9479a7650fc3bb47b93c8b_XL.jpg",
+            "alt": "Rollo de lana de vidrio con polipropileno blanco"
           },
           "base_specs": [
             [
@@ -248,8 +248,8 @@
           "desc": "Panel rígido de lana mineral, para cuando se necesita más densidad y resistencia térmica que la que da la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
           "media": {
             "type": "photo",
-            "src": "img/lana-mineral.jpg",
-            "alt": "Panel de lana mineral instalado en fachada"
+            "src": "https://skintec.cl/media/k2/items/cache/9caa2793658f3cc387f216157300b1ce_XL.jpg",
+            "alt": "Panel de lana mineral"
           },
           "base_specs": [
             [
@@ -323,9 +323,9 @@
           "short": "Rollo de lana mineral de roca, con malla en una cara.",
           "desc": "Rollo de lana mineral de roca con malla metálica en una cara, que facilita su instalación y le da mayor resistencia mecánica en aplicaciones industriales.",
           "media": {
-            "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/7293a47c0f4cdddd46ff10bcf3d23287_XL.jpg",
-            "alt": "Rollo de lana mineral"
+            "type": "swatch",
+            "class": "swatch-wool-roll",
+            "label": "Rollo de lana mineral con malla"
           },
           "base_specs": [
             [
@@ -589,7 +589,7 @@
       "name": "Protección pasiva contra incendios",
       "hero_photo": "img/cat-seguridad.jpg",
       "hero_alt": "Muro con placas de fibrosilicato instaladas",
-      "intro": "Certificaciones con clasificación F30 a F180 para sectorizar incendios y proteger estructura, vías de evacuación y equipos críticos, avaladas por los principales laboratorios chilenos.",
+      "intro": "Certificaciones F30 a F180, avaladas por laboratorios chilenos, para sectorizar incendios y proteger estructura y vías de evacuación.",
       "products": [
         {
           "slug": "placa-fibrosilicato",
@@ -598,8 +598,8 @@
           "desc": "Placa rígida a base de silicato, con alta resistencia al fuego. Se usa en muros y cielos cortafuego, y en la protección de estructuras metálicas.",
           "media": {
             "type": "photo",
-            "src": "img/placa-fibrosilicato.jpg",
-            "alt": "Placa Promatect-H instalada en muro"
+            "src": "https://skintec.cl/media/k2/items/cache/464131a32be92db1eb03bd70266fdd38_XL.jpg",
+            "alt": "Placa de fibrosilicato"
           },
           "base_specs": [
             [

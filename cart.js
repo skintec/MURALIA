@@ -90,9 +90,11 @@
     });
     lines.push("");
     if (note) { lines.push(note); lines.push(""); }
-    lines.push("Nombre:");
-    lines.push("Teléfono:");
-    lines.push("Comuna / dirección de despacho (opcional):");
+    lines.push("— Completa tus datos —");
+    lines.push("Nombre cliente: [completar]");
+    lines.push("RUT: [completar]");
+    lines.push("Teléfono: [completar]");
+    lines.push("Comuna / dirección de despacho (opcional): [completar]");
     var body = lines.join("\n");
     return "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
   }

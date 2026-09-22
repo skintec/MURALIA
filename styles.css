@@ -311,7 +311,7 @@ section{padding:96px 0;}
   max-width:calc(100% - 32px);
 }
 
-.catalog-body{padding:22px 22px 8px;display:flex;flex-direction:column;}
+.catalog-body{padding:22px 22px 8px;display:flex;flex-direction:column;min-height:212px;}
 .catalog-body h3{font-size:23px;margin-bottom:8px;}
 .catalog-body .catalog-intro{font-size:var(--fs-body-sm);color:#54534c;margin-bottom:16px;}
 
