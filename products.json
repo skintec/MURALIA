@@ -5,15 +5,206 @@
       "num": "01",
       "tag": "Confort",
       "name": "Aislación térmica y acústica",
-      "hero_photo": "https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?auto=format&fit=crop&w=1200&q=75",
+      "hero_photo": "img/lana-mineral.jpg",
       "hero_alt": "Instalación de aislación térmica en muro",
       "intro": "El material se elige según la temperatura de trabajo y la exigencia acústica — desde vivienda hasta climatización industrial.",
       "products": [
         {
+          "slug": "lana-de-vidrio-libre",
+          "name": "Lana de vidrio libre",
+          "short": "Rollo de lana de vidrio sin revestimiento, en múltiples espesores.",
+          "desc": "Rollo de lana de vidrio sin ningún revestimiento superficial, en el rango más amplio de espesores. Se usa donde no se necesita una cara vista, priorizando el desempeño térmico y acústico al menor costo.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-wool",
+            "label": "Lana de vidrio libre"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "fibra de vidrio, sin revestimiento"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "40 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 24 m — rollo de 28,8 m²"
+                ]
+              ]
+            },
+            {
+              "label": "50 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 12 m — rollo de 14,4 m²"
+                ]
+              ]
+            },
+            {
+              "label": "60 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 12 m — rollo de 14,4 m²"
+                ]
+              ]
+            },
+            {
+              "label": "80 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 12 m — rollo de 14,4 m²"
+                ]
+              ]
+            },
+            {
+              "label": "90 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 7,5 m — rollo de 9 m²"
+                ]
+              ]
+            },
+            {
+              "label": "100 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 7,5 m — rollo de 9 m²"
+                ]
+              ]
+            },
+            {
+              "label": "120 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 7,5 m — rollo de 9 m²"
+                ]
+              ]
+            },
+            {
+              "label": "140 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 5,5 m — rollo de 6,6 m²"
+                ]
+              ]
+            },
+            {
+              "label": "160 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 5,5 m — rollo de 6,6 m²"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "lana-de-vidrio-papel-kraft",
+          "name": "Lana de vidrio con papel kraft",
+          "short": "Rollo de lana de vidrio revestido en papel kraft en una cara.",
+          "desc": "Rollo de lana de vidrio con una cara revestida en papel kraft, que actúa como barrera de vapor y facilita la manipulación e instalación.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-wool",
+            "label": "Lana de vidrio con papel kraft"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "fibra de vidrio con papel kraft en una cara"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "40 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 24 m — rollo de 28,8 m²"
+                ]
+              ]
+            },
+            {
+              "label": "50 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 24 m — rollo de 28,8 m²"
+                ]
+              ]
+            },
+            {
+              "label": "60 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 12 m — rollo de 14,4 m²"
+                ]
+              ]
+            },
+            {
+              "label": "80 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 9,6 m — rollo de 11,52 m²"
+                ]
+              ]
+            },
+            {
+              "label": "100 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 7,5 m — rollo de 9 m²"
+                ]
+              ]
+            },
+            {
+              "label": "120 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 7,5 m — rollo de 9 m²"
+                ]
+              ]
+            },
+            {
+              "label": "140 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 5,5 m — rollo de 6,6 m²"
+                ]
+              ]
+            },
+            {
+              "label": "160 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 5,5 m — rollo de 6,6 m²"
+                ]
+              ]
+            }
+          ]
+        },
+        {
           "slug": "lana-de-vidrio",
-          "name": "Lana de vidrio",
+          "name": "Lana de vidrio con polipropileno blanco",
           "short": "Rollo de lana de vidrio con polipropileno blanco en una cara.",
-          "desc": "Aislante fibroso liviano y flexible, con una cara revestida en polipropileno blanco. Se usa en tabiques, techumbres y ductos de climatización, ofreciendo buen desempeño térmico y acústico a bajo costo.",
+          "desc": "Aislante fibroso liviano y flexible, con una cara revestida en polipropileno blanco. Se usa en tabiques, techumbres y ductos de climatización, ofreciendo buen desempeño térmico y acústico con una terminación reflectante a la vista.",
           "media": {
             "type": "photo",
             "src": "img/lana-de-vidrio.jpg",
@@ -52,7 +243,7 @@
         },
         {
           "slug": "lana-mineral",
-          "name": "Lana mineral",
+          "name": "Panel de lana mineral 0,6 x 1,2 m",
           "short": "Panel de lana mineral importado, en distintas densidades.",
           "desc": "Panel rígido de lana mineral, usado donde se requiere mayor densidad y resistencia térmica que la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
           "media": {
@@ -88,6 +279,144 @@
                   "80 kg/m³"
                 ]
               ]
+            }
+          ]
+        },
+        {
+          "slug": "panel-lana-mineral-05x12",
+          "name": "Panel de lana mineral 0,5 x 1,2 m",
+          "short": "Panel de lana mineral en formato más angosto, dos densidades.",
+          "desc": "Panel rígido de lana mineral en un formato más angosto que el panel estándar, útil cuando el diseño de la obra exige piezas de 0,5 m de ancho.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-wool",
+            "label": "Panel de lana mineral 0,5 x 1,2 m"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "lana mineral"
+            ],
+            [
+              "Formato de panel",
+              "0,5 x 1,2 m"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "50 mm",
+              "specs": [
+                [
+                  "Densidades disponibles",
+                  "80 / 120 kg/m³"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "rollo-lana-mineral",
+          "name": "Rollo de lana mineral con malla",
+          "short": "Rollo de lana mineral de roca, con malla en una cara.",
+          "desc": "Rollo de lana mineral de roca con malla metálica en una cara, que facilita su instalación y le da mayor resistencia mecánica en aplicaciones industriales.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-wool",
+            "label": "Rollo de lana mineral con malla"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "lana mineral de roca con malla en una cara"
+            ],
+            [
+              "Densidad",
+              "100 kg/m³"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "50 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "5 x 0,6 m — rollo de 3 m²"
+                ]
+              ]
+            },
+            {
+              "label": "100 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "3 x 0,6 m — rollo de 1,8 m²"
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "frazada-lana-mineral",
+          "name": "Frazada de lana mineral",
+          "short": "Frazada de lana mineral con malla, en panel o en rollo.",
+          "desc": "Frazada de lana mineral con malla en una cara, de mayor espesor, usada en aislación de equipos y superficies de gran formato.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-wool",
+            "label": "Frazada de lana mineral"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "lana mineral con malla en una cara"
+            ],
+            [
+              "Densidad",
+              "100 kg/m³"
+            ],
+            [
+              "Espesor",
+              "100 mm"
+            ],
+            [
+              "Formatos disponibles",
+              "panel 1,0 x 2,4 m, o rollo 3 x 0,6 m"
+            ]
+          ],
+          "thicknesses": []
+        },
+        {
+          "slug": "colchoneta-lana-mineral",
+          "name": "Colchoneta de lana mineral",
+          "short": "Colchoneta de lana mineral, libre o con papel kraft.",
+          "desc": "Colchoneta de lana mineral en formato compacto, disponible libre (sin revestimiento) o con papel kraft en una o dos caras según la barrera de vapor que necesite el proyecto.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-wool",
+            "label": "Colchoneta de lana mineral"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "0,5 x 1,2 m"
+            ],
+            [
+              "Otros acabados",
+              "también disponible con papel kraft en una o dos caras"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "40 mm",
+              "specs": []
+            },
+            {
+              "label": "50 mm",
+              "specs": []
+            },
+            {
+              "label": "80 mm",
+              "specs": []
             }
           ]
         },
@@ -336,6 +665,24 @@
           "thicknesses": []
         },
         {
+          "slug": "bidon-de-impregnacion",
+          "name": "Bidón de impregnación",
+          "short": "Impregnante líquido usado como tratamiento previo en sistemas cortafuego.",
+          "desc": "Líquido impregnante aplicado como tratamiento previo sobre ciertos elementos antes de instalar el sistema cortafuego, mejorando su desempeño conjunto.",
+          "media": {
+            "type": "swatch",
+            "class": "swatch-board",
+            "label": "Bidón de impregnación"
+          },
+          "base_specs": [
+            [
+              "Formato",
+              "bidón"
+            ]
+          ],
+          "thicknesses": []
+        },
+        {
           "slug": "cinta-intumescente",
           "name": "Cinta intumescente",
           "short": "Se expande con el calor para sellar juntas y evitar el paso de humo y llama.",
@@ -389,6 +736,10 @@
             ]
           ],
           "thicknesses": [
+            {
+              "label": "8 mm",
+              "specs": []
+            },
             {
               "label": "10 mm",
               "specs": []

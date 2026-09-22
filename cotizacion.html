@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
 <script src="cart.js" defer></script>
 </head>
 <body>
@@ -120,9 +120,28 @@
       row.style.borderBottom = '1px solid var(--line)';
 
       var label = document.createElement('div');
+      label.style.flex = '1';
       var thicknessTxt = item.thickness ? (' — Espesor: ' + esc(item.thickness)) : '';
       label.innerHTML = '<span style="font-weight:700;color:var(--graphite);">' + esc(item.name) + '</span>' +
         '<span style="color:#7a7969;font-size:var(--fs-meta);">' + thicknessTxt + '</span>';
+
+      var qtyWrap = document.createElement('div');
+      qtyWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex-shrink:0;';
+      var qtyLabel = document.createElement('span');
+      qtyLabel.textContent = 'Cant.';
+      qtyLabel.style.cssText = 'font-size:var(--fs-label);font-weight:700;color:var(--clay-dark);text-transform:uppercase;letter-spacing:0.5px;';
+      var qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.min = '1';
+      qtyInput.step = '1';
+      qtyInput.value = item.qty || 1;
+      qtyInput.style.cssText = 'width:60px;padding:8px 10px;border:1px solid var(--line);background:var(--paper);font-family:inherit;font-size:14px;font-weight:600;color:var(--graphite);';
+      qtyInput.addEventListener('change', function () {
+        window.MuraliaCart.updateQty(index, qtyInput.value);
+        render();
+      });
+      qtyWrap.appendChild(qtyLabel);
+      qtyWrap.appendChild(qtyInput);
 
       var removeBtn = document.createElement('button');
       removeBtn.type = 'button';
@@ -134,6 +153,7 @@
       });
 
       row.appendChild(label);
+      row.appendChild(qtyWrap);
       row.appendChild(removeBtn);
       list.appendChild(row);
     });
