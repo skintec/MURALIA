@@ -13,7 +13,7 @@
           "slug": "lana-de-vidrio-libre",
           "name": "Lana de vidrio libre",
           "short": "Rollo de lana de vidrio sin revestimiento, en múltiples espesores.",
-          "desc": "Rollo de lana de vidrio sin ningún revestimiento superficial, en el rango más amplio de espesores. Se usa donde no se necesita una cara vista, priorizando el desempeño térmico y acústico al menor costo.",
+          "desc": "Rollo de lana de vidrio sin revestimiento, en el rango de espesores más amplio del catálogo. Se usa donde no hace falta una cara vista y lo que importa es el rendimiento térmico y acústico al mejor precio.",
           "media": {
             "type": "photo",
             "src": "https://skintec.cl/media/k2/items/cache/b1d237aad44a95e3871fc116e6241517_XL.jpg",
@@ -243,9 +243,9 @@
         },
         {
           "slug": "lana-mineral",
-          "name": "Panel de lana mineral 0,6 x 1,2 m",
+          "name": "Panel de lana mineral",
           "short": "Panel de lana mineral importado, en distintas densidades.",
-          "desc": "Panel rígido de lana mineral, usado donde se requiere mayor densidad y resistencia térmica que la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
+          "desc": "Panel rígido de lana mineral, para cuando se necesita más densidad y resistencia térmica que la que da la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
           "media": {
             "type": "photo",
             "src": "img/lana-mineral.jpg",
@@ -286,9 +286,9 @@
         },
         {
           "slug": "panel-lana-mineral-05x12",
-          "name": "Panel de lana mineral 0,5 x 1,2 m",
-          "short": "Panel de lana mineral en formato más angosto, dos densidades.",
-          "desc": "Panel rígido de lana mineral en un formato más angosto que el panel estándar, útil cuando el diseño de la obra exige piezas de 0,5 m de ancho.",
+          "name": "Panel de lana mineral angosto",
+          "short": "El mismo panel de lana mineral, en un formato más angosto.",
+          "desc": "Panel de lana mineral en un formato más angosto que el estándar, para cuando el diseño de la obra exige piezas de 0,5 m de ancho.",
           "media": {
             "type": "photo",
             "src": "https://skintec.cl/media/k2/items/cache/9caa2793658f3cc387f216157300b1ce_XL.jpg",
@@ -489,7 +489,7 @@
           "slug": "fibra-ceramica",
           "name": "Fibra cerámica",
           "short": "Soporta altas temperaturas: hornos, calderas y ductos industriales.",
-          "desc": "Manta de fibra cerámica de alta refractariedad: alto grado de pureza química, baja conductividad térmica y baja densidad, para aislación donde la lana mineral o de vidrio no son suficientes.",
+          "desc": "Manta de fibra cerámica de alta refractariedad, con alto grado de pureza química, baja conductividad térmica y baja densidad — para cuando la lana mineral o de vidrio ya no dan abasto.",
           "media": {
             "type": "photo",
             "src": "https://skintec.cl/media/k2/items/cache/c889234799e865bbe90cee71f6cd2e53_XL.jpg",
@@ -726,7 +726,7 @@
           "slug": "bidon-de-impregnacion",
           "name": "Bidón de impregnación",
           "short": "Impregnante líquido usado como tratamiento previo en sistemas cortafuego.",
-          "desc": "Líquido impregnante aplicado como tratamiento previo sobre ciertos elementos antes de instalar el sistema cortafuego, mejorando su desempeño conjunto.",
+          "desc": "Líquido impregnante que se aplica como tratamiento previo antes de instalar el sistema cortafuego, mejorando su desempeño en conjunto.",
           "media": {
             "type": "swatch",
             "class": "swatch-board-2",
@@ -766,7 +766,7 @@
           "slug": "placa-resistente-a-explosiones",
           "name": "Placa resistente a explosiones",
           "short": "Sistema reforzado para sectores de alto riesgo industrial.",
-          "desc": "Placa compuesta con núcleo de cemento reforzado y caras exteriores de acero galvanizado, de alta resistencia mecánica. Resiste impactos, explosiones e incendios (incluido jet fire), para sectores de alto riesgo industrial.",
+          "desc": "Placa compuesta con núcleo de cemento reforzado y caras de acero galvanizado, de alta resistencia mecánica: resiste impactos, explosiones e incendios severos (incluido jet fire), pensada para sectores de alto riesgo industrial.",
           "media": {
             "type": "photo",
             "src": "https://www.skintec.cl/media/k2/items/cache/15d43aef6c8a5134e1fc00a9c98b8ab0_XL.jpg",
