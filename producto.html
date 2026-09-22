@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="styles.css?v=10">
 <script src="cart.js" defer></script>
 </head>
 <body>
@@ -51,10 +51,7 @@
       <div class="detail-media" id="p-media"></div>
       <div>
         <p id="p-desc"></p>
-        <div class="thickness-select" id="p-thickness-wrap" style="display:none;">
-          <span class="thickness-select-label">Espesor</span>
-          <div class="chip-row" id="thickness-row" style="padding:0;"></div>
-        </div>
+        <div id="p-selectors"></div>
         <ul class="spec-list" id="p-specs"></ul>
         <div class="qty-field">
           <label for="qty-input">Cantidad</label>
@@ -134,62 +131,109 @@
     }
 
     var specsUl = document.getElementById('p-specs');
+    var selectorsBox = document.getElementById('p-selectors');
     specsUl.innerHTML = '';
+    selectorsBox.innerHTML = '';
 
-    var thicknesses = product.thicknesses || [];
-    var currentThickness = thicknesses.length > 0 ? thicknesses[0].label : null;
+    var variants = product.variants || [];
+    var DIM_LABELS = { thickness: 'Espesor', density: 'Densidad' };
+    var allDims = ['thickness', 'density'].filter(function (d) {
+      return variants.some(function (v) { return v[d]; });
+    });
+    // Only show a selector when a dimension actually varies (more than one value overall)
+    var selectorDims = allDims.filter(function (d) {
+      var vals = {};
+      variants.forEach(function (v) { if (v[d]) vals[v[d]] = true; });
+      return Object.keys(vals).length > 1;
+    });
 
-    if (thicknesses.length > 0) {
-      document.getElementById('p-thickness-wrap').style.display = '';
-      var row = document.getElementById('thickness-row');
+    var current = {};
+    allDims.forEach(function (d) { current[d] = variants.length ? variants[0][d] : null; });
 
-      var espesorLi = document.createElement('li');
-      espesorLi.innerHTML = '<b>Espesor:</b> <span id="spec-espesor-val">' + esc(thicknesses[0].label) + '</span>';
-      specsUl.appendChild(espesorLi);
+    function findVariant(sel) {
+      return variants.find(function (v) {
+        return allDims.every(function (d) { return !sel[d] || v[d] === sel[d]; });
+      });
+    }
 
-      var dynamicLi = document.createElement('li');
-      dynamicLi.id = 'spec-dynamic';
-      dynamicLi.style.display = 'none';
-      specsUl.appendChild(dynamicLi);
-
-      function applySpecs(specs) {
-        if (!specs || specs.length === 0) { dynamicLi.style.display = 'none'; dynamicLi.innerHTML = ''; return; }
-        var html = '';
-        specs.forEach(function (pair) {
-          html += '<b>' + esc(pair[0]) + ':</b> ' + esc(pair[1]) + '<br>';
+    function validOptionsFor(dim) {
+      var vals = [];
+      variants.forEach(function (v) {
+        var matchesOthers = allDims.every(function (d) {
+          if (d === dim) return true;
+          return !current[d] || v[d] === current[d];
         });
-        dynamicLi.innerHTML = html;
-        dynamicLi.style.display = '';
-      }
+        if (matchesOthers && v[dim] && vals.indexOf(v[dim]) === -1) vals.push(v[dim]);
+      });
+      return vals;
+    }
 
-      thicknesses.forEach(function (t, i) {
+    var rowEls = {};
+
+    function renderOptions(dim) {
+      var row = rowEls[dim];
+      row.innerHTML = '';
+      var opts = validOptionsFor(dim);
+      if (opts.indexOf(current[dim]) === -1) current[dim] = opts[0];
+      opts.forEach(function (val) {
         var btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'chip' + (i === 0 ? ' active' : '');
-        btn.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
-        btn.textContent = t.label;
+        btn.className = 'chip' + (val === current[dim] ? ' active' : '');
+        btn.setAttribute('aria-pressed', val === current[dim] ? 'true' : 'false');
+        btn.textContent = val;
         btn.addEventListener('click', function () {
-          row.querySelectorAll('.chip').forEach(function (b) {
-            b.classList.remove('active'); b.setAttribute('aria-pressed', 'false');
+          current[dim] = val;
+          selectorDims.forEach(function (otherDim) {
+            if (otherDim !== dim) renderOptions(otherDim);
           });
-          btn.classList.add('active');
-          btn.setAttribute('aria-pressed', 'true');
-          document.getElementById('spec-espesor-val').textContent = t.label;
-          applySpecs(t.specs);
-          currentThickness = t.label;
+          updateSpecs();
           resetFeedback();
         });
         row.appendChild(btn);
       });
-
-      applySpecs(thicknesses[0].specs);
     }
 
-    (product.base_specs || []).forEach(function (pair) {
-      var li = document.createElement('li');
-      li.innerHTML = '<b>' + esc(pair[0]) + ':</b> ' + esc(pair[1]);
-      specsUl.appendChild(li);
+    selectorDims.forEach(function (dim) {
+      var wrap = document.createElement('div');
+      wrap.className = 'thickness-select';
+      var label = document.createElement('span');
+      label.className = 'thickness-select-label';
+      label.textContent = DIM_LABELS[dim];
+      var row = document.createElement('div');
+      row.className = 'chip-row';
+      wrap.appendChild(label);
+      wrap.appendChild(row);
+      selectorsBox.appendChild(wrap);
+      rowEls[dim] = row;
     });
+    selectorDims.forEach(renderOptions);
+
+    function updateSpecs() {
+      specsUl.innerHTML = '';
+      allDims.forEach(function (d) {
+        if (current[d]) {
+          var li = document.createElement('li');
+          li.innerHTML = '<b>' + esc(DIM_LABELS[d]) + ':</b> ' + esc(current[d]);
+          specsUl.appendChild(li);
+        }
+      });
+      var variant = findVariant(current);
+      if (variant && variant.specs && variant.specs.length) {
+        var li2 = document.createElement('li');
+        var html = '';
+        variant.specs.forEach(function (pair) {
+          html += '<b>' + esc(pair[0]) + ':</b> ' + esc(pair[1]) + '<br>';
+        });
+        li2.innerHTML = html;
+        specsUl.appendChild(li2);
+      }
+      (product.base_specs || []).forEach(function (pair) {
+        var li = document.createElement('li');
+        li.innerHTML = '<b>' + esc(pair[0]) + ':</b> ' + esc(pair[1]);
+        specsUl.appendChild(li);
+      });
+    }
+    updateSpecs();
 
     var addBtn = document.getElementById('add-to-cart-btn');
     var feedback = document.getElementById('add-feedback');
@@ -208,7 +252,8 @@
       window.MuraliaCart.addItem({
         slug: product.slug,
         name: product.name,
-        thickness: currentThickness,
+        thickness: current.thickness || null,
+        density: current.density || null,
         category: cat.name,
         qty: qty
       });

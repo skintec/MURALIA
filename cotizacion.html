@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="styles.css?v=10">
 <script src="cart.js" defer></script>
 </head>
 <body>
@@ -122,8 +122,9 @@
       var label = document.createElement('div');
       label.style.flex = '1';
       var thicknessTxt = item.thickness ? (' — Espesor: ' + esc(item.thickness)) : '';
+      var densityTxt = item.density ? (' — Densidad: ' + esc(item.density)) : '';
       label.innerHTML = '<span style="font-weight:700;color:var(--graphite);">' + esc(item.name) + '</span>' +
-        '<span style="color:#7a7969;font-size:var(--fs-meta);">' + thicknessTxt + '</span>';
+        '<span style="color:#7a7969;font-size:var(--fs-meta);">' + thicknessTxt + densityTxt + '</span>';
 
       var qtyWrap = document.createElement('div');
       qtyWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex-shrink:0;';

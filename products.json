@@ -25,9 +25,9 @@
               "fibra de vidrio, sin revestimiento"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "40 mm",
+              "thickness": "40 mm",
               "specs": [
                 [
                   "Formato",
@@ -36,7 +36,7 @@
               ]
             },
             {
-              "label": "50 mm",
+              "thickness": "50 mm",
               "specs": [
                 [
                   "Formato",
@@ -45,7 +45,7 @@
               ]
             },
             {
-              "label": "60 mm",
+              "thickness": "60 mm",
               "specs": [
                 [
                   "Formato",
@@ -54,7 +54,7 @@
               ]
             },
             {
-              "label": "80 mm",
+              "thickness": "80 mm",
               "specs": [
                 [
                   "Formato",
@@ -63,7 +63,7 @@
               ]
             },
             {
-              "label": "90 mm",
+              "thickness": "90 mm",
               "specs": [
                 [
                   "Formato",
@@ -72,7 +72,7 @@
               ]
             },
             {
-              "label": "100 mm",
+              "thickness": "100 mm",
               "specs": [
                 [
                   "Formato",
@@ -81,7 +81,7 @@
               ]
             },
             {
-              "label": "120 mm",
+              "thickness": "120 mm",
               "specs": [
                 [
                   "Formato",
@@ -90,7 +90,7 @@
               ]
             },
             {
-              "label": "140 mm",
+              "thickness": "140 mm",
               "specs": [
                 [
                   "Formato",
@@ -99,7 +99,7 @@
               ]
             },
             {
-              "label": "160 mm",
+              "thickness": "160 mm",
               "specs": [
                 [
                   "Formato",
@@ -125,9 +125,9 @@
               "fibra de vidrio con papel kraft en una cara"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "40 mm",
+              "thickness": "40 mm",
               "specs": [
                 [
                   "Formato",
@@ -136,7 +136,7 @@
               ]
             },
             {
-              "label": "50 mm",
+              "thickness": "50 mm",
               "specs": [
                 [
                   "Formato",
@@ -145,7 +145,7 @@
               ]
             },
             {
-              "label": "60 mm",
+              "thickness": "60 mm",
               "specs": [
                 [
                   "Formato",
@@ -154,7 +154,7 @@
               ]
             },
             {
-              "label": "80 mm",
+              "thickness": "80 mm",
               "specs": [
                 [
                   "Formato",
@@ -163,7 +163,7 @@
               ]
             },
             {
-              "label": "100 mm",
+              "thickness": "100 mm",
               "specs": [
                 [
                   "Formato",
@@ -172,7 +172,7 @@
               ]
             },
             {
-              "label": "120 mm",
+              "thickness": "120 mm",
               "specs": [
                 [
                   "Formato",
@@ -181,7 +181,7 @@
               ]
             },
             {
-              "label": "140 mm",
+              "thickness": "140 mm",
               "specs": [
                 [
                   "Formato",
@@ -190,7 +190,7 @@
               ]
             },
             {
-              "label": "160 mm",
+              "thickness": "160 mm",
               "specs": [
                 [
                   "Formato",
@@ -220,9 +220,9 @@
               "residencial e industrial"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "50 mm",
+              "thickness": "50 mm",
               "specs": [
                 [
                   "Formato",
@@ -231,7 +231,7 @@
               ]
             },
             {
-              "label": "80 mm",
+              "thickness": "80 mm",
               "specs": [
                 [
                   "Formato",
@@ -261,24 +261,26 @@
               "0,6 x 1,2 m"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "50 mm",
-              "specs": [
-                [
-                  "Densidades disponibles",
-                  "80 / 100 / 140 kg/m³"
-                ]
-              ]
+              "thickness": "50 mm",
+              "density": "80 kg/m³",
+              "specs": []
             },
             {
-              "label": "80 mm",
-              "specs": [
-                [
-                  "Densidad disponible",
-                  "80 kg/m³"
-                ]
-              ]
+              "thickness": "50 mm",
+              "density": "100 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "50 mm",
+              "density": "140 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "80 mm",
+              "density": "80 kg/m³",
+              "specs": []
             }
           ]
         },
@@ -302,15 +304,16 @@
               "0,5 x 1,2 m"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "50 mm",
-              "specs": [
-                [
-                  "Densidades disponibles",
-                  "80 / 120 kg/m³"
-                ]
-              ]
+              "thickness": "50 mm",
+              "density": "80 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "50 mm",
+              "density": "120 kg/m³",
+              "specs": []
             }
           ]
         },
@@ -334,9 +337,9 @@
               "100 kg/m³"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "50 mm",
+              "thickness": "50 mm",
               "specs": [
                 [
                   "Formato",
@@ -345,7 +348,7 @@
               ]
             },
             {
-              "label": "100 mm",
+              "thickness": "100 mm",
               "specs": [
                 [
                   "Formato",
@@ -383,7 +386,7 @@
               "panel 1,0 x 2,4 m, o rollo 3 x 0,6 m"
             ]
           ],
-          "thicknesses": []
+          "variants": []
         },
         {
           "slug": "colchoneta-lana-mineral",
@@ -405,17 +408,17 @@
               "también disponible con papel kraft en una o dos caras"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "40 mm",
+              "thickness": "40 mm",
               "specs": []
             },
             {
-              "label": "50 mm",
+              "thickness": "50 mm",
               "specs": []
             },
             {
-              "label": "80 mm",
+              "thickness": "80 mm",
               "specs": []
             }
           ]
@@ -444,9 +447,9 @@
               "0,5 x 1,2 m"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "50 mm",
+              "thickness": "50 mm",
               "specs": []
             }
           ]
@@ -471,13 +474,13 @@
               "rollo autoadhesivo de 30 m"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "50 mm de ancho",
+              "thickness": "50 mm de ancho",
               "specs": []
             },
             {
-              "label": "70 mm de ancho",
+              "thickness": "70 mm de ancho",
               "specs": []
             }
           ]
@@ -502,30 +505,44 @@
               "altas temperaturas — hornos, calderas, ductos"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "25 mm",
+              "thickness": "25 mm",
+              "density": "96 kg/m³",
               "specs": [
                 [
                   "Formato",
                   "610 x 7200 mm — caja de 4,392 m²"
-                ],
-                [
-                  "Densidades disponibles",
-                  "96 / 128 kg/m³"
                 ]
               ]
             },
             {
-              "label": "50 mm",
+              "thickness": "25 mm",
+              "density": "128 kg/m³",
+              "specs": [
+                [
+                  "Formato",
+                  "610 x 7200 mm — caja de 4,392 m²"
+                ]
+              ]
+            },
+            {
+              "thickness": "50 mm",
+              "density": "96 kg/m³",
               "specs": [
                 [
                   "Formato",
                   "610 x 3600 mm — caja de 2,196 m²"
-                ],
+                ]
+              ]
+            },
+            {
+              "thickness": "50 mm",
+              "density": "128 kg/m³",
+              "specs": [
                 [
-                  "Densidades disponibles",
-                  "96 / 128 kg/m³"
+                  "Formato",
+                  "610 x 3600 mm — caja de 2,196 m²"
                 ]
               ]
             }
@@ -547,9 +564,9 @@
               "fabricación de ductos de climatización"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "25 mm",
+              "thickness": "25 mm",
               "specs": [
                 [
                   "Formato",
@@ -590,9 +607,9 @@
               "1200 x 2400 mm"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "6 mm",
+              "thickness": "6 mm",
               "specs": [
                 [
                   "Peso aprox.",
@@ -601,7 +618,7 @@
               ]
             },
             {
-              "label": "8 mm",
+              "thickness": "8 mm",
               "specs": [
                 [
                   "Peso aprox.",
@@ -610,7 +627,7 @@
               ]
             },
             {
-              "label": "10 mm",
+              "thickness": "10 mm",
               "specs": [
                 [
                   "Peso aprox.",
@@ -619,7 +636,7 @@
               ]
             },
             {
-              "label": "12 mm",
+              "thickness": "12 mm",
               "specs": [
                 [
                   "Peso aprox.",
@@ -628,7 +645,7 @@
               ]
             },
             {
-              "label": "15 mm",
+              "thickness": "15 mm",
               "specs": [
                 [
                   "Peso aprox.",
@@ -637,7 +654,7 @@
               ]
             },
             {
-              "label": "20 mm",
+              "thickness": "20 mm",
               "specs": [
                 [
                   "Peso aprox.",
@@ -667,7 +684,7 @@
               "350 g por metro lineal"
             ]
           ],
-          "thicknesses": []
+          "variants": []
         },
         {
           "slug": "masilla-cortafuego",
@@ -685,7 +702,7 @@
               "unidad"
             ]
           ],
-          "thicknesses": []
+          "variants": []
         },
         {
           "slug": "sellante-cortafuego",
@@ -703,7 +720,7 @@
               "balde de 12,5 kg"
             ]
           ],
-          "thicknesses": []
+          "variants": []
         },
         {
           "slug": "bidon-de-impregnacion",
@@ -721,7 +738,7 @@
               "bidón"
             ]
           ],
-          "thicknesses": []
+          "variants": []
         },
         {
           "slug": "cinta-intumescente",
@@ -743,7 +760,7 @@
               "envuelve cualquier diámetro de cañería en obra"
             ]
           ],
-          "thicknesses": []
+          "variants": []
         },
         {
           "slug": "placa-resistente-a-explosiones",
@@ -765,7 +782,7 @@
               "acero galvanizado de 0,5 mm"
             ]
           ],
-          "thicknesses": []
+          "variants": []
         }
       ]
     },
@@ -794,21 +811,21 @@
               "1200 x 2400 mm"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "8 mm",
+              "thickness": "8 mm",
               "specs": []
             },
             {
-              "label": "10 mm",
+              "thickness": "10 mm",
               "specs": []
             },
             {
-              "label": "12,5 mm",
+              "thickness": "12,5 mm",
               "specs": []
             },
             {
-              "label": "15 mm",
+              "thickness": "15 mm",
               "specs": []
             }
           ]
@@ -829,13 +846,13 @@
               "1200 x 2400 mm"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "12,5 mm",
+              "thickness": "12,5 mm",
               "specs": []
             },
             {
-              "label": "15 mm",
+              "thickness": "15 mm",
               "specs": []
             }
           ]
@@ -856,13 +873,13 @@
               "1200 x 2400 mm"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "12,5 mm",
+              "thickness": "12,5 mm",
               "specs": []
             },
             {
-              "label": "15 mm",
+              "thickness": "15 mm",
               "specs": []
             }
           ]
@@ -883,9 +900,9 @@
               "0,625 x 2,5 m"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "12,5 mm",
+              "thickness": "12,5 mm",
               "specs": []
             }
           ]
@@ -906,13 +923,13 @@
               "1200 x 2400 mm"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "12,5 mm",
+              "thickness": "12,5 mm",
               "specs": []
             },
             {
-              "label": "15 mm",
+              "thickness": "15 mm",
               "specs": []
             }
           ]
@@ -933,9 +950,9 @@
               "1200 x 2000 mm"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "12,5 mm",
+              "thickness": "12,5 mm",
               "specs": []
             }
           ]
@@ -956,29 +973,29 @@
               "1,2 x 2,4 m"
             ]
           ],
-          "thicknesses": [
+          "variants": [
             {
-              "label": "4 mm",
+              "thickness": "4 mm",
               "specs": []
             },
             {
-              "label": "6 mm",
+              "thickness": "6 mm",
               "specs": []
             },
             {
-              "label": "8 mm",
+              "thickness": "8 mm",
               "specs": []
             },
             {
-              "label": "10 mm",
+              "thickness": "10 mm",
               "specs": []
             },
             {
-              "label": "12 mm",
+              "thickness": "12 mm",
               "specs": []
             },
             {
-              "label": "15 mm",
+              "thickness": "15 mm",
               "specs": []
             }
           ]
@@ -999,7 +1016,7 @@
               "cielo suspendido, oculta instalaciones sobre el recinto"
             ]
           ],
-          "thicknesses": []
+          "variants": []
         }
       ]
     }
