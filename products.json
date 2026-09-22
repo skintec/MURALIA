@@ -486,10 +486,10 @@
           "slug": "fibra-ceramica",
           "name": "Fibra cerámica",
           "short": "Soporta altas temperaturas: hornos, calderas y ductos industriales.",
-          "desc": "Aislante para altas temperaturas, usado en hornos, calderas y ductos industriales donde la lana mineral o de vidrio no son suficientes.",
+          "desc": "Manta de fibra cerámica de alta refractariedad: alto grado de pureza química, baja conductividad térmica y baja densidad, para aislación donde la lana mineral o de vidrio no son suficientes.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/c889234799e865bbe90cee71f6cd2e53_M.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/c889234799e865bbe90cee71f6cd2e53_XL.jpg",
             "alt": "Fibra cerámica"
           },
           "base_specs": [
@@ -502,13 +502,40 @@
               "altas temperaturas — hornos, calderas, ductos"
             ]
           ],
-          "thicknesses": []
+          "thicknesses": [
+            {
+              "label": "25 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "610 x 7200 mm — caja de 4,392 m²"
+                ],
+                [
+                  "Densidades disponibles",
+                  "96 / 128 kg/m³"
+                ]
+              ]
+            },
+            {
+              "label": "50 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "610 x 3600 mm — caja de 2,196 m²"
+                ],
+                [
+                  "Densidades disponibles",
+                  "96 / 128 kg/m³"
+                ]
+              ]
+            }
+          ]
         },
         {
           "slug": "panel-para-ductos",
           "name": "Panel para ductos",
           "short": "Panel rígido prearmado para la fabricación de ductos de climatización.",
-          "desc": "Panel rígido prearmado, pensado para fabricar ductos de climatización directamente en obra.",
+          "desc": "Panel rígido prearmado, con barrera de vapor de aluminio, pensado para fabricar ductos de climatización directamente en obra, con aislación térmica y acústica incorporada.",
           "media": {
             "type": "photo",
             "src": "img/panel-para-ductos.jpg",
@@ -520,7 +547,21 @@
               "fabricación de ductos de climatización"
             ]
           ],
-          "thicknesses": []
+          "thicknesses": [
+            {
+              "label": "25 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,22 x 2,5 m"
+                ],
+                [
+                  "Resistencia térmica",
+                  "0,9 m²·K/W"
+                ]
+              ]
+            }
+          ]
         }
       ]
     },
@@ -635,7 +676,7 @@
           "desc": "Masilla flexible para sellar juntas de dilatación y pasadas de cañerías o cables, manteniendo la resistencia al fuego del elemento constructivo.",
           "media": {
             "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/5cf9cad94714c5577919c266171d935c_M.jpg",
+            "src": "https://www.skintec.cl/media/k2/items/cache/5cf9cad94714c5577919c266171d935c_XL.jpg",
             "alt": "Masilla cortafuego"
           },
           "base_specs": [
@@ -653,7 +694,7 @@
           "desc": "Sellante usado en penetraciones de instalaciones eléctricas y sanitarias que atraviesan muros o losas cortafuego, restituyendo su resistencia al fuego.",
           "media": {
             "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/9f6d22dec5a20bcdd01cd84e98637764_M.jpg",
+            "src": "https://www.skintec.cl/media/k2/items/cache/9f6d22dec5a20bcdd01cd84e98637764_XL.jpg",
             "alt": "Sellante cortafuego"
           },
           "base_specs": [
@@ -686,26 +727,44 @@
           "slug": "cinta-intumescente",
           "name": "Cinta intumescente",
           "short": "Se expande con el calor para sellar juntas y evitar el paso de humo y llama.",
-          "desc": "Cinta que se expande al contacto con el calor, sellando juntas y evitando el paso de humo y llama en puertas y elementos cortafuego.",
+          "desc": "Tira intumescente que se expande con el calor para detener el paso de llamas y humo. Su flexibilidad permite envolver cualquier diámetro de cañería en el mismo sitio, siendo especialmente eficiente en pasadas de tuberías plásticas.",
           "media": {
             "type": "photo",
             "src": "img/cinta-intumescente.jpg",
             "alt": "Cinta intumescente"
           },
-          "base_specs": [],
+          "base_specs": [
+            [
+              "Formato",
+              "cinta flexible en rollo"
+            ],
+            [
+              "Instalación",
+              "envuelve cualquier diámetro de cañería en obra"
+            ]
+          ],
           "thicknesses": []
         },
         {
           "slug": "placa-resistente-a-explosiones",
           "name": "Placa resistente a explosiones",
           "short": "Sistema reforzado para sectores de alto riesgo industrial.",
-          "desc": "Sistema reforzado para sectores de alto riesgo industrial, donde además de la resistencia al fuego se requiere resistencia a onda de choque.",
+          "desc": "Placa compuesta con núcleo de cemento reforzado y caras exteriores de acero galvanizado, de alta resistencia mecánica. Resiste impactos, explosiones e incendios (incluido jet fire), para sectores de alto riesgo industrial.",
           "media": {
             "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/15d43aef6c8a5134e1fc00a9c98b8ab0_M.jpg",
+            "src": "https://www.skintec.cl/media/k2/items/cache/15d43aef6c8a5134e1fc00a9c98b8ab0_XL.jpg",
             "alt": "Placa resistente a explosiones"
           },
-          "base_specs": [],
+          "base_specs": [
+            [
+              "Núcleo",
+              "cemento reforzado"
+            ],
+            [
+              "Caras",
+              "acero galvanizado de 0,5 mm"
+            ]
+          ],
           "thicknesses": []
         }
       ]
@@ -726,7 +785,7 @@
           "desc": "Plancha de yeso cartón de uso general, para tabiquería y cielos en recintos sin exigencias especiales de humedad, fuego o impacto.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/725ab2e5536ce3eac0a8dd17d083ff4e_M.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/725ab2e5536ce3eac0a8dd17d083ff4e_XL.jpg",
             "alt": "Yeso cartón estándar"
           },
           "base_specs": [
@@ -761,7 +820,7 @@
           "desc": "Plancha de yeso cartón con núcleo especial que retarda la propagación del fuego, para tabiques y cielos que requieren clasificación cortafuego.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/cd66a7a18d37d7e5dd969c249e9a1ecb_M.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/cd66a7a18d37d7e5dd969c249e9a1ecb_XL.jpg",
             "alt": "Yeso cartón resistente al fuego"
           },
           "base_specs": [
@@ -788,7 +847,7 @@
           "desc": "Plancha de yeso cartón formulada para resistir humedad, pensada para baños, cocinas y otras zonas con exposición frecuente a agua.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/45e8f4939bc3bd36e4b87ab1e324d227_M.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/45e8f4939bc3bd36e4b87ab1e324d227_XL.jpg",
             "alt": "Yeso cartón resistente a la humedad"
           },
           "base_specs": [
@@ -815,7 +874,7 @@
           "desc": "Plancha con blindaje radiológico, usada en la construcción de salas de rayos X y otros recintos que requieren protección contra radiación, en clínicas y hospitales.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/53bed31cb74891ae64a31e4c592ef86d_M.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/53bed31cb74891ae64a31e4c592ef86d_XL.jpg",
             "alt": "Placa con blindaje radiológico Safeboard"
           },
           "base_specs": [
@@ -838,7 +897,7 @@
           "desc": "Plancha de yeso cartón con mayor resistencia mecánica, pensada para recintos de alto tráfico o riesgo de golpes — pasillos, gimnasios, colegios.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/3d10c9c21f6f61faeefd4aa27b190def_M.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/3d10c9c21f6f61faeefd4aa27b190def_XL.jpg",
             "alt": "Yeso cartón resistente al impacto"
           },
           "base_specs": [
@@ -865,7 +924,7 @@
           "desc": "Plancha de yeso cartón perforada, formulada para reducir la transmisión de ruido entre recintos — oficinas, salas de reunión, auditorios.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/47674e109b85ae6495880f2604f34f58_M.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/47674e109b85ae6495880f2604f34f58_XL.jpg",
             "alt": "Placa acústica perforada"
           },
           "base_specs": [
@@ -874,20 +933,55 @@
               "1200 x 2000 mm"
             ]
           ],
-          "thicknesses": []
+          "thicknesses": [
+            {
+              "label": "12,5 mm",
+              "specs": []
+            }
+          ]
         },
         {
           "slug": "planchas-de-fibrocemento",
           "name": "Planchas de fibrocemento",
           "short": "Revestimiento resistente para interior y exterior.",
-          "desc": "Revestimiento rígido a base de fibrocemento, resistente a la intemperie, usado tanto en interior como en exterior.",
+          "desc": "Placa a base de cemento, arena y fibras de celulosa, con superficie lisa o texturada. Revestimiento rígido y resistente a la intemperie, usado en tabiques, fachadas moduladas y fachadas ventiladas.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/d3b3799d6611d677944f5f86a500beb3_M.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/d3b3799d6611d677944f5f86a500beb3_XL.jpg",
             "alt": "Plancha de fibrocemento"
           },
-          "base_specs": [],
-          "thicknesses": []
+          "base_specs": [
+            [
+              "Formato",
+              "1,2 x 2,4 m"
+            ]
+          ],
+          "thicknesses": [
+            {
+              "label": "4 mm",
+              "specs": []
+            },
+            {
+              "label": "6 mm",
+              "specs": []
+            },
+            {
+              "label": "8 mm",
+              "specs": []
+            },
+            {
+              "label": "10 mm",
+              "specs": []
+            },
+            {
+              "label": "12 mm",
+              "specs": []
+            },
+            {
+              "label": "15 mm",
+              "specs": []
+            }
+          ]
         },
         {
           "slug": "cielos-falsos",
@@ -899,7 +993,12 @@
             "class": "swatch-board-3",
             "label": "Cielos falsos"
           },
-          "base_specs": [],
+          "base_specs": [
+            [
+              "Uso",
+              "cielo suspendido, oculta instalaciones sobre el recinto"
+            ]
+          ],
           "thicknesses": []
         }
       ]
