@@ -116,7 +116,7 @@
           "desc": "Rollo de lana de vidrio con una cara revestida en papel kraft, que actúa como barrera de vapor y facilita la manipulación e instalación.",
           "media": {
             "type": "swatch",
-            "class": "swatch-wool",
+            "class": "swatch-wool-kraft",
             "label": "Lana de vidrio con papel kraft"
           },
           "base_specs": [
@@ -289,7 +289,7 @@
           "desc": "Panel rígido de lana mineral en un formato más angosto que el panel estándar, útil cuando el diseño de la obra exige piezas de 0,5 m de ancho.",
           "media": {
             "type": "swatch",
-            "class": "swatch-wool",
+            "class": "swatch-wool-panel",
             "label": "Panel de lana mineral 0,5 x 1,2 m"
           },
           "base_specs": [
@@ -321,7 +321,7 @@
           "desc": "Rollo de lana mineral de roca con malla metálica en una cara, que facilita su instalación y le da mayor resistencia mecánica en aplicaciones industriales.",
           "media": {
             "type": "swatch",
-            "class": "swatch-wool",
+            "class": "swatch-wool-roll",
             "label": "Rollo de lana mineral con malla"
           },
           "base_specs": [
@@ -362,7 +362,7 @@
           "desc": "Frazada de lana mineral con malla en una cara, de mayor espesor, usada en aislación de equipos y superficies de gran formato.",
           "media": {
             "type": "swatch",
-            "class": "swatch-wool",
+            "class": "swatch-wool-blanket",
             "label": "Frazada de lana mineral"
           },
           "base_specs": [
@@ -392,7 +392,7 @@
           "desc": "Colchoneta de lana mineral en formato compacto, disponible libre (sin revestimiento) o con papel kraft en una o dos caras según la barrera de vapor que necesite el proyecto.",
           "media": {
             "type": "swatch",
-            "class": "swatch-wool",
+            "class": "swatch-wool-mat",
             "label": "Colchoneta de lana mineral"
           },
           "base_specs": [
@@ -529,8 +529,8 @@
       "num": "02",
       "tag": "Seguridad",
       "name": "Protección pasiva contra incendios",
-      "hero_photo": null,
-      "hero_alt": "",
+      "hero_photo": "img/placa-fibrosilicato.jpg",
+      "hero_alt": "Muro con placas de fibrosilicato instaladas",
       "intro": "Certificaciones con clasificación F30 a F180 para sectorizar incendios y proteger estructura, vías de evacuación y equipos críticos, avaladas por los principales laboratorios chilenos.",
       "products": [
         {
@@ -634,9 +634,9 @@
           "short": "Producto flexible para sellar juntas y pasadas de cañerías.",
           "desc": "Masilla flexible para sellar juntas de dilatación y pasadas de cañerías o cables, manteniendo la resistencia al fuego del elemento constructivo.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-board",
-            "label": "Masilla cortafuego"
+            "type": "photo",
+            "src": "https://www.skintec.cl/media/k2/items/cache/5cf9cad94714c5577919c266171d935c_M.jpg",
+            "alt": "Masilla cortafuego"
           },
           "base_specs": [
             [
@@ -652,9 +652,9 @@
           "short": "Sella penetraciones de instalaciones eléctricas y sanitarias en muros cortafuego.",
           "desc": "Sellante usado en penetraciones de instalaciones eléctricas y sanitarias que atraviesan muros o losas cortafuego, restituyendo su resistencia al fuego.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-board",
-            "label": "Sellante cortafuego"
+            "type": "photo",
+            "src": "https://www.skintec.cl/media/k2/items/cache/9f6d22dec5a20bcdd01cd84e98637764_M.jpg",
+            "alt": "Sellante cortafuego"
           },
           "base_specs": [
             [
@@ -671,7 +671,7 @@
           "desc": "Líquido impregnante aplicado como tratamiento previo sobre ciertos elementos antes de instalar el sistema cortafuego, mejorando su desempeño conjunto.",
           "media": {
             "type": "swatch",
-            "class": "swatch-board",
+            "class": "swatch-board-2",
             "label": "Bidón de impregnación"
           },
           "base_specs": [
@@ -701,9 +701,9 @@
           "short": "Sistema reforzado para sectores de alto riesgo industrial.",
           "desc": "Sistema reforzado para sectores de alto riesgo industrial, donde además de la resistencia al fuego se requiere resistencia a onda de choque.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-board",
-            "label": "Placa resistente a explosiones"
+            "type": "photo",
+            "src": "https://www.skintec.cl/media/k2/items/cache/15d43aef6c8a5134e1fc00a9c98b8ab0_M.jpg",
+            "alt": "Placa resistente a explosiones"
           },
           "base_specs": [],
           "thicknesses": []
@@ -715,8 +715,8 @@
       "num": "03",
       "tag": "Estructura",
       "name": "Tabiques y cielos",
-      "hero_photo": "https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1200&q=75",
-      "hero_alt": "Sala en construcción con estructura de tabiquería",
+      "hero_photo": "https://skintec.cl/media/k2/items/cache/3d10c9c21f6f61faeefd4aa27b190def_M.jpg",
+      "hero_alt": "Plancha de yeso cartón resistente al impacto",
       "intro": "Desde tabiques estándar hasta versiones resistentes a la humedad, al impacto o a la radiación, según lo exija el recinto.",
       "products": [
         {
@@ -896,7 +896,7 @@
           "desc": "Sistema de cielo suspendido, usado para ocultar instalaciones (ductos, cañerías, cableado) y mejorar el comportamiento acústico del recinto.",
           "media": {
             "type": "swatch",
-            "class": "swatch-board",
+            "class": "swatch-board-3",
             "label": "Cielos falsos"
           },
           "base_specs": [],
