@@ -5,7 +5,7 @@
       "num": "01",
       "tag": "Confort",
       "name": "Aislación térmica y acústica",
-      "hero_photo": "img/lana-mineral.jpg",
+      "hero_photo": "img/cat-confort.jpg",
       "hero_alt": "Instalación de aislación térmica en muro",
       "intro": "El material se elige según la temperatura de trabajo y la exigencia acústica — desde vivienda hasta climatización industrial.",
       "products": [
@@ -529,7 +529,7 @@
       "num": "02",
       "tag": "Seguridad",
       "name": "Protección pasiva contra incendios",
-      "hero_photo": "img/placa-fibrosilicato.jpg",
+      "hero_photo": "img/cat-seguridad.jpg",
       "hero_alt": "Muro con placas de fibrosilicato instaladas",
       "intro": "Certificaciones con clasificación F30 a F180 para sectorizar incendios y proteger estructura, vías de evacuación y equipos críticos, avaladas por los principales laboratorios chilenos.",
       "products": [
@@ -715,8 +715,8 @@
       "num": "03",
       "tag": "Estructura",
       "name": "Tabiques y cielos",
-      "hero_photo": "https://skintec.cl/media/k2/items/cache/3d10c9c21f6f61faeefd4aa27b190def_M.jpg",
-      "hero_alt": "Plancha de yeso cartón resistente al impacto",
+      "hero_photo": "https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1400&q=85",
+      "hero_alt": "Sala en construcción con estructura de tabiquería",
       "intro": "Desde tabiques estándar hasta versiones resistentes a la humedad, al impacto o a la radiación, según lo exija el recinto.",
       "products": [
         {
