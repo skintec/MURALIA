@@ -86,16 +86,16 @@
       if (item.thickness) line += " — Espesor: " + item.thickness;
       if (item.density) line += " — Densidad: " + item.density;
       if (item.finish) line += " — Recubrimiento: " + item.finish;
-      if (item.category) line += " (" + item.category + ")";
+      // categoría del producto no se muestra en el correo
       lines.push(line);
     });
     lines.push("");
     if (note) { lines.push(note); lines.push(""); }
     lines.push("— Completa tus datos —");
-    lines.push("Nombre cliente: [completar]");
-    lines.push("RUT: [completar]");
-    lines.push("Teléfono: [completar]");
-    lines.push("Comuna / dirección de despacho (opcional): [completar]");
+    lines.push("Nombre cliente: ");
+    lines.push("RUT: ");
+    lines.push("Teléfono: ");
+    lines.push("Comuna / dirección de despacho (opcional): ");
     var body = lines.join("\n");
     return "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
   }
