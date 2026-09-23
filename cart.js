@@ -38,7 +38,7 @@
     var items = getItems();
     var qty = item.qty && item.qty > 0 ? item.qty : 1;
     var existing = items.find(function (i) {
-      return i.slug === item.slug && i.thickness === item.thickness && i.density === item.density;
+      return i.slug === item.slug && i.thickness === item.thickness && i.density === item.density && i.finish === item.finish;
     });
     if (existing) {
       existing.qty = (existing.qty || 1) + qty;
@@ -82,9 +82,10 @@
     var lines = ["Hola, quisiera cotizar los siguientes productos:", ""];
     items.forEach(function (item, i) {
       var qty = item.qty || 1;
-      var line = (i + 1) + ". " + item.name + " — Cantidad: " + qty;
+      var line = (i + 1) + ". " + item.name + " — Cantidad: " + qty + (item.unit ? " " + item.unit : "");
       if (item.thickness) line += " — Espesor: " + item.thickness;
       if (item.density) line += " — Densidad: " + item.density;
+      if (item.finish) line += " — Recubrimiento: " + item.finish;
       if (item.category) line += " (" + item.category + ")";
       lines.push(line);
     });

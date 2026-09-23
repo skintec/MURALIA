@@ -107,7 +107,8 @@
                 ]
               ]
             }
-          ]
+          ],
+          "unit": "m²"
         },
         {
           "slug": "lana-de-vidrio-papel-kraft",
@@ -198,7 +199,8 @@
                 ]
               ]
             }
-          ]
+          ],
+          "unit": "m²"
         },
         {
           "slug": "lana-de-vidrio",
@@ -239,7 +241,8 @@
                 ]
               ]
             }
-          ]
+          ],
+          "unit": "m²"
         },
         {
           "slug": "lana-mineral",
@@ -282,7 +285,8 @@
               "density": "80 kg/m³",
               "specs": []
             }
-          ]
+          ],
+          "unit": "m²"
         },
         {
           "slug": "frazada-lana-mineral",
@@ -300,19 +304,38 @@
               "lana mineral con malla en una cara"
             ],
             [
-              "Densidad",
-              "100 kg/m³"
-            ],
-            [
-              "Espesor",
-              "100 mm"
-            ],
-            [
-              "Formatos disponibles",
-              "panel 1,0 x 2,4 m, o rollo 3 x 0,6 m"
+              "Formato",
+              "1,0 x 2,4 m"
             ]
           ],
-          "variants": []
+          "variants": [
+            {
+              "thickness": "50 mm",
+              "density": "80 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "50 mm",
+              "density": "100 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "50 mm",
+              "density": "120 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "100 mm",
+              "density": "100 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "100 mm",
+              "density": "120 kg/m³",
+              "specs": []
+            }
+          ],
+          "unit": "m²"
         },
         {
           "slug": "colchoneta-lana-mineral",
@@ -328,26 +351,56 @@
             [
               "Formato",
               "0,5 x 1,2 m"
-            ],
-            [
-              "Otros acabados",
-              "también disponible con papel kraft en una o dos caras"
             ]
           ],
           "variants": [
             {
+              "finish": "Libre",
               "thickness": "40 mm",
               "specs": []
             },
             {
+              "finish": "Libre",
               "thickness": "50 mm",
               "specs": []
             },
             {
+              "finish": "Libre",
+              "thickness": "80 mm",
+              "specs": []
+            },
+            {
+              "finish": "Papel una cara",
+              "thickness": "40 mm",
+              "specs": []
+            },
+            {
+              "finish": "Papel una cara",
+              "thickness": "50 mm",
+              "specs": []
+            },
+            {
+              "finish": "Papel una cara",
+              "thickness": "80 mm",
+              "specs": []
+            },
+            {
+              "finish": "Papel dos caras",
+              "thickness": "40 mm",
+              "specs": []
+            },
+            {
+              "finish": "Papel dos caras",
+              "thickness": "50 mm",
+              "specs": []
+            },
+            {
+              "finish": "Papel dos caras",
               "thickness": "80 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "m²"
         },
         {
           "slug": "panel-velo-negro",
@@ -378,7 +431,8 @@
               "thickness": "50 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "m²"
         },
         {
           "slug": "banda-elastoacustica",
@@ -409,7 +463,8 @@
               "thickness": "70 mm de ancho",
               "specs": []
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "fibra-ceramica",
@@ -472,7 +527,8 @@
                 ]
               ]
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "panel-para-ductos",
@@ -504,7 +560,8 @@
                 ]
               ]
             }
-          ]
+          ],
+          "unit": "m²"
         }
       ]
     },
@@ -588,7 +645,8 @@
                 ]
               ]
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "pasta-para-juntas",
@@ -610,7 +668,8 @@
               "350 g por metro lineal"
             ]
           ],
-          "variants": []
+          "variants": [],
+          "unit": "unidad"
         },
         {
           "slug": "masilla-cortafuego",
@@ -628,7 +687,8 @@
               "unidad"
             ]
           ],
-          "variants": []
+          "variants": [],
+          "unit": "unidad"
         },
         {
           "slug": "sellante-cortafuego",
@@ -646,7 +706,8 @@
               "balde de 12,5 kg"
             ]
           ],
-          "variants": []
+          "variants": [],
+          "unit": "unidad"
         },
         {
           "slug": "bidon-de-impregnacion",
@@ -664,7 +725,8 @@
               "bidón"
             ]
           ],
-          "variants": []
+          "variants": [],
+          "unit": "unidad"
         },
         {
           "slug": "cinta-intumescente",
@@ -686,7 +748,8 @@
               "envuelve cualquier diámetro de cañería en obra"
             ]
           ],
-          "variants": []
+          "variants": [],
+          "unit": "unidad"
         },
         {
           "slug": "placa-resistente-a-explosiones",
@@ -708,7 +771,8 @@
               "acero galvanizado de 0,5 mm"
             ]
           ],
-          "variants": []
+          "variants": [],
+          "unit": "unidad"
         }
       ]
     },
@@ -754,7 +818,8 @@
               "thickness": "15 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "yeso-carton-resistente-al-fuego",
@@ -781,7 +846,8 @@
               "thickness": "15 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "yeso-carton-resistente-a-la-humedad",
@@ -808,7 +874,8 @@
               "thickness": "15 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "rayos-x",
@@ -831,7 +898,8 @@
               "thickness": "12,5 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "yeso-carton-resistente-al-impacto",
@@ -858,7 +926,8 @@
               "thickness": "15 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "yeso-carton-con-atenuacion-acustica",
@@ -881,7 +950,8 @@
               "thickness": "12,5 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "planchas-de-fibrocemento",
@@ -924,7 +994,8 @@
               "thickness": "15 mm",
               "specs": []
             }
-          ]
+          ],
+          "unit": "unidad"
         },
         {
           "slug": "cielos-falsos",
@@ -942,7 +1013,8 @@
               "cielo suspendido, oculta instalaciones sobre el recinto"
             ]
           ],
-          "variants": []
+          "variants": [],
+          "unit": "m²"
         }
       ]
     }

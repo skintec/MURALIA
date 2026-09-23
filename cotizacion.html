@@ -123,13 +123,14 @@
       label.style.flex = '1';
       var thicknessTxt = item.thickness ? (' — Espesor: ' + esc(item.thickness)) : '';
       var densityTxt = item.density ? (' — Densidad: ' + esc(item.density)) : '';
+      var finishTxt = item.finish ? (' — Recubrimiento: ' + esc(item.finish)) : '';
       label.innerHTML = '<span style="font-weight:700;color:var(--graphite);">' + esc(item.name) + '</span>' +
-        '<span style="color:#7a7969;font-size:var(--fs-meta);">' + thicknessTxt + densityTxt + '</span>';
+        '<span style="color:#7a7969;font-size:var(--fs-meta);">' + thicknessTxt + densityTxt + finishTxt + '</span>';
 
       var qtyWrap = document.createElement('div');
       qtyWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex-shrink:0;';
       var qtyLabel = document.createElement('span');
-      qtyLabel.textContent = 'Cant.';
+      qtyLabel.textContent = 'Cant.' + (item.unit ? ' (' + item.unit + ')' : '');
       qtyLabel.style.cssText = 'font-size:var(--fs-label);font-weight:700;color:var(--clay-dark);text-transform:uppercase;letter-spacing:0.5px;';
       var qtyInput = document.createElement('input');
       qtyInput.type = 'number';

@@ -54,7 +54,7 @@
         <div id="p-selectors"></div>
         <ul class="spec-list" id="p-specs"></ul>
         <div class="qty-field">
-          <label for="qty-input">Cantidad</label>
+          <label for="qty-input">Cantidad <span id="qty-unit-label" class="qty-unit-label"></span></label>
           <input type="number" id="qty-input" min="1" step="1" value="1">
         </div>
         <button type="button" class="btn btn-dark" id="add-to-cart-btn">Agregar a cotización</button>
@@ -125,6 +125,8 @@
     document.getElementById('p-lead').textContent = product.short;
     document.getElementById('p-desc').textContent = product.desc;
     document.getElementById('p-media').innerHTML = mediaHTML(product.media, product.name);
+    var unitLabel = document.getElementById('qty-unit-label');
+    if (unitLabel) unitLabel.textContent = product.unit ? '(' + product.unit + ')' : '';
 
     if (product.media.type !== 'photo') {
       document.getElementById('p-note').style.display = '';
@@ -136,8 +138,8 @@
     selectorsBox.innerHTML = '';
 
     var variants = product.variants || [];
-    var DIM_LABELS = { thickness: 'Espesor', density: 'Densidad' };
-    var allDims = ['thickness', 'density'].filter(function (d) {
+    var DIM_LABELS = { thickness: 'Espesor', density: 'Densidad', finish: 'Recubrimiento' };
+    var allDims = ['thickness', 'density', 'finish'].filter(function (d) {
       return variants.some(function (v) { return v[d]; });
     });
     // Only show a selector when a dimension actually varies (more than one value overall)
@@ -252,6 +254,8 @@
         name: product.name,
         thickness: current.thickness || null,
         density: current.density || null,
+        finish: current.finish || null,
+        unit: product.unit || null,
         category: cat.name,
         qty: qty
       });

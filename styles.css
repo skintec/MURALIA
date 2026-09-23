@@ -380,6 +380,7 @@ section{padding:96px 0;}
 .detail-note{font-size:var(--fs-meta);color:#8f8d81;margin-top:20px;}
 .qty-field{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
 .qty-field label{font-size:var(--fs-label);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--clay-dark);}
+.qty-unit-label{font-weight:600;color:#7a7969;}
 .qty-field input{
   width:76px;padding:10px 12px;border:1px solid var(--line);background:var(--paper);
   font-family:'Archivo',sans-serif;font-size:15px;font-weight:600;color:var(--graphite);
