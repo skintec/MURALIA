@@ -7,13 +7,13 @@
       "name": "Aislación térmica y acústica",
       "hero_photo": "img/cat-confort.jpg",
       "hero_alt": "Instalación de aislación térmica en muro",
-      "intro": "El material se elige según la temperatura de trabajo y la exigencia acústica — desde vivienda hasta climatización industrial.",
+      "intro": "El material se elige según la reglamentación térmica vigente o las especificaciones particulares de tu proyecto.",
       "products": [
         {
           "slug": "lana-de-vidrio-libre",
           "name": "Lana de vidrio libre",
           "short": "Rollo de lana de vidrio sin revestimiento, en múltiples espesores.",
-          "desc": "Rollo de lana de vidrio sin revestimiento, en el rango de espesores más amplio del catálogo. Se usa donde no hace falta una cara vista y lo que importa es el rendimiento térmico y acústico al mejor precio.",
+          "desc": "Rollo de lana de vidrio sin revestimiento.",
           "media": {
             "type": "photo",
             "src": "https://skintec.cl/media/k2/items/cache/b1d237aad44a95e3871fc116e6241517_XL.jpg",
@@ -204,7 +204,7 @@
           "slug": "lana-de-vidrio",
           "name": "Lana de vidrio con polipropileno blanco",
           "short": "Rollo de lana de vidrio con polipropileno blanco en una cara.",
-          "desc": "Aislante fibroso liviano y flexible, con una cara revestida en polipropileno blanco. Se usa en tabiques, techumbres y ductos de climatización, ofreciendo buen desempeño térmico y acústico con una terminación reflectante a la vista.",
+          "desc": "Aislante liviano y flexible, con una cara revestida en polipropileno blanco. Se utiliza bajo las cubiertas y estructuras verticales de los galpones, ofreciendo buen desempeño térmico y acústico con una terminación reflectante a la vista.",
           "media": {
             "type": "photo",
             "src": "https://skintec.cl/media/k2/items/cache/211fb1d06f9479a7650fc3bb47b93c8b_XL.jpg",
@@ -244,7 +244,7 @@
         {
           "slug": "lana-mineral",
           "name": "Panel de lana mineral",
-          "short": "Panel de lana mineral importado, en distintas densidades.",
+          "short": "Panel de lana mineral en distintas densidades y espesores.",
           "desc": "Panel rígido de lana mineral, para cuando se necesita más densidad y resistencia térmica que la que da la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
           "media": {
             "type": "photo",
@@ -285,84 +285,10 @@
           ]
         },
         {
-          "slug": "panel-lana-mineral-05x12",
-          "name": "Panel de lana mineral angosto",
-          "short": "El mismo panel de lana mineral, en un formato más angosto.",
-          "desc": "Panel de lana mineral en un formato más angosto que el estándar, para cuando el diseño de la obra exige piezas de 0,5 m de ancho.",
-          "media": {
-            "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/9caa2793658f3cc387f216157300b1ce_XL.jpg",
-            "alt": "Panel de lana mineral"
-          },
-          "base_specs": [
-            [
-              "Material",
-              "lana mineral"
-            ],
-            [
-              "Formato de panel",
-              "0,5 x 1,2 m"
-            ]
-          ],
-          "variants": [
-            {
-              "thickness": "50 mm",
-              "density": "80 kg/m³",
-              "specs": []
-            },
-            {
-              "thickness": "50 mm",
-              "density": "120 kg/m³",
-              "specs": []
-            }
-          ]
-        },
-        {
-          "slug": "rollo-lana-mineral",
-          "name": "Rollo de lana mineral con malla",
-          "short": "Rollo de lana mineral de roca, con malla en una cara.",
-          "desc": "Rollo de lana mineral de roca con malla metálica en una cara, que facilita su instalación y le da mayor resistencia mecánica en aplicaciones industriales.",
-          "media": {
-            "type": "swatch",
-            "class": "swatch-wool-roll",
-            "label": "Rollo de lana mineral con malla"
-          },
-          "base_specs": [
-            [
-              "Material",
-              "lana mineral de roca con malla en una cara"
-            ],
-            [
-              "Densidad",
-              "100 kg/m³"
-            ]
-          ],
-          "variants": [
-            {
-              "thickness": "50 mm",
-              "specs": [
-                [
-                  "Formato",
-                  "5 x 0,6 m — rollo de 3 m²"
-                ]
-              ]
-            },
-            {
-              "thickness": "100 mm",
-              "specs": [
-                [
-                  "Formato",
-                  "3 x 0,6 m — rollo de 1,8 m²"
-                ]
-              ]
-            }
-          ]
-        },
-        {
           "slug": "frazada-lana-mineral",
           "name": "Frazada de lana mineral",
           "short": "Frazada de lana mineral con malla, en panel o en rollo.",
-          "desc": "Frazada de lana mineral con malla en una cara, de mayor espesor, usada en aislación de equipos y superficies de gran formato.",
+          "desc": "Frazada de lana mineral con malla en una cara, usada en aislación de equipos y superficies de gran formato.",
           "media": {
             "type": "photo",
             "src": "https://skintec.cl/media/k2/items/cache/184b7cb84d7b456c96a0bdfbbeaa5f14_XL.jpg",
@@ -436,7 +362,7 @@
           "base_specs": [
             [
               "Material",
-              "fibra de vidrio con velo negro"
+              "lana de vidrio con velo negro"
             ],
             [
               "Densidad",
@@ -444,7 +370,7 @@
             ],
             [
               "Formato de panel",
-              "0,5 x 1,2 m"
+              "1,2 x 2,4 m"
             ]
           ],
           "variants": [
@@ -458,7 +384,7 @@
           "slug": "banda-elastoacustica",
           "name": "Banda elastoacústica",
           "short": "Banda de espuma de polietileno autoadhesiva.",
-          "desc": "Banda de espuma de polietileno autoadhesiva, usada para desolidarizar tabiques y losas del resto de la estructura, cortando puentes acústicos en el perímetro.",
+          "desc": "Banda de espuma de polietileno autoadhesiva, usada en tabiques y losas para evitar la transmisión del ruido de un recinto a otro, cortando puentes acústicos en el perímetro.",
           "media": {
             "type": "photo",
             "src": "img/banda-elastoacustica.jpg",
@@ -589,7 +515,7 @@
       "name": "Protección pasiva contra incendios",
       "hero_photo": "img/cat-seguridad.jpg",
       "hero_alt": "Muro con placas de fibrosilicato instaladas",
-      "intro": "Certificaciones F30 a F180, avaladas por laboratorios chilenos, para sectorizar incendios y proteger estructura y vías de evacuación.",
+      "intro": "Certificaciones de soluciones constructivas, avaladas por laboratorios chilenos, para sectorizar incendios y proteger estructura y vías de evacuación.",
       "products": [
         {
           "slug": "placa-fibrosilicato",
@@ -793,13 +719,13 @@
       "name": "Tabiques y cielos",
       "hero_photo": "https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1400&q=85",
       "hero_alt": "Sala en construcción con estructura de tabiquería",
-      "intro": "Desde tabiques estándar hasta versiones resistentes a la humedad, al impacto o a la radiación, según lo exija el recinto.",
+      "intro": "Desde tabiques estándar hasta versiones resistentes a la humedad, al fuego, al impacto o a la radiación, según lo exija el recinto.",
       "products": [
         {
           "slug": "yeso-carton-estandar",
-          "name": "Yeso cartón estándar",
+          "name": "Yeso cartón estándar (ST)",
           "short": "Plancha de yeso cartón para uso general en tabiques y cielos.",
-          "desc": "Plancha de yeso cartón de uso general, para tabiquería y cielos en recintos sin exigencias especiales de humedad, fuego o impacto.",
+          "desc": "Plancha de yeso cartón de uso general, para tabiquería y cielos en los recintos.",
           "media": {
             "type": "photo",
             "src": "https://skintec.cl/media/k2/items/cache/725ab2e5536ce3eac0a8dd17d083ff4e_XL.jpg",
@@ -832,7 +758,7 @@
         },
         {
           "slug": "yeso-carton-resistente-al-fuego",
-          "name": "Yeso cartón resistente al fuego",
+          "name": "Yeso cartón resistente al fuego (RF)",
           "short": "Núcleo especial que retarda la propagación del fuego en tabiques.",
           "desc": "Plancha de yeso cartón con núcleo especial que retarda la propagación del fuego, para tabiques y cielos que requieren clasificación cortafuego.",
           "media": {
@@ -859,9 +785,9 @@
         },
         {
           "slug": "yeso-carton-resistente-a-la-humedad",
-          "name": "Yeso cartón resistente a la humedad",
+          "name": "Yeso cartón resistente a la humedad (RH)",
           "short": "Para baños, cocinas y zonas con alta exposición a la humedad.",
-          "desc": "Plancha de yeso cartón formulada para resistir humedad, pensada para baños, cocinas y otras zonas con exposición frecuente a agua.",
+          "desc": "Plancha de yeso cartón formulada para resistir humedad, pensada para baños, cocinas y otras zonas con exposición frecuente a la humedad.",
           "media": {
             "type": "photo",
             "src": "https://skintec.cl/media/k2/items/cache/45e8f4939bc3bd36e4b87ab1e324d227_XL.jpg",
@@ -886,7 +812,7 @@
         },
         {
           "slug": "rayos-x",
-          "name": "Rayos X",
+          "name": "Rayos X (Safeboard)",
           "short": "Planchas con blindaje radiológico para salas de rayos X en clínicas y hospitales.",
           "desc": "Plancha con blindaje radiológico, usada en la construcción de salas de rayos X y otros recintos que requieren protección contra radiación, en clínicas y hospitales.",
           "media": {
@@ -909,7 +835,7 @@
         },
         {
           "slug": "yeso-carton-resistente-al-impacto",
-          "name": "Yeso cartón resistente al impacto",
+          "name": "Yeso cartón resistente al impacto (Impact)",
           "short": "Mayor resistencia mecánica para recintos de alto tráfico.",
           "desc": "Plancha de yeso cartón con mayor resistencia mecánica, pensada para recintos de alto tráfico o riesgo de golpes — pasillos, gimnasios, colegios.",
           "media": {
@@ -1002,7 +928,7 @@
         },
         {
           "slug": "cielos-falsos",
-          "name": "Cielos falsos",
+          "name": "Cielos falsos (Cleaneo)",
           "short": "Sistema de cielo suspendido para ocultar instalaciones y mejorar la acústica.",
           "desc": "Sistema de cielo suspendido, usado para ocultar instalaciones (ductos, cañerías, cableado) y mejorar el comportamiento acústico del recinto.",
           "media": {
