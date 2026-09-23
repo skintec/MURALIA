@@ -22,7 +22,7 @@
           "base_specs": [
             [
               "Material",
-              "fibra de vidrio, sin revestimiento"
+              "lana de vidrio, sin revestimiento"
             ]
           ],
           "variants": [
@@ -123,7 +123,7 @@
           "base_specs": [
             [
               "Material",
-              "fibra de vidrio con papel kraft en una cara"
+              "lana de vidrio con papel kraft en una cara"
             ]
           ],
           "variants": [
@@ -215,7 +215,7 @@
           "base_specs": [
             [
               "Material",
-              "fibra de vidrio con polipropileno blanco"
+              "lana de vidrio con polipropileno blanco"
             ],
             [
               "Aplicación",
@@ -405,8 +405,8 @@
         {
           "slug": "panel-velo-negro",
           "name": "Panel velo negro",
-          "short": "Panel de fibra de vidrio con terminación de velo negro.",
-          "desc": "Panel rígido de fibra de vidrio con una cara terminada en velo negro, pensado para ductos de climatización que quedan expuestos a la vista. Entrega aislación y una terminación estética en un solo panel.",
+          "short": "Panel de lana de vidrio con terminación de velo negro.",
+          "desc": "Panel rígido de lana de vidrio con una cara terminada en velo negro, pensado para ductos de climatización que quedan expuestos a la vista. Entrega aislación y una terminación estética en un solo panel.",
           "media": {
             "type": "photo",
             "src": "img/panel-velo-negro.jpg",

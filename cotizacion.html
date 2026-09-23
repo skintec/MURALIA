@@ -130,8 +130,11 @@
       var qtyWrap = document.createElement('div');
       qtyWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex-shrink:0;';
       var qtyLabel = document.createElement('span');
-      qtyLabel.textContent = 'Cant.' + (item.unit ? ' (' + item.unit + ')' : '');
+      qtyLabel.textContent = 'Cant.';
       qtyLabel.style.cssText = 'font-size:var(--fs-label);font-weight:700;color:var(--clay-dark);text-transform:uppercase;letter-spacing:0.5px;';
+      var qtyUnitSpan = document.createElement('span');
+      qtyUnitSpan.textContent = item.unit ? ' (' + item.unit + ')' : '';
+      qtyUnitSpan.style.cssText = 'font-size:var(--fs-label);font-weight:600;color:#7a7969;';
       var qtyInput = document.createElement('input');
       qtyInput.type = 'number';
       qtyInput.min = '1';
@@ -143,6 +146,7 @@
         render();
       });
       qtyWrap.appendChild(qtyLabel);
+      qtyWrap.appendChild(qtyUnitSpan);
       qtyWrap.appendChild(qtyInput);
 
       var removeBtn = document.createElement('button');
