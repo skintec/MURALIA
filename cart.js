@@ -70,7 +70,7 @@
 
   function updateBadges() {
     var items = getItems();
-    var count = items.reduce(function (sum, i) { return sum + (i.qty || 1); }, 0);
+    var count = items.length;
     document.querySelectorAll(".cart-count").forEach(function (el) {
       el.textContent = String(count);
       el.style.display = count > 0 ? "" : "none";

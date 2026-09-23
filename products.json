@@ -251,7 +251,7 @@
           "desc": "Panel rígido de lana mineral, para cuando se necesita más densidad y resistencia térmica que la que da la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/9caa2793658f3cc387f216157300b1ce_XL.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/4695cb3b19cbf906e45dac0da0913068_XL.jpg",
             "alt": "Panel de lana mineral"
           },
           "base_specs": [
@@ -879,7 +879,7 @@
         },
         {
           "slug": "rayos-x",
-          "name": "Rayos X (Safeboard)",
+          "name": "Rayos X (Safeboard®)",
           "short": "Planchas con blindaje radiológico para salas de rayos X en clínicas y hospitales.",
           "desc": "Plancha con blindaje radiológico, usada en la construcción de salas de rayos X y otros recintos que requieren protección contra radiación, en clínicas y hospitales.",
           "media": {
@@ -903,7 +903,7 @@
         },
         {
           "slug": "yeso-carton-resistente-al-impacto",
-          "name": "Yeso cartón resistente al impacto (Impact)",
+          "name": "Yeso cartón resistente al impacto (Impact®)",
           "short": "Mayor resistencia mecánica para recintos de alto tráfico.",
           "desc": "Plancha de yeso cartón con mayor resistencia mecánica, pensada para recintos de alto tráfico o riesgo de golpes — pasillos, gimnasios, colegios.",
           "media": {
@@ -931,7 +931,7 @@
         },
         {
           "slug": "yeso-carton-con-atenuacion-acustica",
-          "name": "Yeso cartón con atenuación acústica",
+          "name": "Cielos falsos con atenuación acústica (Cleaneo®)",
           "short": "Reduce la transmisión de ruido entre recintos.",
           "desc": "Plancha de yeso cartón perforada, formulada para reducir la transmisión de ruido entre recintos — oficinas, salas de reunión, auditorios.",
           "media": {
@@ -996,25 +996,6 @@
             }
           ],
           "unit": "unidad"
-        },
-        {
-          "slug": "cielos-falsos",
-          "name": "Cielos falsos (Cleaneo)",
-          "short": "Sistema de cielo suspendido para ocultar instalaciones y mejorar la acústica.",
-          "desc": "Sistema de cielo suspendido, usado para ocultar instalaciones (ductos, cañerías, cableado) y mejorar el comportamiento acústico del recinto.",
-          "media": {
-            "type": "swatch",
-            "class": "swatch-board-3",
-            "label": "Cielos falsos"
-          },
-          "base_specs": [
-            [
-              "Uso",
-              "cielo suspendido, oculta instalaciones sobre el recinto"
-            ]
-          ],
-          "variants": [],
-          "unit": "m²"
         }
       ]
     }
