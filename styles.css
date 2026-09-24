@@ -62,6 +62,7 @@ header{
 .brand-mark{width:32px;height:32px;flex-shrink:0;display:block;}
 .brand-name{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;letter-spacing:1.5px;}
 nav ul{display:flex;list-style:none;gap:30px;align-items:center;}
+nav li{display:flex;align-items:center;}
 nav a{font-size:var(--fs-meta);font-weight:600;letter-spacing:0.3px;padding:6px 2px;border-bottom:2px solid transparent;transition:border-color .15s ease,color .15s ease;color:#454540;}
 nav a:hover{border-color:var(--clay);color:var(--graphite);}
 nav a.active{color:var(--graphite);border-color:var(--clay);}

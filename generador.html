@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador interno | Muralia</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+  :root{
+    --clay:#C2551F; --clay-dark:#9c4318; --moss:#3E4A3C;
+    --graphite:#2B2A26; --plaster:#EFE7DA; --paper:#FFFDF9; --line:#DDD5C4;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--plaster); color:var(--graphite);
+    font-family:'Archivo',sans-serif; font-size:15px; line-height:1.5;
+  }
+  h1,h2,h3{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:0.5px;line-height:1;margin:0;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  header{background:var(--graphite);color:var(--paper);padding:22px 0;}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand img{width:28px;height:28px;}
+  .brand span{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
+  header .tag{font-size:13px;color:#c9c7bd;}
+  .hero-note{background:#1c1b18;color:#e7e3d8;font-size:13px;padding:8px 0;}
+  main{padding:32px 0 80px;}
+  .card{background:var(--paper);border:1px solid var(--line);margin-bottom:28px;}
+  .card-head{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  .card-head h2{font-size:24px;}
+  .card-body{padding:22px 24px;}
+  .field-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px,1fr));gap:16px;}
+  label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--clay-dark);margin-bottom:5px;}
+  input, select, textarea{
+    width:100%;padding:9px 10px;border:1px solid var(--line);background:var(--paper);
+    font-family:'Archivo',sans-serif;font-size:14px;color:var(--graphite);
+  }
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--clay);outline-offset:1px;}
+  textarea{resize:vertical;min-height:64px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:10px 18px;border:1px solid var(--graphite);background:var(--graphite);color:var(--paper);
+    font-family:'Archivo',sans-serif;font-weight:700;font-size:13.5px;cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .btn:hover{background:var(--clay);border-color:var(--clay);transform:translateY(-1px);}
+  .btn-ghost{background:var(--paper);color:var(--graphite);}
+  .btn-ghost:hover{background:var(--plaster);border-color:var(--graphite);color:var(--graphite);transform:none;}
+  .btn-sm{padding:6px 12px;font-size:12.5px;}
+  .btn-danger{background:var(--paper);color:var(--clay-dark);border-color:var(--line);}
+  .btn-danger:hover{background:#fbe9e2;border-color:var(--clay-dark);transform:none;}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  thead th{
+    text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;
+    color:var(--clay-dark);padding:8px 8px;border-bottom:2px solid var(--graphite);white-space:nowrap;
+  }
+  tbody td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  tbody tr:hover{background:#faf6ee;}
+  td input, td select{padding:6px 8px;font-size:13px;}
+  .num-cell{text-align:right;font-variant-numeric:tabular-nums;}
+  .totals-row td{font-weight:700;border-bottom:none;padding-top:10px;}
+  .totals-row.grand td{font-size:15px;color:var(--clay-dark);border-top:2px solid var(--graphite);padding-top:12px;}
+  .row-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-top:16px;}
+  .recargo-box{display:flex;align-items:flex-end;gap:10px;}
+  .recargo-box > div{width:120px;}
+  .table-scroll{overflow-x:auto;}
+  .remove-btn{background:none;border:none;color:var(--clay-dark);font-weight:700;cursor:pointer;font-size:16px;line-height:1;padding:4px 8px;}
+  .remove-btn:hover{color:var(--clay);}
+  .hint{font-size:12.5px;color:#7a7969;margin-top:10px;}
+  .hint b{color:var(--graphite);}
+  .actions-final{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px;}
+  details.catalog-admin{background:var(--paper);border:1px solid var(--line);}
+  details.catalog-admin summary{
+    padding:16px 24px;cursor:pointer;font-weight:700;font-size:14px;color:var(--clay-dark);
+    list-style:none;display:flex;align-items:center;justify-content:space-between;
+  }
+  details.catalog-admin summary::-webkit-details-marker{display:none;}
+  details.catalog-admin summary::after{content:"+";font-family:'Bebas Neue',sans-serif;font-size:20px;}
+  details.catalog-admin[open] summary::after{content:"–";}
+  .catalog-note{background:var(--plaster);border-left:3px solid var(--clay);padding:12px 16px;font-size:13px;margin-bottom:16px;}
+  .toast{
+    position:fixed;bottom:24px;right:24px;background:var(--graphite);color:var(--paper);
+    padding:14px 20px;font-size:14px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,0.2);
+    display:none;z-index:999;
+  }
+  @media (max-width:760px){
+    .card-body{padding:16px;}
+    table{font-size:12px;}
+    thead{display:none;}
+    tbody tr{display:block;border-bottom:2px solid var(--line);padding:10px 0;}
+    tbody td{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:none;padding:4px 0;}
+    tbody td::before{content:attr(data-label);font-weight:700;font-size:11px;text-transform:uppercase;color:var(--clay-dark);flex-shrink:0;margin-right:8px;}
+    tbody td input, tbody td select{max-width:60%;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <img src="logo-paper.png" alt="Muralia">
+      <span>MURALIA</span>
+    </div>
+    <span class="tag">Cotizador de uso interno</span>
+  </div>
+</header>
+<div class="hero-note">
+  <div class="wrap">Genera y descarga cotizaciones para clientes en segundos — herramienta interna, no indexada ni enlazada desde el sitio.</div>
+</div>
+
+<main>
+  <div class="wrap">
+
+    <div class="card">
+      <div class="card-head"><h2>1 · Datos de la cotización</h2></div>
+      <div class="card-body">
+        <div class="field-grid">
+          <div><label for="q-numero">N° cotización</label><input type="text" id="q-numero"></div>
+          <div><label for="q-fecha">Fecha</label><input type="date" id="q-fecha"></div>
+          <div><label for="q-vendedor">Vendedor</label><input type="text" id="q-vendedor" placeholder="Nombre del vendedor"></div>
+          <div><label for="q-validez">Validez cotización</label><input type="text" id="q-validez" placeholder="Ej: 15 días"></div>
+          <div><label for="q-cliente">Cliente / Razón social</label><input type="text" id="q-cliente"></div>
+          <div><label for="q-rut">RUT</label><input type="text" id="q-rut"></div>
+          <div><label for="q-atencion">Atención (contacto)</label><input type="text" id="q-atencion"></div>
+          <div><label for="q-correo">Correo</label><input type="email" id="q-correo"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>2 · Productos cotizados</h2>
+        <span class="hint" style="margin:0;">Precio base + % de recargo = precio final</span>
+      </div>
+      <div class="card-body">
+        <div class="table-scroll">
+          <table id="lines-table">
+            <thead>
+              <tr>
+                <th>Categoría</th><th>Producto</th><th>Unidad</th>
+                <th>Precio base</th><th>% rec.</th><th>Precio final</th>
+                <th>Cantidad</th><th>Total ($)</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="lines-body"></tbody>
+            <tfoot>
+              <tr class="totals-row"><td colspan="7" style="text-align:right;">Total neto</td><td class="num-cell" id="t-neto">$0</td><td></td></tr>
+              <tr class="totals-row"><td colspan="7" style="text-align:right;">19% IVA</td><td class="num-cell" id="t-iva">$0</td><td></td></tr>
+              <tr class="totals-row grand"><td colspan="7" style="text-align:right;">TOTAL</td><td class="num-cell" id="t-total">$0</td><td></td></tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-sm" id="btn-add-line">+ Agregar producto</button>
+          <button class="btn btn-ghost btn-sm" id="btn-add-custom">+ Línea personalizada</button>
+          <div class="recargo-box">
+            <div><label for="default-recargo">% recargo por defecto</label><input type="number" id="default-recargo" value="30" min="0" step="1"></div>
+            <button class="btn btn-ghost btn-sm" id="btn-apply-all">Aplicar a todas las líneas</button>
+          </div>
+        </div>
+        <p class="hint">El precio base sale del catálogo (costo interno). El % de recargo se puede cambiar en cada línea. <b>En el PDF solo se ve el precio final</b>, nunca el precio base ni el %.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>3 · Condiciones comerciales</h2></div>
+      <div class="card-body">
+        <div class="field-grid">
+          <div><label for="q-plazo">Plazo de entrega</label><input type="text" id="q-plazo" placeholder="Ej: 5 días hábiles"></div>
+          <div><label for="q-lugar">Lugar de entrega</label><input type="text" id="q-lugar" placeholder="Ej: Bodega cliente / retiro en obra"></div>
+        </div>
+        <div style="margin-top:14px;">
+          <label for="q-pago">Condiciones de pago</label>
+          <textarea id="q-pago" placeholder="Ej: 50% al confirmar pedido, 50% contra entrega"></textarea>
+        </div>
+        <div style="margin-top:14px;">
+          <label for="q-banco">Datos bancarios (se incluyen fijos en el PDF)</label>
+          <textarea id="q-banco" placeholder="Banco, tipo de cuenta, N° de cuenta, RUT, email"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions-final">
+      <button class="btn" id="btn-pdf-color">📄 Descargar PDF para Cliente (color)</button>
+      <button class="btn btn-ghost" id="btn-pdf-print">🖨️ Descargar PDF para Imprimir (ahorro de tinta)</button>
+    </div>
+    <p class="hint">Ambos PDF contienen exactamente la misma información y solo muestran el precio final (nunca el precio base ni el % de recargo). La versión "Cliente" está pensada para enviar por correo o WhatsApp; la versión "Imprimir" usa solo líneas finas en blanco y negro para ahorrar tinta.</p>
+
+    <details class="catalog-admin">
+      <summary>⚙️ Gestionar catálogo de productos <span id="catalog-count" style="font-weight:400;color:var(--graphite);"></span></summary>
+      <div class="card-body">
+        <p class="catalog-note">El <b>Precio Base</b> es el costo interno (parte en $0 — cárgalo tú, o impórtalo). El precio que ve el cliente siempre se calcula como Precio Base × (1 + % de recargo), y el % se define al armar cada cotización, no aquí.<br>Este catálogo se guarda <b>solo en este navegador</b> (no hay servidor). Si trabajas desde otro computador, usa "Exportar catálogo" aquí e "Importar catálogo" allá para mantenerlos iguales.</p>
+
+        <div class="table-scroll">
+          <table id="catalog-table">
+            <thead>
+              <tr><th>Categoría</th><th>Producto</th><th>Formato</th><th>Unidad</th><th>Precio base ($)</th><th></th></tr>
+            </thead>
+            <tbody id="catalog-body"></tbody>
+          </table>
+        </div>
+
+        <div class="row-actions">
+          <button class="btn btn-ghost btn-sm" id="btn-add-catalog">+ Agregar producto al catálogo</button>
+          <button class="btn btn-ghost btn-sm" id="btn-export-catalog">Exportar catálogo</button>
+          <button class="btn btn-ghost btn-sm" id="btn-import-catalog">Importar catálogo</button>
+          <input type="file" id="file-import-catalog" accept="application/json" style="display:none;">
+          <button class="btn btn-danger btn-sm" id="btn-reset-catalog">Restablecer catálogo por defecto</button>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STORAGE_KEY = "muralia_cotizador_catalogo_v1";
+
+  var DEFAULT_CATALOG = [{"categoria": "Aislación térmica y acústica", "producto": "Lana de vidrio libre", "formato": "40 mm", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Lana de vidrio con papel kraft", "formato": "40 mm", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Lana de vidrio con polipropileno blanco", "formato": "50 mm", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Panel de lana mineral", "formato": "0,6 x 1,2 m", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Frazada de lana mineral", "formato": "1,0 x 2,4 m", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Colchoneta de lana mineral", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Panel velo negro", "formato": "1,2 x 2,4 m", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Banda elastoacústica", "formato": "rollo autoadhesivo de 30 m", "unidad": "unidad", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Fibra cerámica", "formato": "25 mm / 96 kg/m³", "unidad": "unidad", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Panel para ductos", "formato": "25 mm", "unidad": "m²", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Placa fibrosilicato", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Pasta para juntas", "formato": "saco de 25 kg", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Masilla cortafuego", "formato": "unidad", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Sellante cortafuego", "formato": "balde de 12,5 kg", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Bidón de impregnación", "formato": "bidón", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Cinta intumescente", "formato": "cinta flexible en rollo", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Placa resistente a explosiones", "formato": "", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Yeso cartón estándar (ST)", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Yeso cartón resistente al fuego (RF)", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Yeso cartón resistente a la humedad (RH)", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Rayos X (Safeboard®)", "formato": "0,625 x 2,5 m", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Yeso cartón resistente al impacto (Impact®)", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Cielos falsos con atenuación acústica (Cleaneo®)", "formato": "1200 x 2000 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Planchas de fibrocemento", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0}];
+
+  function loadCatalog(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    }catch(e){}
+    return JSON.parse(JSON.stringify(DEFAULT_CATALOG));
+  }
+  function saveCatalog(cat){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(cat)); }catch(e){}
+  }
+
+  var catalog = loadCatalog();
+  var lineCounter = 0;
+
+  function fmtCLP(n){
+    n = Math.round(n || 0);
+    return "$" + n.toLocaleString("es-CL");
+  }
+  function parseNum(v){
+    var n = parseFloat(String(v).replace(/\./g,"").replace(",","."));
+    return isNaN(n) ? 0 : n;
+  }
+  function toast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.style.display = "block";
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function(){ t.style.display = "none"; }, 2600);
+  }
+
+  /* ---------------- CATALOGO (admin) ---------------- */
+
+  function renderCatalogTable(){
+    var body = document.getElementById("catalog-body");
+    body.innerHTML = "";
+    catalog.forEach(function(item, idx){
+      var tr = document.createElement("tr");
+
+      function cell(field, type, width){
+        var td = document.createElement("td");
+        var inp = document.createElement("input");
+        inp.type = type || "text";
+        inp.value = item[field];
+        inp.style.width = width || "auto";
+        inp.addEventListener("input", function(){
+          item[field] = (type === "number") ? parseNum(inp.value) : inp.value;
+          saveCatalog(catalog);
+          rebuildAllProductDropdowns();
+        });
+        td.appendChild(inp);
+        return td;
+      }
+
+      tr.appendChild(cell("categoria"));
+      tr.appendChild(cell("producto"));
+      tr.appendChild(cell("formato"));
+      tr.appendChild(cell("unidad", "text", "70px"));
+      tr.appendChild(cell("precioBase", "number", "100px"));
+
+      var tdDel = document.createElement("td");
+      var delBtn = document.createElement("button");
+      delBtn.className = "remove-btn";
+      delBtn.textContent = "✕";
+      delBtn.title = "Quitar del catálogo";
+      delBtn.addEventListener("click", function(){
+        catalog.splice(idx, 1);
+        saveCatalog(catalog);
+        renderCatalogTable();
+        rebuildAllProductDropdowns();
+      });
+      tdDel.appendChild(delBtn);
+      tr.appendChild(tdDel);
+
+      body.appendChild(tr);
+    });
+    document.getElementById("catalog-count").textContent = "(" + catalog.length + " productos)";
+  }
+
+  document.getElementById("btn-add-catalog").addEventListener("click", function(){
+    catalog.push({categoria:"", producto:"Nuevo producto", formato:"", unidad:"unidad", precioBase:0});
+    saveCatalog(catalog);
+    renderCatalogTable();
+    rebuildAllProductDropdowns();
+  });
+
+  document.getElementById("btn-reset-catalog").addEventListener("click", function(){
+    if (!confirm("¿Restablecer el catálogo a los productos originales de Muralia? Se perderán los precios y cambios guardados.")) return;
+    catalog = JSON.parse(JSON.stringify(DEFAULT_CATALOG));
+    saveCatalog(catalog);
+    renderCatalogTable();
+    rebuildAllProductDropdowns();
+    toast("Catálogo restablecido.");
+  });
+
+  document.getElementById("btn-export-catalog").addEventListener("click", function(){
+    var blob = new Blob([JSON.stringify(catalog, null, 2)], {type:"application/json"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = "catalogo-muralia.json";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById("btn-import-catalog").addEventListener("click", function(){
+    document.getElementById("file-import-catalog").click();
+  });
+  document.getElementById("file-import-catalog").addEventListener("change", function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var imported = JSON.parse(ev.target.result);
+        if (!Array.isArray(imported)) throw new Error("formato inválido");
+        catalog = imported;
+        saveCatalog(catalog);
+        renderCatalogTable();
+        rebuildAllProductDropdowns();
+        toast("Catálogo importado correctamente.");
+      }catch(err){
+        toast("No se pudo leer el archivo — ¿es un catálogo exportado desde aquí?");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  });
+
+  /* ---------------- LINEAS DE COTIZACION ---------------- */
+
+  function getCategories(){
+    var seen = {}, list = [];
+    catalog.forEach(function(c){ if (!seen[c.categoria]) { seen[c.categoria]=true; list.push(c.categoria); } });
+    return list;
+  }
+
+  function buildLineRow(existing){
+    lineCounter++;
+    var id = "line-" + lineCounter;
+    var tr = document.createElement("tr");
+    tr.dataset.id = id;
+    tr.dataset.custom = existing && existing.custom ? "1" : "0";
+
+    var isCustom = existing && existing.custom;
+
+    // Categoria
+    var tdCat = document.createElement("td");
+    tdCat.setAttribute("data-label","Categoría");
+    if (isCustom){
+      tdCat.textContent = "Personalizado";
+    } else {
+      var selCat = document.createElement("select");
+      selCat.className = "sel-categoria";
+      getCategories().forEach(function(c){
+        var opt = document.createElement("option");
+        opt.value = c; opt.textContent = c;
+        selCat.appendChild(opt);
+      });
+      tdCat.appendChild(selCat);
+    }
+    tr.appendChild(tdCat);
+
+    // Producto
+    var tdProd = document.createElement("td");
+    tdProd.setAttribute("data-label","Producto");
+    var prodEl;
+    if (isCustom){
+      prodEl = document.createElement("input");
+      prodEl.type = "text";
+      prodEl.placeholder = "Nombre del producto";
+      prodEl.value = existing.producto || "";
+    } else {
+      prodEl = document.createElement("select");
+      prodEl.className = "sel-producto";
+    }
+    tdProd.appendChild(prodEl);
+    tr.appendChild(tdProd);
+
+    // Unidad
+    var tdUnidad = document.createElement("td");
+    tdUnidad.setAttribute("data-label","Unidad");
+    var unidadEl = document.createElement("input");
+    unidadEl.type = "text"; unidadEl.readOnly = !isCustom; unidadEl.style.width="70px";
+    if (isCustom) unidadEl.value = existing.unidad || "unidad";
+    tdUnidad.appendChild(unidadEl);
+    tr.appendChild(tdUnidad);
+
+    // Precio base
+    var tdBase = document.createElement("td");
+    tdBase.setAttribute("data-label","Precio base");
+    var baseEl = document.createElement("input");
+    baseEl.type = "number"; baseEl.min="0"; baseEl.style.width="100px";
+    baseEl.value = existing ? (existing.precioBase||0) : 0;
+    tdBase.appendChild(baseEl);
+    tr.appendChild(tdBase);
+
+    // % recargo
+    var tdRec = document.createElement("td");
+    tdRec.setAttribute("data-label","% recargo");
+    var recEl = document.createElement("input");
+    recEl.type = "number"; recEl.min="0"; recEl.style.width="70px";
+    recEl.value = existing ? (existing.recargo!=null?existing.recargo:document.getElementById("default-recargo").value) : document.getElementById("default-recargo").value;
+    tdRec.appendChild(recEl);
+    tr.appendChild(tdRec);
+
+    // Precio final (solo lectura, calculado)
+    var tdFinal = document.createElement("td");
+    tdFinal.setAttribute("data-label","Precio final");
+    tdFinal.className = "num-cell final-cell";
+    tr.appendChild(tdFinal);
+
+    // Cantidad
+    var tdQty = document.createElement("td");
+    tdQty.setAttribute("data-label","Cantidad");
+    var qtyEl = document.createElement("input");
+    qtyEl.type = "number"; qtyEl.min="0"; qtyEl.step="1"; qtyEl.style.width="70px";
+    qtyEl.value = existing ? (existing.cantidad||1) : 1;
+    tdQty.appendChild(qtyEl);
+    tr.appendChild(tdQty);
+
+    // Total
+    var tdTotal = document.createElement("td");
+    tdTotal.setAttribute("data-label","Total");
+    tdTotal.className = "num-cell total-cell";
+    tr.appendChild(tdTotal);
+
+    // Eliminar
+    var tdDel = document.createElement("td");
+    var delBtn = document.createElement("button");
+    delBtn.className = "remove-btn"; delBtn.textContent = "✕"; delBtn.title = "Quitar línea";
+    delBtn.addEventListener("click", function(){ tr.remove(); recalcTotals(); });
+    tdDel.appendChild(delBtn);
+    tr.appendChild(tdDel);
+
+    function recalcLine(){
+      var base = parseNum(baseEl.value);
+      var rec = parseNum(recEl.value);
+      var qty = parseNum(qtyEl.value);
+      var final = base * (1 + rec/100);
+      tdFinal.textContent = fmtCLP(final);
+      tdTotal.textContent = fmtCLP(final * qty);
+      tr.dataset.rawTotal = String(final * qty);
+      recalcTotals();
+    }
+
+    if (!isCustom){
+      var selCatEl = tdCat.querySelector("select");
+      function populateProductos(){
+        var chosenCat = selCatEl.value;
+        prodEl.innerHTML = "";
+        catalog.filter(function(c){ return c.categoria === chosenCat; }).forEach(function(c){
+          var opt = document.createElement("option");
+          opt.value = c.producto; opt.textContent = c.producto;
+          prodEl.appendChild(opt);
+        });
+        applyProductDefaults();
+      }
+      function applyProductDefaults(){
+        var match = catalog.find(function(c){ return c.categoria===selCatEl.value && c.producto===prodEl.value; });
+        if (match){
+          unidadEl.value = match.unidad;
+          baseEl.value = match.precioBase;
+        }
+        recalcLine();
+      }
+      selCatEl.addEventListener("change", populateProductos);
+      prodEl.addEventListener("change", applyProductDefaults);
+      populateProductos();
+      if (existing){
+        selCatEl.value = existing.categoria;
+        populateProductos();
+        prodEl.value = existing.producto;
+        applyProductDefaults();
+        baseEl.value = existing.precioBase;
+        recEl.value = existing.recargo;
+        qtyEl.value = existing.cantidad;
+      }
+    }
+
+    [baseEl, recEl, qtyEl].forEach(function(el){ el.addEventListener("input", recalcLine); });
+    recalcLine();
+
+    return tr;
+  }
+
+  function rebuildAllProductDropdowns(){
+    // si el catalogo cambia, refresca las categorias/opciones de lineas ya creadas (no-custom)
+    document.querySelectorAll("#lines-body tr").forEach(function(tr){
+      if (tr.dataset.custom === "1") return;
+      var selCat = tr.querySelector(".sel-categoria");
+      if (!selCat) return;
+      var current = selCat.value;
+      selCat.innerHTML = "";
+      getCategories().forEach(function(c){
+        var opt = document.createElement("option");
+        opt.value = c; opt.textContent = c;
+        selCat.appendChild(opt);
+      });
+      if (getCategories().indexOf(current) !== -1) selCat.value = current;
+      selCat.dispatchEvent(new Event("change"));
+    });
+  }
+
+  function recalcTotals(){
+    var neto = 0;
+    document.querySelectorAll("#lines-body tr").forEach(function(tr){
+      neto += parseFloat(tr.dataset.rawTotal) || 0;
+    });
+    var iva = neto * 0.19;
+    document.getElementById("t-neto").textContent = fmtCLP(neto);
+    document.getElementById("t-iva").textContent = fmtCLP(iva);
+    document.getElementById("t-total").textContent = fmtCLP(neto + iva);
+  }
+
+  document.getElementById("btn-add-line").addEventListener("click", function(){
+    document.getElementById("lines-body").appendChild(buildLineRow());
+    recalcTotals();
+  });
+  document.getElementById("btn-add-custom").addEventListener("click", function(){
+    document.getElementById("lines-body").appendChild(buildLineRow({custom:true, producto:"", unidad:"unidad", precioBase:0, recargo:document.getElementById("default-recargo").value, cantidad:1}));
+    recalcTotals();
+  });
+  document.getElementById("btn-apply-all").addEventListener("click", function(){
+    var val = document.getElementById("default-recargo").value;
+    document.querySelectorAll("#lines-body tr").forEach(function(tr){
+      var recInput = tr.children[4].querySelector("input");
+      if (recInput){ recInput.value = val; recInput.dispatchEvent(new Event("input")); }
+    });
+  });
+
+  /* ---------------- PDF ---------------- */
+
+  function collectLines(){
+    var rows = [];
+    document.querySelectorAll("#lines-body tr").forEach(function(tr){
+      var isCustom = tr.dataset.custom === "1";
+      var catTxt = isCustom ? "Personalizado" : tr.querySelector(".sel-categoria").value;
+      var prodEl = tr.children[1].querySelector("input, select");
+      var unidadEl = tr.children[2].querySelector("input");
+      var qtyEl = tr.children[6].querySelector("input");
+      var finalTxt = tr.querySelector(".final-cell").textContent;
+      var totalTxt = tr.querySelector(".total-cell").textContent;
+      rows.push({
+        categoria: catTxt,
+        producto: prodEl.value,
+        unidad: unidadEl.value,
+        cantidad: qtyEl.value,
+        precioFinal: finalTxt,
+        total: totalTxt
+      });
+    });
+    return rows;
+  }
+
+  function generatePDF(color){
+    var jsPDFLib = window.jspdf.jsPDF;
+    var doc = new jsPDFLib({unit:"pt", format:"a4"});
+    var pageWidth = doc.internal.pageSize.getWidth();
+    var margin = 40;
+    var accent = color ? [194,85,31] : [40,40,40];
+    var dark = [43,42,38];
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(20);
+    doc.setTextColor.apply(doc, dark);
+    doc.text("MURALIA", margin, 50);
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(10);
+    doc.setTextColor(120,120,120);
+    doc.text("Aislación térmica, acústica y protección pasiva contra incendios", margin, 66);
+
+    doc.setDrawColor.apply(doc, accent);
+    doc.setLineWidth(1.2);
+    doc.line(margin, 78, pageWidth - margin, 78);
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(13);
+    doc.setTextColor.apply(doc, dark);
+    doc.text("COTIZACIÓN", pageWidth - margin, 50, {align:"right"});
+    doc.setFont("helvetica","normal");
+    doc.setFontSize(9);
+    doc.setTextColor(90,90,90);
+    var numero = document.getElementById("q-numero").value || "—";
+    var fecha = document.getElementById("q-fecha").value || "—";
+    doc.text("N° " + numero, pageWidth - margin, 64, {align:"right"});
+    doc.text("Fecha: " + fecha, pageWidth - margin, 76, {align:"right"});
+
+    var y = 100;
+    doc.setFontSize(9.5);
+    doc.setTextColor.apply(doc, dark);
+    var leftCol = [
+      ["Cliente / Razón social", document.getElementById("q-cliente").value],
+      ["RUT", document.getElementById("q-rut").value],
+      ["Atención", document.getElementById("q-atencion").value],
+      ["Correo", document.getElementById("q-correo").value],
+    ];
+    var rightCol = [
+      ["Vendedor", document.getElementById("q-vendedor").value],
+      ["Validez de la cotización", document.getElementById("q-validez").value],
+      ["Plazo de entrega", document.getElementById("q-plazo").value],
+      ["Lugar de entrega", document.getElementById("q-lugar").value],
+    ];
+    leftCol.forEach(function(pair, i){
+      doc.setFont("helvetica","bold"); doc.text(pair[0] + ":", margin, y + i*14);
+      doc.setFont("helvetica","normal"); doc.text(pair[1] || "—", margin + 120, y + i*14);
+    });
+    rightCol.forEach(function(pair, i){
+      var x = pageWidth/2 + 10;
+      doc.setFont("helvetica","bold"); doc.text(pair[0] + ":", x, y + i*14);
+      doc.setFont("helvetica","normal"); doc.text(pair[1] || "—", x + 130, y + i*14);
+    });
+
+    y += leftCol.length * 14 + 18;
+
+    var rows = collectLines();
+    var body = rows.map(function(r, i){
+      return [String(i+1), r.categoria, r.producto, r.unidad, r.cantidad, r.precioFinal, r.total];
+    });
+
+    doc.autoTable({
+      startY: y,
+      head: [["#","Categoría","Producto","Unidad","Cant.","Precio unit.","Total"]],
+      body: body,
+      styles: {fontSize:8.5, cellPadding:5, textColor: dark},
+      headStyles: color ? {fillColor:[43,42,38], textColor:[255,253,249]} : {fillColor:[255,255,255], textColor:[0,0,0], lineWidth:0.6, lineColor:[0,0,0]},
+      alternateRowStyles: color ? {fillColor:[239,231,218]} : {fillColor:[255,255,255]},
+      theme: color ? "striped" : "grid",
+      margin: {left:margin, right:margin},
+      columnStyles: {0:{cellWidth:20}, 4:{halign:"right"}, 5:{halign:"right"}, 6:{halign:"right"}}
+    });
+
+    var afterTableY = doc.lastAutoTable.finalY + 16;
+    var neto = document.getElementById("t-neto").textContent;
+    var iva = document.getElementById("t-iva").textContent;
+    var total = document.getElementById("t-total").textContent;
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica","normal");
+    doc.text("Total neto:", pageWidth - margin - 140, afterTableY);
+    doc.text(neto, pageWidth - margin, afterTableY, {align:"right"});
+    doc.text("19% IVA:", pageWidth - margin - 140, afterTableY + 14);
+    doc.text(iva, pageWidth - margin, afterTableY + 14, {align:"right"});
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(12);
+    if (color) doc.setTextColor.apply(doc, accent);
+    doc.text("TOTAL:", pageWidth - margin - 140, afterTableY + 32);
+    doc.text(total, pageWidth - margin, afterTableY + 32, {align:"right"});
+    doc.setTextColor.apply(doc, dark);
+
+    var condY = afterTableY + 60;
+    var pago = document.getElementById("q-pago").value;
+    var banco = document.getElementById("q-banco").value;
+    if (pago){
+      doc.setFont("helvetica","bold"); doc.setFontSize(9.5);
+      doc.text("Condiciones de pago:", margin, condY);
+      doc.setFont("helvetica","normal");
+      doc.text(doc.splitTextToSize(pago, pageWidth - margin*2), margin, condY + 13);
+      condY += 13 + doc.splitTextToSize(pago, pageWidth - margin*2).length * 11 + 10;
+    }
+    if (banco){
+      doc.setFont("helvetica","bold"); doc.setFontSize(9.5);
+      doc.text("Datos bancarios:", margin, condY);
+      doc.setFont("helvetica","normal");
+      doc.text(doc.splitTextToSize(banco, pageWidth - margin*2), margin, condY + 13);
+    }
+
+    doc.setFontSize(8);
+    doc.setTextColor(150,150,150);
+    doc.text("Muralia · ventas@muralia.cl · Cotización válida según condiciones indicadas arriba.", margin, doc.internal.pageSize.getHeight() - 24);
+
+    var filename = "Cotizacion-Muralia-" + (numero || "sinnumero") + (color ? "-cliente" : "-imprimir") + ".pdf";
+    doc.save(filename);
+  }
+
+  document.getElementById("btn-pdf-color").addEventListener("click", function(){ generatePDF(true); });
+  document.getElementById("btn-pdf-print").addEventListener("click", function(){ generatePDF(false); });
+
+  /* ---------------- INIT ---------------- */
+
+  document.getElementById("q-fecha").value = new Date().toISOString().slice(0,10);
+  renderCatalogTable();
+  document.getElementById("lines-body").appendChild(buildLineRow());
+  recalcTotals();
+
+})();
+</script>
+</body>
+</html>
