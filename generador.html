@@ -3,218 +3,343 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotizador interno | Muralia</title>
+<title>Generador de cotizaciones | Muralia</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="generador-assets.js"></script>
 <style>
   :root{
     --clay:#C2551F; --clay-dark:#9c4318; --moss:#3E4A3C;
     --graphite:#2B2A26; --plaster:#EFE7DA; --paper:#FFFDF9; --line:#DDD5C4;
+    --muted:#6f6d62;
+    --fs-lead:16px; --fs-body-sm:14.5px; --fs-meta:13px; --fs-label:12.5px;
   }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:var(--plaster); color:var(--graphite);
-    font-family:'Archivo',sans-serif; font-size:15px; line-height:1.5;
-  }
-  h1,h2,h3{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:0.5px;line-height:1;margin:0;}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
-  header{background:var(--graphite);color:var(--paper);padding:22px 0;}
-  header .wrap{display:flex;align-items:center;justify-content:space-between;}
-  .brand{display:flex;align-items:center;gap:10px;}
-  .brand img{width:28px;height:28px;}
-  .brand span{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;}
-  header .tag{font-size:13px;color:#c9c7bd;}
-  .hero-note{background:#1c1b18;color:#e7e3d8;font-size:13px;padding:8px 0;}
-  main{padding:32px 0 80px;}
-  .card{background:var(--paper);border:1px solid var(--line);margin-bottom:28px;}
-  .card-head{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-  .card-head h2{font-size:24px;}
-  .card-body{padding:22px 24px;}
-  .field-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px,1fr));gap:16px;}
-  label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;color:var(--clay-dark);margin-bottom:5px;}
-  input, select, textarea{
-    width:100%;padding:9px 10px;border:1px solid var(--line);background:var(--paper);
-    font-family:'Archivo',sans-serif;font-size:14px;color:var(--graphite);
-  }
-  input:focus, select:focus, textarea:focus{outline:2px solid var(--clay);outline-offset:1px;}
-  textarea{resize:vertical;min-height:64px;}
-  .btn{
-    display:inline-flex;align-items:center;gap:6px;
-    padding:10px 18px;border:1px solid var(--graphite);background:var(--graphite);color:var(--paper);
-    font-family:'Archivo',sans-serif;font-weight:700;font-size:13.5px;cursor:pointer;
-    transition:background .15s ease, transform .1s ease;
-  }
-  .btn:hover{background:var(--clay);border-color:var(--clay);transform:translateY(-1px);}
-  .btn-ghost{background:var(--paper);color:var(--graphite);}
-  .btn-ghost:hover{background:var(--plaster);border-color:var(--graphite);color:var(--graphite);transform:none;}
-  .btn-sm{padding:6px 12px;font-size:12.5px;}
-  .btn-danger{background:var(--paper);color:var(--clay-dark);border-color:var(--line);}
-  .btn-danger:hover{background:#fbe9e2;border-color:var(--clay-dark);transform:none;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--plaster);color:var(--graphite);font-family:'Archivo',sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:0.5px;line-height:1;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 16px;} }
 
-  table{width:100%;border-collapse:collapse;font-size:13px;}
-  thead th{
-    text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;
-    color:var(--clay-dark);padding:8px 8px;border-bottom:2px solid var(--graphite);white-space:nowrap;
-  }
-  tbody td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:middle;}
-  tbody tr:hover{background:#faf6ee;}
-  td input, td select{padding:6px 8px;font-size:13px;}
-  .num-cell{text-align:right;font-variant-numeric:tabular-nums;}
-  .totals-row td{font-weight:700;border-bottom:none;padding-top:10px;}
-  .totals-row.grand td{font-size:15px;color:var(--clay-dark);border-top:2px solid var(--graphite);padding-top:12px;}
-  .row-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-top:16px;}
-  .recargo-box{display:flex;align-items:flex-end;gap:10px;}
-  .recargo-box > div{width:120px;}
+  /* ---------- Cabecera (igual al sitio) ---------- */
+  header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:12px;color:var(--graphite);text-decoration:none;}
+  .brand img{width:32px;height:32px;}
+  .brand-name{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;letter-spacing:1.5px;}
+  .internal-pill{font-size:var(--fs-label);font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--clay-dark);border:1px solid var(--line);padding:6px 12px;background:var(--plaster);}
+
+  .page-hero{background:linear-gradient(135deg,#2b2a26 0%,#3e4a3c 100%);color:var(--paper);padding:44px 0 40px;}
+  .page-hero .kicker{color:#e98a52;}
+  .page-hero h1{font-size:clamp(34px,5vw,52px);}
+  .page-hero p{color:#e7e3d8;font-size:var(--fs-lead);max-width:62ch;margin-top:12px;}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;}
+
+  .kicker{font-size:var(--fs-label);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--clay-dark);margin-bottom:8px;display:block;}
+
+  main{padding:36px 0 90px;}
+  .card{background:var(--paper);border:1px solid var(--line);margin-bottom:26px;}
+  .card-head{padding:20px 26px 16px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  .card-head h2{font-size:30px;}
+  .card-head .kicker{margin-bottom:6px;}
+  .card-head .head-note{font-size:var(--fs-meta);color:var(--muted);max-width:48ch;}
+  .card-body{padding:22px 26px 26px;}
+  @media (max-width:640px){ .card-head,.card-body{padding-left:16px;padding-right:16px;} }
+
+  .field-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .field-grid.cols-3{grid-template-columns:repeat(3,1fr);}
+  .field-grid.cols-2{grid-template-columns:repeat(2,1fr);}
+  .span-2{grid-column:span 2;}
+  @media (max-width:900px){ .field-grid,.field-grid.cols-3{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .field-grid,.field-grid.cols-3,.field-grid.cols-2{grid-template-columns:1fr;} .span-2{grid-column:auto;} }
+
+  label{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--clay-dark);margin-bottom:6px;}
+  input,select,textarea{width:100%;padding:10px 11px;border:1px solid var(--line);background:#fff;font-family:'Archivo',sans-serif;font-size:14px;color:var(--graphite);border-radius:0;}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--clay);outline-offset:0;border-color:var(--clay);}
+  input[readonly]{background:var(--plaster);color:var(--muted);}
+  textarea{resize:vertical;min-height:84px;line-height:1.5;}
+
+  /* ---------- Botones (mismo sistema que el sitio) ---------- */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-family:'Archivo',sans-serif;font-weight:700;font-size:14px;letter-spacing:0.2px;border:1px solid transparent;cursor:pointer;transition:transform .12s ease,background .12s ease,color .12s ease,border-color .12s ease;text-decoration:none;}
+  .btn-primary{background:var(--clay);color:var(--paper);}
+  .btn-primary:hover{background:#a8481a;transform:translateY(-2px);}
+  .btn-dark{background:var(--graphite);color:var(--paper);}
+  .btn-dark:hover{background:var(--clay);transform:translateY(-2px);}
+  .btn-outline{background:transparent;color:var(--graphite);border-color:var(--graphite);}
+  .btn-outline:hover{background:var(--graphite);color:var(--paper);}
+  .btn-light{background:transparent;color:var(--paper);border-color:rgba(255,253,249,0.5);}
+  .btn-light:hover{border-color:var(--paper);transform:translateY(-2px);}
+  .btn-sm{padding:8px 14px;font-size:13px;}
+  .btn-link{background:none;border:none;color:var(--clay-dark);font-weight:700;font-size:var(--fs-meta);cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;text-underline-offset:3px;}
+  .btn svg{width:16px;height:16px;flex-shrink:0;}
+
+  /* ---------- Pegar correo ---------- */
+  .import-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;}
+  @media (max-width:900px){ .import-grid{grid-template-columns:1fr;} }
+  #mail-input{min-height:220px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#fff;}
+  .import-result{border:1px dashed var(--line);background:var(--plaster);padding:16px 18px;font-size:var(--fs-meta);min-height:100%;}
+  .import-result h3{font-size:20px;margin-bottom:8px;}
+  .import-result ul{list-style:none;}
+  .import-result li{padding:7px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:flex-start;}
+  .import-result li:last-child{border-bottom:none;}
+  .tag{font-size:10.5px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:2px 7px;flex-shrink:0;margin-top:2px;}
+  .tag-ok{background:var(--moss);color:var(--paper);}
+  .tag-warn{background:var(--clay);color:var(--paper);}
+  .tag-info{background:var(--graphite);color:var(--paper);}
+  .import-empty{color:var(--muted);}
+  .check-row{display:flex;align-items:center;gap:8px;font-size:var(--fs-meta);margin:12px 0;}
+  .check-row input{width:auto;}
+
+  /* ---------- Tabla de líneas ---------- */
+  .toolbar{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;background:var(--plaster);border:1px solid var(--line);padding:12px 14px;margin-bottom:16px;}
+  .toolbar .rec{display:flex;gap:10px;align-items:flex-end;}
+  .toolbar .rec > div{width:110px;}
+  .toolbar .rec label{margin-bottom:4px;}
+  .toolbar .note{font-size:12.5px;color:var(--muted);max-width:56ch;}
+  .toolbar .note b{color:var(--graphite);}
   .table-scroll{overflow-x:auto;}
-  .remove-btn{background:none;border:none;color:var(--clay-dark);font-weight:700;cursor:pointer;font-size:16px;line-height:1;padding:4px 8px;}
+  table.lines{width:100%;min-width:1060px;border-collapse:collapse;font-size:13.5px;}
+  table.lines thead th{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--paper);background:var(--graphite);padding:10px 8px;white-space:nowrap;}
+  table.lines thead th.num{text-align:right;}
+  table.lines tbody td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.lines tbody tr:hover{background:#faf6ee;}
+  table.lines tbody tr.no-price{background:#fbefe7;}
+  table.lines td input,table.lines td select{padding:7px 8px;font-size:13px;}
+  table.lines .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  table.lines .calc{font-weight:700;padding-top:16px;}
+  table.lines .base-cell{color:var(--muted);}
+  .sub-hint{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35;}
+  .badge-warn{display:table;margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;background:var(--clay);color:var(--paper);padding:2px 6px;margin-top:5px;}
+  .remove-btn{background:none;border:none;color:var(--clay-dark);font-weight:700;cursor:pointer;font-size:17px;line-height:1;padding:8px 6px;}
   .remove-btn:hover{color:var(--clay);}
-  .hint{font-size:12.5px;color:#7a7969;margin-top:10px;}
-  .hint b{color:var(--graphite);}
-  .actions-final{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px;}
-  details.catalog-admin{background:var(--paper);border:1px solid var(--line);}
-  details.catalog-admin summary{
-    padding:16px 24px;cursor:pointer;font-weight:700;font-size:14px;color:var(--clay-dark);
-    list-style:none;display:flex;align-items:center;justify-content:space-between;
-  }
-  details.catalog-admin summary::-webkit-details-marker{display:none;}
-  details.catalog-admin summary::after{content:"+";font-family:'Bebas Neue',sans-serif;font-size:20px;}
-  details.catalog-admin[open] summary::after{content:"–";}
-  .catalog-note{background:var(--plaster);border-left:3px solid var(--clay);padding:12px 16px;font-size:13px;margin-bottom:16px;}
-  .toast{
-    position:fixed;bottom:24px;right:24px;background:var(--graphite);color:var(--paper);
-    padding:14px 20px;font-size:14px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,0.2);
-    display:none;z-index:999;
-  }
+  .lines-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+  .totals{margin-left:auto;margin-top:18px;width:340px;max-width:100%;border:1px solid var(--line);}
+  .totals div{display:flex;justify-content:space-between;padding:9px 14px;font-variant-numeric:tabular-nums;border-bottom:1px solid var(--line);font-size:14px;}
+  .totals div.grand{background:var(--clay);color:var(--paper);border-bottom:none;font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:0.6px;padding:10px 14px 8px;}
+
+  /* ---------- Acciones finales ---------- */
+  .final{background:var(--graphite);color:var(--paper);padding:26px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;margin-bottom:26px;}
+  .final h2{font-size:30px;}
+  .final p{color:#c9c7bd;font-size:var(--fs-meta);max-width:52ch;margin-top:6px;}
+  .final .acts{display:flex;gap:12px;flex-wrap:wrap;}
+
+  details.admin{background:var(--paper);border:1px solid var(--line);}
+  details.admin summary{padding:18px 26px;cursor:pointer;font-weight:700;font-size:14px;color:var(--graphite);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  details.admin summary::-webkit-details-marker{display:none;}
+  details.admin summary::after{content:"+";font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--clay);}
+  details.admin[open] summary::after{content:"–";}
+  details.admin summary small{font-weight:500;color:var(--muted);}
+  .admin-note{background:var(--plaster);border-left:3px solid var(--clay);padding:12px 16px;font-size:var(--fs-meta);margin-bottom:16px;}
+  table.catalog{width:100%;min-width:820px;border-collapse:collapse;font-size:13px;}
+  table.catalog th{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--clay-dark);border-bottom:2px solid var(--graphite);padding:8px;}
+  table.catalog td{padding:6px 8px;border-bottom:1px solid var(--line);}
+  table.catalog tr.cat-row td{background:var(--plaster);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.5px;padding-top:10px;}
+  table.catalog tr.edited td{background:#fdf6ef;}
+  table.catalog input{width:130px;padding:6px 8px;font-size:13px;text-align:right;}
+  table.catalog .zero{color:var(--clay);font-weight:700;}
+
+  footer{padding:28px 0;background:var(--graphite);color:#c9c7bd;font-size:var(--fs-label);}
+  footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;}
+  footer .brand{color:var(--paper);}
+  footer .brand img{width:22px;height:22px;}
+  footer .brand-name{font-size:22px;}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--graphite);color:var(--paper);padding:13px 22px;font-size:14px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,0.2);opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;z-index:999;border-left:4px solid var(--clay);max-width:calc(100% - 32px);}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
   @media (max-width:760px){
-    .card-body{padding:16px;}
-    table{font-size:12px;}
-    thead{display:none;}
-    tbody tr{display:block;border-bottom:2px solid var(--line);padding:10px 0;}
-    tbody td{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:none;padding:4px 0;}
-    tbody td::before{content:attr(data-label);font-weight:700;font-size:11px;text-transform:uppercase;color:var(--clay-dark);flex-shrink:0;margin-right:8px;}
-    tbody td input, tbody td select{max-width:60%;}
+    table.lines{min-width:0;}
+    table.lines thead{display:none;}
+    table.lines tbody tr{display:block;border-bottom:2px solid var(--graphite);padding:10px 0;}
+    table.lines tbody td{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:none;padding:4px 0;}
+    table.lines tbody td::before{content:attr(data-label);font-weight:700;font-size:11px;text-transform:uppercase;color:var(--clay-dark);flex-shrink:0;}
+    table.lines tbody td > *{max-width:65%;}
+    table.lines .calc{padding-top:4px;}
+    .totals{width:100%;}
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="wrap">
-    <div class="brand">
-      <img src="logo-paper.png" alt="Muralia">
-      <span>MURALIA</span>
-    </div>
-    <span class="tag">Cotizador de uso interno</span>
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <img src="logo-graphite.png" alt="Muralia">
+      <span class="brand-name">MURALIA</span>
+    </a>
+    <span class="internal-pill">Uso interno</span>
   </div>
 </header>
-<div class="hero-note">
-  <div class="wrap">Genera y descarga cotizaciones para clientes en segundos — herramienta interna, no indexada ni enlazada desde el sitio.</div>
-</div>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="kicker">Generador</span>
+    <h1>Cotizaciones Muralia</h1>
+    <p>Pega el correo que llega desde la web, revisa precios y descarga la cotización en PDF con la marca Muralia. Herramienta interna: no está enlazada ni indexada en el sitio.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" type="button" onclick="document.getElementById('mail-input').focus();document.getElementById('sec-importar').scrollIntoView({behavior:'smooth'});">Pegar correo de la web</button>
+      <button class="btn btn-light" type="button" id="btn-new">Nueva cotización</button>
+    </div>
+  </div>
+</section>
 
 <main>
   <div class="wrap">
 
-    <div class="card">
-      <div class="card-head"><h2>1 · Datos de la cotización</h2></div>
+    <!-- 0 · IMPORTAR CORREO -->
+    <div class="card" id="sec-importar">
+      <div class="card-head">
+        <div><span class="kicker">Paso 0 · opcional</span><h2>Pegar correo de solicitud</h2></div>
+        <p class="head-note">Copia el correo completo que genera el botón "Enviar por correo" del sitio (incluye el remitente si puedes) y pégalo aquí. Se reconocen productos, variantes, cantidades y datos del cliente.</p>
+      </div>
       <div class="card-body">
-        <div class="field-grid">
-          <div><label for="q-numero">N° cotización</label><input type="text" id="q-numero"></div>
-          <div><label for="q-fecha">Fecha</label><input type="date" id="q-fecha"></div>
-          <div><label for="q-vendedor">Vendedor</label><input type="text" id="q-vendedor" placeholder="Nombre del vendedor"></div>
-          <div><label for="q-validez">Validez cotización</label><input type="text" id="q-validez" placeholder="Ej: 15 días"></div>
-          <div><label for="q-cliente">Cliente / Razón social</label><input type="text" id="q-cliente"></div>
-          <div><label for="q-rut">RUT</label><input type="text" id="q-rut"></div>
-          <div><label for="q-atencion">Atención (contacto)</label><input type="text" id="q-atencion"></div>
-          <div><label for="q-correo">Correo</label><input type="email" id="q-correo"></div>
+        <div class="import-grid">
+          <div>
+            <label for="mail-input">Texto del correo</label>
+            <textarea id="mail-input" placeholder="De: Juan Pérez &lt;juan@constructora.cl&gt;&#10;Asunto: Solicitud de cotización - Muralia&#10;&#10;Hola, quisiera cotizar los siguientes productos:&#10;&#10;1. Lana de vidrio libre — Cantidad: 120 m² — Espesor: 50 mm&#10;2. Placa fibrosilicato — Cantidad: 8 unidad — Espesor: 12 mm&#10;&#10;— Completa tus datos —&#10;Nombre cliente: Constructora Ejemplo&#10;RUT: 76.123.456-7&#10;Teléfono: +56 9 1234 5678&#10;Comuna / dirección de despacho (opcional): Quilicura"></textarea>
+            <label class="check-row"><input type="checkbox" id="mail-replace" checked> Reemplazar los productos que ya están en la cotización</label>
+            <div class="lines-actions" style="margin-top:0;">
+              <button class="btn btn-dark btn-sm" type="button" id="btn-parse">Reconocer y cargar</button>
+              <button class="btn btn-outline btn-sm" type="button" id="btn-paste">Pegar desde portapapeles</button>
+              <button class="btn-link" type="button" id="btn-clear-mail">Limpiar</button>
+            </div>
+          </div>
+          <div class="import-result" id="import-result">
+            <h3>Resultado</h3>
+            <p class="import-empty">Aún no se ha procesado ningún correo. Aquí verás qué productos se reconocieron y qué conviene revisar.</p>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- 1 · DATOS -->
     <div class="card">
       <div class="card-head">
-        <h2>2 · Productos cotizados</h2>
-        <span class="hint" style="margin:0;">Precio base + % de recargo = precio final</span>
+        <div><span class="kicker">Paso 1</span><h2>Datos de la cotización</h2></div>
       </div>
       <div class="card-body">
+        <div class="field-grid">
+          <div><label for="f-numero">N° cotización</label><input type="text" id="f-numero"></div>
+          <div><label for="f-fecha">Fecha</label><input type="date" id="f-fecha"></div>
+          <div><label for="f-vendedor">Vendedor</label><input type="text" id="f-vendedor" list="vendedores" placeholder="Nombre del vendedor"><datalist id="vendedores"><option value="Vittorio Molin"><option value="M. Javiera Molin"></datalist></div>
+          <div><label for="f-validez">Validez</label><input type="text" id="f-validez"></div>
+          <div class="span-2"><label for="f-cliente">Cliente / razón social</label><input type="text" id="f-cliente" placeholder="Ej: Constructora Ejemplo Ltda."></div>
+          <div><label for="f-rut">RUT</label><input type="text" id="f-rut" placeholder="76.123.456-7"></div>
+          <div><label for="f-atencion">Atención (contacto)</label><input type="text" id="f-atencion" placeholder="Sr(a). Nombre Apellido"></div>
+          <div><label for="f-correo">Correo</label><input type="email" id="f-correo" placeholder="correo@cliente.cl"></div>
+          <div><label for="f-telefono">Teléfono</label><input type="text" id="f-telefono" placeholder="+56 9 …"></div>
+          <div class="span-2"><label for="f-direccion">Comuna / dirección de despacho</label><input type="text" id="f-direccion"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 · PRODUCTOS -->
+    <div class="card">
+      <div class="card-head">
+        <div><span class="kicker">Paso 2</span><h2>Productos cotizados</h2></div>
+        <p class="head-note">Precio base (costo interno) + % de recargo = precio final. <b>El PDF solo muestra el precio final.</b></p>
+      </div>
+      <div class="card-body">
+        <div class="toolbar">
+          <div class="rec">
+            <div><label for="f-recargo">% recargo</label><input type="number" id="f-recargo" min="0" step="0.5"></div>
+            <button class="btn btn-outline btn-sm" type="button" id="btn-apply-all">Aplicar a todas</button>
+          </div>
+          <p class="note">El % por defecto se usa en cada línea nueva y queda guardado en este navegador. Las líneas marcadas <b>sin precio</b> no tienen precio base en el catálogo: escríbelo directamente en la línea.</p>
+        </div>
         <div class="table-scroll">
-          <table id="lines-table">
+          <table class="lines">
             <thead>
               <tr>
-                <th>Categoría</th><th>Producto</th><th>Unidad</th>
-                <th>Precio base</th><th>% rec.</th><th>Precio final</th>
-                <th>Cantidad</th><th>Total ($)</th><th></th>
+                <th style="width:26%">Producto</th>
+                <th style="width:19%">Variante</th>
+                <th style="width:7%">Unidad</th>
+                <th class="num" style="width:10%">Precio base</th>
+                <th style="width:7%">% rec.</th>
+                <th class="num" style="width:9%">Precio final</th>
+                <th style="width:8%">Cantidad</th>
+                <th class="num" style="width:10%">Total</th>
+                <th style="width:3%"></th>
               </tr>
             </thead>
             <tbody id="lines-body"></tbody>
-            <tfoot>
-              <tr class="totals-row"><td colspan="7" style="text-align:right;">Total neto</td><td class="num-cell" id="t-neto">$0</td><td></td></tr>
-              <tr class="totals-row"><td colspan="7" style="text-align:right;">19% IVA</td><td class="num-cell" id="t-iva">$0</td><td></td></tr>
-              <tr class="totals-row grand"><td colspan="7" style="text-align:right;">TOTAL</td><td class="num-cell" id="t-total">$0</td><td></td></tr>
-            </tfoot>
           </table>
         </div>
-
-        <div class="row-actions">
-          <button class="btn btn-ghost btn-sm" id="btn-add-line">+ Agregar producto</button>
-          <button class="btn btn-ghost btn-sm" id="btn-add-custom">+ Línea personalizada</button>
-          <div class="recargo-box">
-            <div><label for="default-recargo">% recargo por defecto</label><input type="number" id="default-recargo" value="30" min="0" step="1"></div>
-            <button class="btn btn-ghost btn-sm" id="btn-apply-all">Aplicar a todas las líneas</button>
-          </div>
+        <div class="lines-actions">
+          <button class="btn btn-dark btn-sm" type="button" id="btn-add">+ Agregar producto</button>
+          <button class="btn btn-outline btn-sm" type="button" id="btn-add-custom">+ Línea personalizada</button>
         </div>
-        <p class="hint">El precio base sale del catálogo (costo interno). El % de recargo se puede cambiar en cada línea. <b>En el PDF solo se ve el precio final</b>, nunca el precio base ni el %.</p>
+        <div class="totals">
+          <div><span>Total neto</span><span id="t-neto">$0</span></div>
+          <div><span>IVA 19%</span><span id="t-iva">$0</span></div>
+          <div class="grand"><span>Total</span><span id="t-total">$0</span></div>
+        </div>
       </div>
     </div>
 
+    <!-- 3 · COMENTARIO -->
     <div class="card">
-      <div class="card-head"><h2>3 · Condiciones comerciales</h2></div>
+      <div class="card-head">
+        <div><span class="kicker">Paso 3</span><h2>Comentario del vendedor</h2></div>
+        <p class="head-note">Aparece destacado en el PDF, junto a los totales. Úsalo para recomendaciones técnicas, alternativas o aclaraciones. Déjalo vacío si no aplica.</p>
+      </div>
       <div class="card-body">
-        <div class="field-grid">
-          <div><label for="q-plazo">Plazo de entrega</label><input type="text" id="q-plazo" placeholder="Ej: 5 días hábiles"></div>
-          <div><label for="q-lugar">Lugar de entrega</label><input type="text" id="q-lugar" placeholder="Ej: Bodega cliente / retiro en obra"></div>
-        </div>
-        <div style="margin-top:14px;">
-          <label for="q-pago">Condiciones de pago</label>
-          <textarea id="q-pago" placeholder="Ej: 50% al confirmar pedido, 50% contra entrega"></textarea>
-        </div>
-        <div style="margin-top:14px;">
-          <label for="q-banco">Datos bancarios (se incluyen fijos en el PDF)</label>
-          <textarea id="q-banco" placeholder="Banco, tipo de cuenta, N° de cuenta, RUT, email"></textarea>
+        <label for="f-comentario">Comentario</label>
+        <textarea id="f-comentario" placeholder="Ej: Para el muro cortafuego recomendamos placa de 12 mm por cara. El despacho se coordina 24 h antes."></textarea>
+      </div>
+    </div>
+
+    <!-- 4 · CONDICIONES -->
+    <div class="card">
+      <div class="card-head">
+        <div><span class="kicker">Paso 4</span><h2>Condiciones comerciales</h2></div>
+      </div>
+      <div class="card-body">
+        <div class="field-grid cols-3">
+          <div><label for="f-plazo">Plazo de entrega</label><input type="text" id="f-plazo"></div>
+          <div><label for="f-lugar">Lugar de entrega</label><input type="text" id="f-lugar"></div>
+          <div><label for="f-pago">Condiciones de pago</label><input type="text" id="f-pago"></div>
         </div>
       </div>
     </div>
 
-    <div class="actions-final">
-      <button class="btn" id="btn-pdf-color">📄 Descargar PDF para Cliente (color)</button>
-      <button class="btn btn-ghost" id="btn-pdf-print">🖨️ Descargar PDF para Imprimir (ahorro de tinta)</button>
+    <!-- DESCARGA -->
+    <div class="final">
+      <div>
+        <span class="kicker" style="color:#e98a52;">Listo</span>
+        <h2>Descargar cotización</h2>
+        <p>Ambos PDF tienen la misma información y nunca muestran el precio base ni el %. La versión color es para enviar por correo o WhatsApp; la de impresión usa solo líneas finas para ahorrar tinta.</p>
+      </div>
+      <div class="acts">
+        <button class="btn btn-primary" type="button" id="btn-pdf-color">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>PDF para cliente</button>
+        <button class="btn btn-light" type="button" id="btn-pdf-print">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"/></svg>PDF para imprimir</button>
+      </div>
     </div>
-    <p class="hint">Ambos PDF contienen exactamente la misma información y solo muestran el precio final (nunca el precio base ni el % de recargo). La versión "Cliente" está pensada para enviar por correo o WhatsApp; la versión "Imprimir" usa solo líneas finas en blanco y negro para ahorrar tinta.</p>
 
-    <details class="catalog-admin">
-      <summary>⚙️ Gestionar catálogo de productos <span id="catalog-count" style="font-weight:400;color:var(--graphite);"></span></summary>
-      <div class="card-body">
-        <p class="catalog-note">El <b>Precio Base</b> es el costo interno (parte en $0 — cárgalo tú, o impórtalo). El precio que ve el cliente siempre se calcula como Precio Base × (1 + % de recargo), y el % se define al armar cada cotización, no aquí.<br>Este catálogo se guarda <b>solo en este navegador</b> (no hay servidor). Si trabajas desde otro computador, usa "Exportar catálogo" aquí e "Importar catálogo" allá para mantenerlos iguales.</p>
-
+    <!-- CATÁLOGO -->
+    <details class="admin">
+      <summary><span>Catálogo y precios base <small id="catalog-count"></small></span></summary>
+      <div class="card-body" style="padding-top:0;">
+        <p class="admin-note">Los productos salen de <b>products.json</b> (los mismos del sitio). Los precios base vienen del cotizador anterior; si cambias alguno aquí, el cambio se guarda <b>solo en este navegador</b>. Usa "Exportar precios" e "Importar precios" para llevarlos a otro computador.</p>
         <div class="table-scroll">
-          <table id="catalog-table">
-            <thead>
-              <tr><th>Categoría</th><th>Producto</th><th>Formato</th><th>Unidad</th><th>Precio base ($)</th><th></th></tr>
-            </thead>
+          <table class="catalog">
+            <thead><tr><th>Producto</th><th>Variante</th><th>Formato</th><th>Unidad</th><th style="text-align:right;">Precio base ($)</th></tr></thead>
             <tbody id="catalog-body"></tbody>
           </table>
         </div>
-
-        <div class="row-actions">
-          <button class="btn btn-ghost btn-sm" id="btn-add-catalog">+ Agregar producto al catálogo</button>
-          <button class="btn btn-ghost btn-sm" id="btn-export-catalog">Exportar catálogo</button>
-          <button class="btn btn-ghost btn-sm" id="btn-import-catalog">Importar catálogo</button>
-          <input type="file" id="file-import-catalog" accept="application/json" style="display:none;">
-          <button class="btn btn-danger btn-sm" id="btn-reset-catalog">Restablecer catálogo por defecto</button>
+        <div class="lines-actions">
+          <button class="btn btn-outline btn-sm" type="button" id="btn-export">Exportar precios</button>
+          <button class="btn btn-outline btn-sm" type="button" id="btn-import">Importar precios</button>
+          <input type="file" id="file-import" accept="application/json" style="display:none;">
+          <button class="btn-link" type="button" id="btn-reset">Restablecer precios originales</button>
         </div>
       </div>
     </details>
@@ -222,499 +347,794 @@
   </div>
 </main>
 
+<footer>
+  <div class="wrap">
+    <a class="brand" href="/"><img src="logo-paper.png" alt="Muralia"><span class="brand-name">MURALIA</span></a>
+    <span>Generador de cotizaciones · uso interno</span>
+  </div>
+</footer>
+
 <div class="toast" id="toast"></div>
 
 <script>
 (function(){
-  "use strict";
+"use strict";
 
-  var STORAGE_KEY = "muralia_cotizador_catalogo_v1";
+/* ============================================================
+   DATOS FIJOS DE MURALIA (salen en el PDF)
+   ============================================================ */
+var EMPRESA = {
+  web: "muralia.cl",
+  correo: "ventas@muralia.cl",
+  telefono: "+56 9 5044 1068",
+  bajada: "Aislación térmica, acústica y protección pasiva contra incendios"
+};
 
-  var DEFAULT_CATALOG = [{"categoria": "Aislación térmica y acústica", "producto": "Lana de vidrio libre", "formato": "40 mm", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Lana de vidrio con papel kraft", "formato": "40 mm", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Lana de vidrio con polipropileno blanco", "formato": "50 mm", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Panel de lana mineral", "formato": "0,6 x 1,2 m", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Frazada de lana mineral", "formato": "1,0 x 2,4 m", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Colchoneta de lana mineral", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Panel velo negro", "formato": "1,2 x 2,4 m", "unidad": "m²", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Banda elastoacústica", "formato": "rollo autoadhesivo de 30 m", "unidad": "unidad", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Fibra cerámica", "formato": "25 mm / 96 kg/m³", "unidad": "unidad", "precioBase": 0}, {"categoria": "Aislación térmica y acústica", "producto": "Panel para ductos", "formato": "25 mm", "unidad": "m²", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Placa fibrosilicato", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Pasta para juntas", "formato": "saco de 25 kg", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Masilla cortafuego", "formato": "unidad", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Sellante cortafuego", "formato": "balde de 12,5 kg", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Bidón de impregnación", "formato": "bidón", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Cinta intumescente", "formato": "cinta flexible en rollo", "unidad": "unidad", "precioBase": 0}, {"categoria": "Protección pasiva contra incendios", "producto": "Placa resistente a explosiones", "formato": "", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Yeso cartón estándar (ST)", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Yeso cartón resistente al fuego (RF)", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Yeso cartón resistente a la humedad (RH)", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Rayos X (Safeboard®)", "formato": "0,625 x 2,5 m", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Yeso cartón resistente al impacto (Impact®)", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Cielos falsos con atenuación acústica (Cleaneo®)", "formato": "1200 x 2000 mm", "unidad": "unidad", "precioBase": 0}, {"categoria": "Tabiques y cielos", "producto": "Planchas de fibrocemento", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0}];
+var DEFAULTS = {
+  validez: "5 días",
+  plazo: "2 a 5 días, según disponibilidad de stock al momento de la compra.",
+  lugar: "Sobre camión en obra del cliente en Santiago.",
+  pago: "Contado con la OC (transferencia bancaria).",
+  recargo: 10
+};
 
-  function loadCatalog(){
-    try{
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw);
-    }catch(e){}
-    return JSON.parse(JSON.stringify(DEFAULT_CATALOG));
+/* ============================================================
+   CATÁLOGO — un registro por variante de products.json.
+   precioBase = mismo costo del cotizador Skintec (planillas
+   Lanas / Promat / Volcanita). 0 = sin precio de referencia.
+   ============================================================ */
+var CATALOG = [
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 40 mm", "thickness": "40 mm", "density": "", "finish": "", "formato": "1,2 x 24 m — rollo de 28,8 m²", "unidad": "m²", "precioBase": 1758, "id": "lana-de-vidrio-libre--40mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "", "formato": "1,2 x 12 m — rollo de 14,4 m²", "unidad": "m²", "precioBase": 1394, "id": "lana-de-vidrio-libre--50mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 60 mm", "thickness": "60 mm", "density": "", "finish": "", "formato": "1,2 x 12 m — rollo de 14,4 m²", "unidad": "m²", "precioBase": 2080, "id": "lana-de-vidrio-libre--60mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 80 mm", "thickness": "80 mm", "density": "", "finish": "", "formato": "1,2 x 12 m — rollo de 14,4 m²", "unidad": "m²", "precioBase": 2712, "id": "lana-de-vidrio-libre--80mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 90 mm", "thickness": "90 mm", "density": "", "finish": "", "formato": "1,2 x 7,5 m — rollo de 9 m²", "unidad": "m²", "precioBase": 2758, "id": "lana-de-vidrio-libre--90mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 100 mm", "thickness": "100 mm", "density": "", "finish": "", "formato": "1,2 x 7,5 m — rollo de 9 m²", "unidad": "m²", "precioBase": 3362, "id": "lana-de-vidrio-libre--100mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 120 mm", "thickness": "120 mm", "density": "", "finish": "", "formato": "1,2 x 7,5 m — rollo de 9 m²", "unidad": "m²", "precioBase": 4015, "id": "lana-de-vidrio-libre--120mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 140 mm", "thickness": "140 mm", "density": "", "finish": "", "formato": "1,2 x 5,5 m — rollo de 6,6 m²", "unidad": "m²", "precioBase": 4967, "id": "lana-de-vidrio-libre--140mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-libre", "producto": "Lana de vidrio libre", "variante": "Espesor 160 mm", "thickness": "160 mm", "density": "", "finish": "", "formato": "1,2 x 5,5 m — rollo de 6,6 m²", "unidad": "m²", "precioBase": 5675, "id": "lana-de-vidrio-libre--160mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-papel-kraft", "producto": "Lana de vidrio con papel kraft", "variante": "Espesor 40 mm", "thickness": "40 mm", "density": "", "finish": "", "formato": "1,2 x 24 m — rollo de 28,8 m²", "unidad": "m²", "precioBase": 2537, "id": "lana-de-vidrio-papel-kraft--40mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-papel-kraft", "producto": "Lana de vidrio con papel kraft", "variante": "Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "", "formato": "1,2 x 24 m — rollo de 28,8 m²", "unidad": "m²", "precioBase": 2537, "id": "lana-de-vidrio-papel-kraft--50mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-papel-kraft", "producto": "Lana de vidrio con papel kraft", "variante": "Espesor 60 mm", "thickness": "60 mm", "density": "", "finish": "", "formato": "1,2 x 12 m — rollo de 14,4 m²", "unidad": "m²", "precioBase": 2682, "id": "lana-de-vidrio-papel-kraft--60mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-papel-kraft", "producto": "Lana de vidrio con papel kraft", "variante": "Espesor 80 mm", "thickness": "80 mm", "density": "", "finish": "", "formato": "1,2 x 9,6 m — rollo de 11,52 m²", "unidad": "m²", "precioBase": 3303, "id": "lana-de-vidrio-papel-kraft--80mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-papel-kraft", "producto": "Lana de vidrio con papel kraft", "variante": "Espesor 100 mm", "thickness": "100 mm", "density": "", "finish": "", "formato": "1,2 x 7,5 m — rollo de 9 m²", "unidad": "m²", "precioBase": 3962, "id": "lana-de-vidrio-papel-kraft--100mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-papel-kraft", "producto": "Lana de vidrio con papel kraft", "variante": "Espesor 120 mm", "thickness": "120 mm", "density": "", "finish": "", "formato": "1,2 x 7,5 m — rollo de 9 m²", "unidad": "m²", "precioBase": 4614, "id": "lana-de-vidrio-papel-kraft--120mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-papel-kraft", "producto": "Lana de vidrio con papel kraft", "variante": "Espesor 140 mm", "thickness": "140 mm", "density": "", "finish": "", "formato": "1,2 x 5,5 m — rollo de 6,6 m²", "unidad": "m²", "precioBase": 6380, "id": "lana-de-vidrio-papel-kraft--140mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio-papel-kraft", "producto": "Lana de vidrio con papel kraft", "variante": "Espesor 160 mm", "thickness": "160 mm", "density": "", "finish": "", "formato": "1,2 x 5,5 m — rollo de 6,6 m²", "unidad": "m²", "precioBase": 7290, "id": "lana-de-vidrio-papel-kraft--160mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio", "producto": "Lana de vidrio con polipropileno blanco", "variante": "Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "", "formato": "1,2 x 25 m — rollo de 30 m²", "unidad": "m²", "precioBase": 1690, "id": "lana-de-vidrio--50mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-de-vidrio", "producto": "Lana de vidrio con polipropileno blanco", "variante": "Espesor 80 mm", "thickness": "80 mm", "density": "", "finish": "", "formato": "1,2 x 12 m — rollo de 14,4 m²", "unidad": "m²", "precioBase": 2438, "id": "lana-de-vidrio--80mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-mineral", "producto": "Panel de lana mineral", "variante": "Espesor 50 mm · Densidad 80 kg/m³", "thickness": "50 mm", "density": "80 kg/m³", "finish": "", "formato": "0,6 x 1,2 m", "unidad": "m²", "precioBase": 6188, "id": "lana-mineral--50mm-80kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-mineral", "producto": "Panel de lana mineral", "variante": "Espesor 50 mm · Densidad 100 kg/m³", "thickness": "50 mm", "density": "100 kg/m³", "finish": "", "formato": "0,6 x 1,2 m", "unidad": "m²", "precioBase": 7625, "id": "lana-mineral--50mm-100kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-mineral", "producto": "Panel de lana mineral", "variante": "Espesor 50 mm · Densidad 140 kg/m³", "thickness": "50 mm", "density": "140 kg/m³", "finish": "", "formato": "0,6 x 1,2 m", "unidad": "m²", "precioBase": 13194, "id": "lana-mineral--50mm-140kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "lana-mineral", "producto": "Panel de lana mineral", "variante": "Espesor 80 mm · Densidad 80 kg/m³", "thickness": "80 mm", "density": "80 kg/m³", "finish": "", "formato": "0,6 x 1,2 m", "unidad": "m²", "precioBase": 11617, "id": "lana-mineral--80mm-80kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "frazada-lana-mineral", "producto": "Frazada de lana mineral", "variante": "Espesor 50 mm · Densidad 80 kg/m³", "thickness": "50 mm", "density": "80 kg/m³", "finish": "", "formato": "1,0 x 2,4 m", "unidad": "m²", "precioBase": 0, "id": "frazada-lana-mineral--50mm-80kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "frazada-lana-mineral", "producto": "Frazada de lana mineral", "variante": "Espesor 50 mm · Densidad 100 kg/m³", "thickness": "50 mm", "density": "100 kg/m³", "finish": "", "formato": "1,0 x 2,4 m", "unidad": "m²", "precioBase": 11850, "id": "frazada-lana-mineral--50mm-100kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "frazada-lana-mineral", "producto": "Frazada de lana mineral", "variante": "Espesor 50 mm · Densidad 120 kg/m³", "thickness": "50 mm", "density": "120 kg/m³", "finish": "", "formato": "1,0 x 2,4 m", "unidad": "m²", "precioBase": 0, "id": "frazada-lana-mineral--50mm-120kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "frazada-lana-mineral", "producto": "Frazada de lana mineral", "variante": "Espesor 100 mm · Densidad 100 kg/m³", "thickness": "100 mm", "density": "100 kg/m³", "finish": "", "formato": "1,0 x 2,4 m", "unidad": "m²", "precioBase": 22177, "id": "frazada-lana-mineral--100mm-100kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "frazada-lana-mineral", "producto": "Frazada de lana mineral", "variante": "Espesor 100 mm · Densidad 120 kg/m³", "thickness": "100 mm", "density": "120 kg/m³", "finish": "", "formato": "1,0 x 2,4 m", "unidad": "m²", "precioBase": 0, "id": "frazada-lana-mineral--100mm-120kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Libre · Espesor 40 mm", "thickness": "40 mm", "density": "", "finish": "Libre", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 3554, "id": "colchoneta-lana-mineral--Libre-40mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Libre · Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "Libre", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 3952, "id": "colchoneta-lana-mineral--Libre-50mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Libre · Espesor 80 mm", "thickness": "80 mm", "density": "", "finish": "Libre", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 6622, "id": "colchoneta-lana-mineral--Libre-80mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel una cara · Espesor 40 mm", "thickness": "40 mm", "density": "", "finish": "Papel una cara", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 4214, "id": "colchoneta-lana-mineral--Papelunacara-40mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel una cara · Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "Papel una cara", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 5232, "id": "colchoneta-lana-mineral--Papelunacara-50mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel una cara · Espesor 80 mm", "thickness": "80 mm", "density": "", "finish": "Papel una cara", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 7159, "id": "colchoneta-lana-mineral--Papelunacara-80mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel dos caras · Espesor 40 mm", "thickness": "40 mm", "density": "", "finish": "Papel dos caras", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 0, "id": "colchoneta-lana-mineral--Papeldoscaras-40mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel dos caras · Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "Papel dos caras", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 5758, "id": "colchoneta-lana-mineral--Papeldoscaras-50mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel dos caras · Espesor 80 mm", "thickness": "80 mm", "density": "", "finish": "Papel dos caras", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 7938, "id": "colchoneta-lana-mineral--Papeldoscaras-80mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "panel-velo-negro", "producto": "Panel velo negro", "variante": "Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "m²", "precioBase": 8200, "id": "panel-velo-negro--50mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "banda-elastoacustica", "producto": "Banda elastoacústica", "variante": "Ancho 50 mm", "thickness": "50 mm de ancho", "density": "", "finish": "", "formato": "rollo autoadhesivo de 30 m", "unidad": "unidad", "precioBase": 16830, "id": "banda-elastoacustica--50mmdeancho"},
+  {"cat": "Aislación térmica y acústica", "slug": "banda-elastoacustica", "producto": "Banda elastoacústica", "variante": "Ancho 70 mm", "thickness": "70 mm de ancho", "density": "", "finish": "", "formato": "rollo autoadhesivo de 30 m", "unidad": "unidad", "precioBase": 22710, "id": "banda-elastoacustica--70mmdeancho"},
+  {"cat": "Aislación térmica y acústica", "slug": "fibra-ceramica", "producto": "Fibra cerámica", "variante": "Espesor 25 mm · Densidad 96 kg/m³", "thickness": "25 mm", "density": "96 kg/m³", "finish": "", "formato": "610 x 7200 mm — caja de 4,392 m²", "unidad": "unidad", "precioBase": 0, "id": "fibra-ceramica--25mm-96kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "fibra-ceramica", "producto": "Fibra cerámica", "variante": "Espesor 25 mm · Densidad 128 kg/m³", "thickness": "25 mm", "density": "128 kg/m³", "finish": "", "formato": "610 x 7200 mm — caja de 4,392 m²", "unidad": "unidad", "precioBase": 0, "id": "fibra-ceramica--25mm-128kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "fibra-ceramica", "producto": "Fibra cerámica", "variante": "Espesor 50 mm · Densidad 96 kg/m³", "thickness": "50 mm", "density": "96 kg/m³", "finish": "", "formato": "610 x 3600 mm — caja de 2,196 m²", "unidad": "unidad", "precioBase": 0, "id": "fibra-ceramica--50mm-96kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "fibra-ceramica", "producto": "Fibra cerámica", "variante": "Espesor 50 mm · Densidad 128 kg/m³", "thickness": "50 mm", "density": "128 kg/m³", "finish": "", "formato": "610 x 3600 mm — caja de 2,196 m²", "unidad": "unidad", "precioBase": 0, "id": "fibra-ceramica--50mm-128kgm3"},
+  {"cat": "Aislación térmica y acústica", "slug": "panel-para-ductos", "producto": "Panel para ductos", "variante": "Espesor 25 mm", "thickness": "25 mm", "density": "", "finish": "", "formato": "1,22 x 2,5 m", "unidad": "m²", "precioBase": 0, "id": "panel-para-ductos--25mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 6 mm", "thickness": "6 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 38675, "id": "placa-fibrosilicato--6mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 8 mm", "thickness": "8 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 51415, "id": "placa-fibrosilicato--8mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 10 mm", "thickness": "10 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 59605, "id": "placa-fibrosilicato--10mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 12 mm", "thickness": "12 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 71435, "id": "placa-fibrosilicato--12mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 90317, "id": "placa-fibrosilicato--15mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 20 mm", "thickness": "20 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 120575, "id": "placa-fibrosilicato--20mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "pasta-para-juntas", "producto": "Pasta para juntas", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "saco de 25 kg", "unidad": "unidad", "precioBase": 10831, "id": "pasta-para-juntas"},
+  {"cat": "Protección pasiva contra incendios", "slug": "masilla-cortafuego", "producto": "Masilla cortafuego", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "unidad", "unidad": "unidad", "precioBase": 16242, "id": "masilla-cortafuego"},
+  {"cat": "Protección pasiva contra incendios", "slug": "sellante-cortafuego", "producto": "Sellante cortafuego", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "balde de 12,5 kg", "unidad": "unidad", "precioBase": 250613, "id": "sellante-cortafuego"},
+  {"cat": "Protección pasiva contra incendios", "slug": "bidon-de-impregnacion", "producto": "Bidón de impregnación", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "bidón", "unidad": "unidad", "precioBase": 25935, "id": "bidon-de-impregnacion"},
+  {"cat": "Protección pasiva contra incendios", "slug": "cinta-intumescente", "producto": "Cinta intumescente", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "cinta flexible en rollo", "unidad": "unidad", "precioBase": 0, "id": "cinta-intumescente"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-resistente-a-explosiones", "producto": "Placa resistente a explosiones", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "", "unidad": "unidad", "precioBase": 0, "id": "placa-resistente-a-explosiones"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-estandar", "producto": "Yeso cartón estándar (ST)", "variante": "Espesor 8 mm", "thickness": "8 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0, "id": "yeso-carton-estandar--8mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-estandar", "producto": "Yeso cartón estándar (ST)", "variante": "Espesor 10 mm", "thickness": "10 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 4476.04, "id": "yeso-carton-estandar--10mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-estandar", "producto": "Yeso cartón estándar (ST)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 6009.28, "id": "yeso-carton-estandar--125mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-estandar", "producto": "Yeso cartón estándar (ST)", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 6594.04, "id": "yeso-carton-estandar--15mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-resistente-al-fuego", "producto": "Yeso cartón resistente al fuego (RF)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 6874.96, "id": "yeso-carton-resistente-al-fuego--125mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-resistente-al-fuego", "producto": "Yeso cartón resistente al fuego (RF)", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 7546, "id": "yeso-carton-resistente-al-fuego--15mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-resistente-a-la-humedad", "producto": "Yeso cartón resistente a la humedad (RH)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 9550.28, "id": "yeso-carton-resistente-a-la-humedad--125mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-resistente-a-la-humedad", "producto": "Yeso cartón resistente a la humedad (RH)", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 10412.04, "id": "yeso-carton-resistente-a-la-humedad--15mm"},
+  {"cat": "Tabiques y cielos", "slug": "rayos-x", "producto": "Rayos X (Safeboard®)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "0,625 x 2,5 m", "unidad": "unidad", "precioBase": 79498.125, "id": "rayos-x--125mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-resistente-al-impacto", "producto": "Yeso cartón resistente al impacto (Impact®)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 3845, "id": "yeso-carton-resistente-al-impacto--125mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-resistente-al-impacto", "producto": "Yeso cartón resistente al impacto (Impact®)", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 3937, "id": "yeso-carton-resistente-al-impacto--15mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-con-atenuacion-acustica", "producto": "Cielos falsos con atenuación acústica (Cleaneo®)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "1200 x 2000 mm", "unidad": "unidad", "precioBase": 54832.8, "id": "yeso-carton-con-atenuacion-acustica--125mm"},
+  {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 4 mm", "thickness": "4 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--4mm"},
+  {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 6 mm", "thickness": "6 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--6mm"},
+  {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 8 mm", "thickness": "8 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--8mm"},
+  {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 10 mm", "thickness": "10 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--10mm"},
+  {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 12 mm", "thickness": "12 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--12mm"},
+  {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--15mm"}
+];
+
+var LS_PRICES  = "muralia_generador_precios_v2";
+var LS_DRAFT   = "muralia_generador_borrador_v2";
+var LS_RECARGO = "muralia_generador_recargo_v2";
+var LS_COUNTER = "muralia_generador_contador_";
+
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
+
+var ORIGINAL = {};
+CATALOG.forEach(function(c){ ORIGINAL[c.id] = c.precioBase; });
+function applyPriceOverrides(){
+  var ov = {};
+  try{ ov = JSON.parse(lsGet(LS_PRICES) || "{}") || {}; }catch(e){}
+  CATALOG.forEach(function(c){ c.precioBase = (c.id in ov) ? Number(ov[c.id])||0 : ORIGINAL[c.id]; });
+}
+function savePriceOverrides(){
+  var ov = {};
+  CATALOG.forEach(function(c){ if (c.precioBase !== ORIGINAL[c.id]) ov[c.id] = c.precioBase; });
+  lsSet(LS_PRICES, JSON.stringify(ov));
+}
+applyPriceOverrides();
+
+var byId = {};
+CATALOG.forEach(function(c){ byId[c.id] = c; });
+function productsList(){ // [{cat, slug, producto}] únicos, en orden
+  var seen = {}, out = [];
+  CATALOG.forEach(function(c){ if(!seen[c.slug]){ seen[c.slug]=1; out.push({cat:c.cat, slug:c.slug, producto:c.producto}); } });
+  return out;
+}
+function variantsOf(slug){ return CATALOG.filter(function(c){ return c.slug === slug; }); }
+function variantLabel(c){ return c.variante || "Única"; }
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+function $(id){ return document.getElementById(id); }
+function fmtCLP(n){ n = Math.round(Number(n)||0); return "$" + n.toLocaleString("es-CL"); }
+function num(v){
+  if (typeof v === "number") return v;
+  var s = String(v||"").trim();
+  if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) s = s.replace(/\./g,"");
+  s = s.replace(",",".");
+  var n = parseFloat(s); return isNaN(n) ? 0 : n;
+}
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function norm(s){
+  return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[®™]/g,"").replace(/m³/g,"m3").replace(/m²/g,"m2").replace(/\s+/g," ").trim();
+}
+function toast(msg){
+  var t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._timer); t._timer = setTimeout(function(){ t.classList.remove("show"); }, 2800);
+}
+function todayISO(){
+  var d = new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function prettyDate(iso){
+  if(!iso) return "";
+  var p = iso.split("-"); return p[2]+"/"+p[1]+"/"+p[0];
+}
+function nextNumber(){
+  var d = new Date();
+  var key = String(d.getFullYear()).slice(-2)+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+  var n = Number(lsGet(LS_COUNTER+key) || "0") + 1;
+  lsSet(LS_COUNTER+key, String(n));
+  return key + "-" + String(n).padStart(2,"0");
+}
+
+/* ============================================================
+   ESTADO DE LA COTIZACIÓN
+   ============================================================ */
+var FIELDS = ["numero","fecha","vendedor","validez","cliente","rut","atencion","correo","telefono","direccion","comentario","plazo","lugar","pago"];
+var items = [];
+var uidSeq = 1;
+var recargoDefault = Number(lsGet(LS_RECARGO) || DEFAULTS.recargo);
+
+function newItem(opts){
+  opts = opts || {};
+  var it = { uid: uidSeq++, custom: !!opts.custom, catId: "", slug: "", producto: "", variante: "", formato: "", unidad: "unidad",
+             precioBase: 0, recargo: recargoDefault, cantidad: 1 };
+  if (!it.custom){
+    var c = opts.catId ? byId[opts.catId] : CATALOG[0];
+    setFromCatalog(it, c);
   }
-  function saveCatalog(cat){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(cat)); }catch(e){}
-  }
+  for (var k in opts) if (k !== "catId" && k !== "custom" && opts[k] != null) it[k] = opts[k];
+  return it;
+}
+function setFromCatalog(it, c){
+  if (!c) return;
+  it.catId = c.id; it.slug = c.slug; it.producto = c.producto; it.variante = c.variante;
+  it.formato = c.formato; it.unidad = c.unidad; it.precioBase = c.precioBase;
+}
+function finalPrice(it){ return Math.round((Number(it.precioBase)||0) * (1 + (Number(it.recargo)||0)/100)); }
+function lineTotal(it){ return finalPrice(it) * (Number(it.cantidad)||0); }
+function totals(){
+  var neto = items.reduce(function(a,it){ return a + lineTotal(it); }, 0);
+  var iva = Math.round(neto*0.19);
+  return {neto:neto, iva:iva, total:neto+iva};
+}
 
-  var catalog = loadCatalog();
-  var lineCounter = 0;
-
-  function fmtCLP(n){
-    n = Math.round(n || 0);
-    return "$" + n.toLocaleString("es-CL");
-  }
-  function parseNum(v){
-    var n = parseFloat(String(v).replace(/\./g,"").replace(",","."));
-    return isNaN(n) ? 0 : n;
-  }
-  function toast(msg){
-    var t = document.getElementById("toast");
-    t.textContent = msg;
-    t.style.display = "block";
-    clearTimeout(t._timer);
-    t._timer = setTimeout(function(){ t.style.display = "none"; }, 2600);
-  }
-
-  /* ---------------- CATALOGO (admin) ---------------- */
-
-  function renderCatalogTable(){
-    var body = document.getElementById("catalog-body");
-    body.innerHTML = "";
-    catalog.forEach(function(item, idx){
-      var tr = document.createElement("tr");
-
-      function cell(field, type, width){
-        var td = document.createElement("td");
-        var inp = document.createElement("input");
-        inp.type = type || "text";
-        inp.value = item[field];
-        inp.style.width = width || "auto";
-        inp.addEventListener("input", function(){
-          item[field] = (type === "number") ? parseNum(inp.value) : inp.value;
-          saveCatalog(catalog);
-          rebuildAllProductDropdowns();
-        });
-        td.appendChild(inp);
-        return td;
-      }
-
-      tr.appendChild(cell("categoria"));
-      tr.appendChild(cell("producto"));
-      tr.appendChild(cell("formato"));
-      tr.appendChild(cell("unidad", "text", "70px"));
-      tr.appendChild(cell("precioBase", "number", "100px"));
-
-      var tdDel = document.createElement("td");
-      var delBtn = document.createElement("button");
-      delBtn.className = "remove-btn";
-      delBtn.textContent = "✕";
-      delBtn.title = "Quitar del catálogo";
-      delBtn.addEventListener("click", function(){
-        catalog.splice(idx, 1);
-        saveCatalog(catalog);
-        renderCatalogTable();
-        rebuildAllProductDropdowns();
-      });
-      tdDel.appendChild(delBtn);
-      tr.appendChild(tdDel);
-
-      body.appendChild(tr);
-    });
-    document.getElementById("catalog-count").textContent = "(" + catalog.length + " productos)";
-  }
-
-  document.getElementById("btn-add-catalog").addEventListener("click", function(){
-    catalog.push({categoria:"", producto:"Nuevo producto", formato:"", unidad:"unidad", precioBase:0});
-    saveCatalog(catalog);
-    renderCatalogTable();
-    rebuildAllProductDropdowns();
+/* ---------- Render de líneas ---------- */
+function productOptions(selSlug){
+  var html = "", lastCat = null;
+  productsList().forEach(function(p){
+    if (p.cat !== lastCat){ if (lastCat !== null) html += "</optgroup>"; html += '<optgroup label="'+esc(p.cat)+'">'; lastCat = p.cat; }
+    html += '<option value="'+esc(p.slug)+'"'+(p.slug===selSlug?" selected":"")+'>'+esc(p.producto)+'</option>';
   });
-
-  document.getElementById("btn-reset-catalog").addEventListener("click", function(){
-    if (!confirm("¿Restablecer el catálogo a los productos originales de Muralia? Se perderán los precios y cambios guardados.")) return;
-    catalog = JSON.parse(JSON.stringify(DEFAULT_CATALOG));
-    saveCatalog(catalog);
-    renderCatalogTable();
-    rebuildAllProductDropdowns();
-    toast("Catálogo restablecido.");
-  });
-
-  document.getElementById("btn-export-catalog").addEventListener("click", function(){
-    var blob = new Blob([JSON.stringify(catalog, null, 2)], {type:"application/json"});
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url; a.download = "catalogo-muralia.json";
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
-
-  document.getElementById("btn-import-catalog").addEventListener("click", function(){
-    document.getElementById("file-import-catalog").click();
-  });
-  document.getElementById("file-import-catalog").addEventListener("change", function(e){
-    var file = e.target.files[0];
-    if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function(ev){
-      try{
-        var imported = JSON.parse(ev.target.result);
-        if (!Array.isArray(imported)) throw new Error("formato inválido");
-        catalog = imported;
-        saveCatalog(catalog);
-        renderCatalogTable();
-        rebuildAllProductDropdowns();
-        toast("Catálogo importado correctamente.");
-      }catch(err){
-        toast("No se pudo leer el archivo — ¿es un catálogo exportado desde aquí?");
-      }
-    };
-    reader.readAsText(file);
-    e.target.value = "";
-  });
-
-  /* ---------------- LINEAS DE COTIZACION ---------------- */
-
-  function getCategories(){
-    var seen = {}, list = [];
-    catalog.forEach(function(c){ if (!seen[c.categoria]) { seen[c.categoria]=true; list.push(c.categoria); } });
-    return list;
-  }
-
-  function buildLineRow(existing){
-    lineCounter++;
-    var id = "line-" + lineCounter;
+  return html + "</optgroup>";
+}
+var UNITS = ["unidad","m²","m","ml","kg","rollo","caja","saco","balde","gl"];
+function renderLines(){
+  var body = $("lines-body");
+  body.innerHTML = "";
+  items.forEach(function(it){
     var tr = document.createElement("tr");
-    tr.dataset.id = id;
-    tr.dataset.custom = existing && existing.custom ? "1" : "0";
-
-    var isCustom = existing && existing.custom;
-
-    // Categoria
-    var tdCat = document.createElement("td");
-    tdCat.setAttribute("data-label","Categoría");
-    if (isCustom){
-      tdCat.textContent = "Personalizado";
+    tr.dataset.uid = it.uid;
+    if (!(Number(it.precioBase) > 0)) tr.className = "no-price";
+    var noPrice = !(Number(it.precioBase) > 0) ? '<span class="badge-warn">Sin precio</span>' : "";
+    var prodCell, varCell, unitCell;
+    if (it.custom){
+      prodCell = '<input type="text" data-f="producto" placeholder="Nombre del producto" value="'+esc(it.producto)+'">' +
+                 (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : '<div class="sub-hint">Línea personalizada</div>');
+      varCell  = '<input type="text" data-f="variante" placeholder="Variante / detalle (opcional)" value="'+esc(it.variante)+'">';
+      unitCell = '<select data-f="unidad">' + UNITS.concat(UNITS.indexOf(it.unidad)<0?[it.unidad]:[]).map(function(u){ return '<option'+(u===it.unidad?" selected":"")+'>'+esc(u)+'</option>'; }).join("") + '</select>';
     } else {
-      var selCat = document.createElement("select");
-      selCat.className = "sel-categoria";
-      getCategories().forEach(function(c){
-        var opt = document.createElement("option");
-        opt.value = c; opt.textContent = c;
-        selCat.appendChild(opt);
-      });
-      tdCat.appendChild(selCat);
+      var vs = variantsOf(it.slug);
+      prodCell = '<select data-f="slug">'+productOptions(it.slug)+'</select>' + (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : "");
+      varCell  = (vs.length > 1
+        ? '<select data-f="catId">'+vs.map(function(v){ return '<option value="'+esc(v.id)+'"'+(v.id===it.catId?" selected":"")+'>'+esc(variantLabel(v))+'</option>'; }).join("")+'</select>'
+        : '<div style="padding-top:8px;">'+esc(variantLabel(vs[0]||{}))+'</div>') +
+        (it.formato ? '<div class="sub-hint">'+esc(it.formato)+'</div>' : "");
+      unitCell = '<div style="padding-top:8px;">'+esc(it.unidad)+'</div>';
     }
-    tr.appendChild(tdCat);
+    tr.innerHTML =
+      '<td data-label="Producto">'+prodCell+'</td>'+
+      '<td data-label="Variante">'+varCell+'</td>'+
+      '<td data-label="Unidad">'+unitCell+'</td>'+
+      '<td data-label="Precio base" class="num"><input type="number" min="0" step="1" data-f="precioBase" value="'+(Number(it.precioBase)||0)+'" style="text-align:right;">'+noPrice+'</td>'+
+      '<td data-label="% recargo"><input type="number" min="0" step="0.5" data-f="recargo" value="'+it.recargo+'"></td>'+
+      '<td data-label="Precio final" class="num calc" data-c="final">'+fmtCLP(finalPrice(it))+'</td>'+
+      '<td data-label="Cantidad"><input type="number" min="0" step="any" data-f="cantidad" value="'+it.cantidad+'"></td>'+
+      '<td data-label="Total" class="num calc" data-c="total">'+fmtCLP(lineTotal(it))+'</td>'+
+      '<td><button class="remove-btn" type="button" data-del="1" title="Quitar línea">✕</button></td>';
+    body.appendChild(tr);
+  });
+  renderTotals();
+}
+function renderTotals(){
+  var t = totals();
+  $("t-neto").textContent = fmtCLP(t.neto);
+  $("t-iva").textContent = fmtCLP(t.iva);
+  $("t-total").textContent = fmtCLP(t.total);
+}
+function findItem(el){
+  var tr = el.closest("tr[data-uid]"); if(!tr) return null;
+  var uid = Number(tr.dataset.uid);
+  return {tr:tr, it: items.filter(function(i){ return i.uid===uid; })[0]};
+}
+$("lines-body").addEventListener("input", function(e){
+  var f = e.target.dataset.f; if(!f) return;
+  var r = findItem(e.target); if(!r || !r.it) return;
+  if (f === "slug" || f === "catId" || f === "unidad") return; // se manejan en change
+  r.it[f] = (f==="producto"||f==="variante") ? e.target.value : num(e.target.value);
+  r.tr.querySelector('[data-c="final"]').textContent = fmtCLP(finalPrice(r.it));
+  r.tr.querySelector('[data-c="total"]').textContent = fmtCLP(lineTotal(r.it));
+  if (f === "precioBase"){
+    var has = Number(r.it.precioBase) > 0;
+    r.tr.classList.toggle("no-price", !has);
+    var b = r.tr.querySelector(".badge-warn"); if (b && has) b.remove();
+  }
+  renderTotals(); saveDraft();
+});
+$("lines-body").addEventListener("change", function(e){
+  var f = e.target.dataset.f;
+  var r = findItem(e.target); if(!r || !r.it) return;
+  if (f === "slug"){ setFromCatalog(r.it, variantsOf(e.target.value)[0]); r.it.note = ""; renderLines(); }
+  else if (f === "catId"){ setFromCatalog(r.it, byId[e.target.value]); r.it.note = ""; renderLines(); }
+  else if (f === "unidad"){ r.it.unidad = e.target.value; }
+  saveDraft();
+});
+$("lines-body").addEventListener("click", function(e){
+  if (!e.target.dataset.del) return;
+  var r = findItem(e.target); if(!r) return;
+  items = items.filter(function(i){ return i !== r.it; });
+  renderLines(); saveDraft();
+});
+$("btn-add").addEventListener("click", function(){ items.push(newItem()); renderLines(); saveDraft(); });
+$("btn-add-custom").addEventListener("click", function(){ items.push(newItem({custom:true})); renderLines(); saveDraft(); });
+$("f-recargo").addEventListener("change", function(){
+  recargoDefault = num(this.value); lsSet(LS_RECARGO, String(recargoDefault));
+});
+$("btn-apply-all").addEventListener("click", function(){
+  recargoDefault = num($("f-recargo").value); lsSet(LS_RECARGO, String(recargoDefault));
+  items.forEach(function(it){ it.recargo = recargoDefault; });
+  renderLines(); saveDraft();
+  toast("Se aplicó " + recargoDefault + "% a todas las líneas.");
+});
 
-    // Producto
-    var tdProd = document.createElement("td");
-    tdProd.setAttribute("data-label","Producto");
-    var prodEl;
-    if (isCustom){
-      prodEl = document.createElement("input");
-      prodEl.type = "text";
-      prodEl.placeholder = "Nombre del producto";
-      prodEl.value = existing.producto || "";
+/* ---------- Borrador automático ---------- */
+function readForm(){
+  var d = {}; FIELDS.forEach(function(f){ d[f] = $("f-"+f).value; }); return d;
+}
+function writeForm(d){ FIELDS.forEach(function(f){ if (d[f] != null) $("f-"+f).value = d[f]; }); }
+function saveDraft(){ lsSet(LS_DRAFT, JSON.stringify({form:readForm(), items:items})); }
+FIELDS.forEach(function(f){ $("f-"+f).addEventListener("input", saveDraft); });
+function freshQuote(){
+  writeForm({numero: nextNumber(), fecha: todayISO(), vendedor: $("f-vendedor").value || "", validez: DEFAULTS.validez,
+    cliente:"", rut:"", atencion:"", correo:"", telefono:"", direccion:"", comentario:"",
+    plazo: DEFAULTS.plazo, lugar: DEFAULTS.lugar, pago: DEFAULTS.pago});
+  items = [newItem()];
+  renderLines(); saveDraft();
+}
+$("btn-new").addEventListener("click", function(){
+  if (!confirm("¿Empezar una cotización nueva? Se borran los datos y productos actuales.")) return;
+  freshQuote(); $("mail-input").value = ""; resetImportResult();
+  toast("Cotización nueva: N° " + $("f-numero").value);
+});
+
+/* ============================================================
+   IMPORTAR CORREO DE LA WEB
+   Formato generado por cart.js:
+   "1. Nombre — Cantidad: 10 m² — Espesor: 50 mm — Densidad: 80 kg/m³ — Recubrimiento: Libre"
+   ============================================================ */
+function resetImportResult(){
+  $("import-result").innerHTML = '<h3>Resultado</h3><p class="import-empty">Aún no se ha procesado ningún correo. Aquí verás qué productos se reconocieron y qué conviene revisar.</p>';
+}
+var SEP = /\s+[—–-]\s+/;
+function matchProduct(name){
+  var n = norm(name), best = null, bestScore = 0;
+  var list = productsList();
+  for (var i=0;i<list.length;i++){ if (norm(list[i].producto) === n) return list[i]; }
+  var nt = n.replace(/[()]/g," ").split(" ").filter(function(w){ return w.length > 1 && ["de","con","la","el","para","al","a"].indexOf(w) < 0; });
+  list.forEach(function(p){
+    var pt = norm(p.producto).replace(/[()]/g," ").split(" ").filter(function(w){ return w.length > 1 && ["de","con","la","el","para","al","a"].indexOf(w) < 0; });
+    var hit = nt.filter(function(w){ return pt.indexOf(w) >= 0; }).length;
+    var score = hit / Math.max(pt.length, nt.length);
+    if (score > bestScore){ bestScore = score; best = p; }
+  });
+  return bestScore >= 0.6 ? best : null;
+}
+function matchVariant(slug, attrs){
+  var vs = variantsOf(slug);
+  if (vs.length === 1) return {v: vs[0], exact: true};
+  var want = {thickness: norm(attrs.thickness), density: norm(attrs.density), finish: norm(attrs.finish)};
+  var exact = vs.filter(function(v){
+    return ["thickness","density","finish"].every(function(k){ return !want[k] || norm(v[k]) === want[k]; });
+  });
+  if (exact.length) return {v: exact[0], exact: exact.length === 1 || !!(want.thickness||want.density||want.finish)};
+  // tolerante: compara solo números del espesor
+  var tn = (attrs.thickness||"").replace(/[^\d,.]/g,"");
+  var loose = vs.filter(function(v){ return tn && v.thickness.replace(/[^\d,.]/g,"") === tn; });
+  if (loose.length) return {v: loose[0], exact: false};
+  return {v: vs[0], exact: false};
+}
+function parseMail(text){
+  var res = {items: [], client: {}, notes: [], unparsed: []};
+  var lines = String(text||"").replace(/\r/g,"").split("\n").map(function(l){ return l.replace(/^\s*(>\s*)+/,"").trim(); });
+  lines.forEach(function(line){
+    if (!line) return;
+    var m = line.match(/^\d+\s*[.)-]\s*(.+?)\s+[—–-]\s+Cantidad\s*:\s*([\d.,]+)\s*(.*)$/i);
+    if (m){
+      var rest = m[3] || "", unit = "", attrs = {};
+      var parts = rest.split(SEP);
+      unit = (parts.shift() || "").trim();
+      parts.forEach(function(p){
+        var kv = p.match(/^\s*(Espesor|Densidad|Recubrimiento|Terminaci[oó]n|Formato)\s*:\s*(.+)$/i);
+        if (!kv) return;
+        var k = norm(kv[1]);
+        if (k === "espesor") attrs.thickness = kv[2].trim();
+        else if (k === "densidad") attrs.density = kv[2].trim();
+        else attrs.finish = kv[2].trim();
+      });
+      res.items.push({name: m[1].trim(), qty: num(m[2]), unit: unit, attrs: attrs, raw: line});
+      return;
+    }
+    var kv2 = line.match(/^(Nombre cliente|Nombre|Cliente|Raz[oó]n social|Empresa|RUT|Tel[eé]fono|Celular|Fono|Correo|E-?mail|Comuna\s*\/\s*direcci[oó]n de despacho(?:\s*\(opcional\))?|Direcci[oó]n(?: de despacho)?|Comuna|Atenci[oó]n|Contacto)\s*:\s*(.*)$/i);
+    if (kv2){
+      var key = norm(kv2[1]), val = kv2[2].trim();
+      if (!val) return;
+      if (/^(nombre cliente|nombre|cliente|razon social|empresa)$/.test(key)) res.client.cliente = res.client.cliente || val;
+      else if (key === "rut") res.client.rut = val;
+      else if (/^(telefono|celular|fono)$/.test(key)) res.client.telefono = val;
+      else if (/^(correo|e-?mail)$/.test(key)) res.client.correo = (val.match(/[\w.+-]+@[\w-]+(\.[\w-]+)+/)||[val])[0];
+      else if (/^(atencion|contacto)$/.test(key)) res.client.atencion = val;
+      else res.client.direccion = val;
+      return;
+    }
+    var from = line.match(/^(De|From)\s*:\s*(.*)$/i);
+    if (from){
+      var em = from[2].match(/[\w.+-]+@[\w-]+(\.[\w-]+)+/);
+      if (em && !/muralia\.cl$/i.test(em[0])) res.client.correo = res.client.correo || em[0];
+      var nm = from[2].replace(/<[^>]*>/,"").replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/,"").replace(/["']/g,"").trim();
+      if (nm) res.client.remitente = nm;
+      return;
+    }
+    if (/^(para|to|asunto|subject|fecha|date|cc|enviado)\s*:/i.test(line)) return;
+    if (/^hola|^quisiera cotizar|completa tus datos|^saludos|^gracias/i.test(norm(line))) return;
+    res.notes.push(line);
+  });
+  if (!res.client.correo){
+    var all = String(text||"").match(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g) || [];
+    var c = all.filter(function(e){ return !/muralia\.cl$/i.test(e); })[0];
+    if (c) res.client.correo = c;
+  }
+  return res;
+}
+function importMail(){
+  var text = $("mail-input").value;
+  if (!text.trim()){ toast("Pega primero el texto del correo."); return; }
+  var r = parseMail(text);
+  var report = [];
+  var newItems = [];
+  r.items.forEach(function(pi){
+    var p = matchProduct(pi.name);
+    var detail = [pi.attrs.finish, pi.attrs.thickness, pi.attrs.density].filter(Boolean).join(" · ");
+    if (!p){
+      newItems.push(newItem({custom:true, producto: pi.name, variante: detail, unidad: pi.unit || "unidad", cantidad: pi.qty || 1, precioBase: 0,
+        note: "No está en el catálogo: revisar"}));
+      report.push({t:"warn", h: pi.name, d: "No se encontró en el catálogo. Quedó como línea personalizada — ingresa su precio base."});
+      return;
+    }
+    var mv = matchVariant(p.slug, pi.attrs);
+    var it = newItem({catId: mv.v.id, cantidad: pi.qty || 1});
+    var msgs = [];
+    if (!mv.exact){ it.note = "Variante pedida: " + (detail || "sin especificar") + " — revisar"; msgs.push("La variante pedida (" + (detail||"sin especificar") + ") no calza exacto; se eligió " + variantLabel(mv.v) + "."); }
+    if (!(mv.v.precioBase > 0)) msgs.push("Esta variante no tiene precio base: ingrésalo en la línea.");
+    if (pi.unit && norm(pi.unit) !== norm(mv.v.unidad)) msgs.push("El cliente indicó la cantidad en \"" + pi.unit + "\" y el catálogo cotiza en \"" + mv.v.unidad + "\".");
+    newItems.push(it);
+    report.push({t: msgs.length ? "warn" : "ok", h: p.producto + (mv.v.variante ? " · " + mv.v.variante : ""), d: "Cantidad: " + (pi.qty||1) + " " + (mv.v.unidad||"") + (msgs.length ? " — " + msgs.join(" ") : "")});
+  });
+
+  // datos del cliente
+  var c = r.client, filled = [];
+  var map = {cliente:"cliente", rut:"rut", telefono:"telefono", correo:"correo", direccion:"direccion", atencion:"atencion"};
+  if (!c.cliente && c.remitente) c.cliente = c.remitente;
+  else if (c.remitente && !c.atencion && norm(c.remitente) !== norm(c.cliente)) c.atencion = c.remitente;
+  Object.keys(map).forEach(function(k){ if (c[k]){ $("f-"+map[k]).value = c[k]; filled.push(k === "direccion" ? "dirección" : k === "telefono" ? "teléfono" : k === "atencion" ? "atención" : k); } });
+
+  if (newItems.length){
+    if ($("mail-replace").checked) items = newItems; else items = items.concat(newItems);
+    renderLines();
+  }
+  if (r.notes.length){
+    report.push({t:"info", h:"Texto adicional del cliente", d: r.notes.join(" / ")});
+  }
+  saveDraft();
+
+  var okN = report.filter(function(x){ return x.t==="ok"; }).length;
+  var warnN = report.filter(function(x){ return x.t==="warn"; }).length;
+  var html = '<h3>Resultado</h3><p style="margin-bottom:8px;">' +
+    (r.items.length ? "<b>" + r.items.length + "</b> producto(s) leído(s): " + okN + " listo(s), " + warnN + " para revisar." : "<b>No se encontraron productos.</b> ¿El correo tiene líneas como “1. Producto — Cantidad: 10 …”?") +
+    '<br>Datos del cliente cargados: ' + (filled.length ? filled.join(", ") : "ninguno") + '.</p><ul>' +
+    report.map(function(x){
+      var lab = x.t==="ok" ? "OK" : x.t==="warn" ? "Revisar" : "Nota";
+      return '<li><span class="tag tag-'+x.t+'">'+lab+'</span><div><b>'+esc(x.h)+'</b><br><span style="color:var(--muted);">'+esc(x.d)+'</span></div></li>';
+    }).join("") + '</ul>';
+  $("import-result").innerHTML = html;
+  toast(r.items.length ? "Correo procesado: " + r.items.length + " producto(s)." : "No se reconocieron productos en el correo.");
+}
+$("btn-parse").addEventListener("click", importMail);
+$("btn-clear-mail").addEventListener("click", function(){ $("mail-input").value = ""; resetImportResult(); });
+$("btn-paste").addEventListener("click", function(){
+  if (!navigator.clipboard || !navigator.clipboard.readText){ toast("Tu navegador no permite leer el portapapeles: usa Ctrl/Cmd + V."); $("mail-input").focus(); return; }
+  navigator.clipboard.readText().then(function(t){ $("mail-input").value = t; importMail(); })
+    .catch(function(){ toast("Permiso denegado: pega con Ctrl/Cmd + V."); $("mail-input").focus(); });
+});
+
+/* ============================================================
+   CATÁLOGO (precios base editables)
+   ============================================================ */
+function renderCatalog(){
+  var body = $("catalog-body"), html = "", lastCat = null, zero = 0;
+  CATALOG.forEach(function(c){
+    if (c.cat !== lastCat){ html += '<tr class="cat-row"><td colspan="5">'+esc(c.cat)+'</td></tr>'; lastCat = c.cat; }
+    if (!(c.precioBase > 0)) zero++;
+    html += '<tr'+(c.precioBase!==ORIGINAL[c.id]?' class="edited"':'')+'><td>'+esc(c.producto)+'</td><td>'+esc(variantLabel(c))+'</td><td style="color:var(--muted);">'+esc(c.formato||"—")+'</td><td>'+esc(c.unidad)+'</td>'+
+      '<td style="text-align:right;"><input type="number" min="0" step="1" data-id="'+esc(c.id)+'" value="'+c.precioBase+'"'+(c.precioBase>0?'':' class="zero"')+'></td></tr>';
+  });
+  body.innerHTML = html;
+  $("catalog-count").textContent = "· " + CATALOG.length + " variantes, " + zero + " sin precio";
+}
+$("catalog-body").addEventListener("change", function(e){
+  var id = e.target.dataset.id; if(!id) return;
+  byId[id].precioBase = num(e.target.value);
+  savePriceOverrides(); renderCatalog();
+  toast("Precio base actualizado. Las líneas nuevas usarán este valor.");
+});
+$("btn-export").addEventListener("click", function(){
+  var data = {}; CATALOG.forEach(function(c){ data[c.id] = c.precioBase; });
+  var blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
+  var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "precios-muralia.json";
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+});
+$("btn-import").addEventListener("click", function(){ $("file-import").click(); });
+$("file-import").addEventListener("change", function(e){
+  var file = e.target.files[0]; if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    try{
+      var data = JSON.parse(ev.target.result), n = 0;
+      if (Array.isArray(data) || typeof data !== "object") throw new Error("formato");
+      Object.keys(data).forEach(function(id){ if (byId[id]){ byId[id].precioBase = Number(data[id])||0; n++; } });
+      savePriceOverrides(); renderCatalog();
+      toast(n + " precios importados.");
+    }catch(err){ toast("No se pudo leer el archivo: debe ser uno exportado desde aquí."); }
+  };
+  reader.readAsText(file); e.target.value = "";
+});
+$("btn-reset").addEventListener("click", function(){
+  if (!confirm("¿Volver a los precios base originales? Se pierden los cambios hechos en este navegador.")) return;
+  lsDel(LS_PRICES); applyPriceOverrides(); renderCatalog(); toast("Precios restablecidos.");
+});
+
+/* ============================================================
+   PDF CON LA MARCA MURALIA
+   ============================================================ */
+var C = {
+  clay:[194,85,31], clayDark:[156,67,24], moss:[62,74,60], graphite:[43,42,38],
+  plaster:[239,231,218], plasterSoft:[247,242,234], paper:[255,253,249], line:[221,213,196],
+  muted:[122,121,105], footTxt:[201,199,189], black:[20,20,20], grey:[150,150,150]
+};
+function setupFonts(doc){
+  var A = window.MURALIA_ASSETS, f = {display:"helvetica", body:"helvetica", hasBrand:false};
+  if (!A) return f;
+  try{
+    doc.addFileToVFS("BebasNeue.ttf", A.bebas);       doc.addFont("BebasNeue.ttf", "Bebas", "normal");
+    doc.addFileToVFS("Archivo-Regular.ttf", A.archivoReg); doc.addFont("Archivo-Regular.ttf", "Archivo", "normal");
+    doc.addFileToVFS("Archivo-Bold.ttf", A.archivoBold);   doc.addFont("Archivo-Bold.ttf", "Archivo", "bold");
+    f = {display:"Bebas", body:"Archivo", hasBrand:true};
+  }catch(e){}
+  return f;
+}
+function formData(){
+  var d = readForm();
+  d.fechaTxt = prettyDate(d.fecha);
+  d.numero = (d.numero||"").trim() || "S/N";
+  return d;
+}
+function generatePDF(color){
+  if (!items.length){ alert("Agrega al menos un producto antes de descargar."); return; }
+  var d = formData();
+  var sinPrecio = items.filter(function(it){ return !(finalPrice(it) > 0); });
+  if (sinPrecio.length && !confirm(sinPrecio.length + " línea(s) tienen precio $0. ¿Descargar de todos modos?")) return;
+  if (!d.cliente.trim() && !confirm("No ingresaste el cliente. ¿Descargar de todos modos?")) return;
+
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF({unit:"mm", format:"letter"});
+  var F = setupFonts(doc);
+  var A = window.MURALIA_ASSETS || {};
+  var W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  var M = 16, CW = W - M*2, FOOT = 16;
+  var ink = color ? C.graphite : C.black;
+  var accent = color ? C.clay : C.black;
+  var t = totals();
+
+  function font(fam, style, size, rgb){ doc.setFont(fam, style||"normal"); doc.setFontSize(size); doc.setTextColor.apply(doc, rgb||ink); }
+  function label(txt, x, y, opts){ font(F.body, "bold", 6.6, color ? C.clayDark : C.black); doc.setCharSpace(0.35); doc.text(txt.toUpperCase(), x, y, opts||{}); doc.setCharSpace(0); }
+  function fit(txt, w){ var s = String(txt||"—"); if (doc.getTextWidth(s) <= w) return s; while (s.length > 1 && doc.getTextWidth(s + "…") > w) s = s.slice(0,-1); return s + "…"; }
+
+  /* ---- Encabezado página 1 ---- */
+  var logo = A.logoGraphite;
+  if (logo) try{ doc.addImage(logo, "PNG", M, 12, 21, 21); }catch(e){}
+  var tx = M + 26;
+  font(F.body, "bold", 9, ink); doc.text("Aislación térmica, acústica", tx, 19);
+  doc.text("y protección pasiva contra incendios", tx, 23.4);
+  font(F.body, "normal", 8, color ? C.muted : C.grey);
+  doc.text(EMPRESA.web + "   ·   " + EMPRESA.correo + "   ·   " + EMPRESA.telefono, tx, 29.5);
+
+  font(F.display, "normal", F.hasBrand ? 34 : 22, accent);
+  doc.setCharSpace(F.hasBrand ? 0.6 : 0);
+  doc.text("COTIZACIÓN", W - M, 23, {align:"right"});
+  doc.setCharSpace(0);
+  font(F.body, "bold", 9.5, ink); doc.text("N° " + d.numero, W - M, 29.5, {align:"right"});
+  font(F.body, "normal", 8.5, color ? C.muted : C.grey); doc.text("Fecha " + d.fechaTxt, W - M, 34, {align:"right"});
+
+  // regla de marca: línea fina + tramo grueso terracota
+  doc.setDrawColor.apply(doc, ink); doc.setLineWidth(0.25); doc.line(M, 39, W - M, 39);
+  doc.setFillColor.apply(doc, accent); doc.rect(M, 38.1, 34, 1.8, "F");
+
+  /* ---- Datos del cliente (grilla 3 x 3) ---- */
+  var y = 45;
+  var rows = [
+    [["Cliente / razón social", d.cliente], ["RUT", d.rut], ["Atención", d.atencion]],
+    [["Correo", d.correo], ["Teléfono", d.telefono], ["Despacho", d.direccion]],
+    [["Vendedor", d.vendedor], ["Validez de la oferta", d.validez], ["Fecha de emisión", d.fechaTxt]]
+  ];
+  var colW = [CW*0.42, CW*0.25, CW*0.33], rowH = 11, boxH = rows.length*rowH + 4;
+  if (color){ doc.setFillColor.apply(doc, C.plaster); doc.rect(M, y, CW, boxH, "F"); }
+  else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.2); doc.rect(M, y, CW, boxH); }
+  rows.forEach(function(r, ri){
+    var cx = M + 5;
+    r.forEach(function(cell, ci){
+      var cy = y + 6 + ri*rowH;
+      label(cell[0], cx, cy);
+      font(F.body, ci === 0 && ri === 0 ? "bold" : "normal", 9.3, ink);
+      doc.text(fit(cell[1] && String(cell[1]).trim() ? cell[1] : "—", colW[ci] - 8), cx, cy + 4.6);
+      cx += colW[ci];
+    });
+  });
+  y += boxH + 7;
+
+  /* ---- Tabla de productos (solo precio final) ---- */
+  var body = items.map(function(it, i){
+    var det = [it.variante, it.formato].filter(function(s){ return s && s !== "-"; }).join("  ·  ");
+    return [String(i+1).padStart(2,"0"), {content: it.producto + (det ? "\n" + det : ""), det: !!det}, it.unidad,
+            String(Number(it.cantidad)||0).replace(".",","), fmtCLP(finalPrice(it)), fmtCLP(lineTotal(it))];
+  });
+  var PROD_W = CW - (10 + 17 + 15 + 27 + 29);
+  function drawRunningHeader(){
+    if (logo) try{ doc.addImage(logo, "PNG", M, 10, 10, 10); }catch(e){}
+    font(F.display, "normal", F.hasBrand ? 16 : 12, accent); doc.text("COTIZACIÓN N° " + d.numero, W - M, 17, {align:"right"});
+    doc.setDrawColor.apply(doc, ink); doc.setLineWidth(0.25); doc.line(M, 23, W - M, 23);
+  }
+  doc.autoTable({
+    startY: y,
+    head: [["#", "Producto", "Unidad", "Cant.", "Precio unit.", "Total"]],
+    body: body,
+    theme: "plain",
+    margin: {left: M, right: M, top: 28, bottom: FOOT + 8},
+    styles: {font: F.body, fontSize: 9, textColor: ink, cellPadding: {top: 2.8, bottom: 2.8, left: 2.4, right: 2.4}, valign: "middle", lineColor: color ? C.line : [190,190,190], lineWidth: {bottom: 0.2}},
+    headStyles: color
+      ? {fillColor: C.graphite, textColor: C.paper, font: F.body, fontStyle: "bold", fontSize: 7.6, lineWidth: 0}
+      : {fillColor: false, textColor: C.black, font: F.body, fontStyle: "bold", fontSize: 7.6, lineWidth: {top: 0.4, bottom: 0.4}, lineColor: C.black},
+    alternateRowStyles: color ? {fillColor: C.plasterSoft} : {},
+    columnStyles: {
+      0: {cellWidth: 10, halign: "center", textColor: color ? C.clayDark : C.black, fontStyle: "bold"},
+      1: {cellWidth: PROD_W},
+      2: {cellWidth: 17, halign: "center"},
+      3: {cellWidth: 15, halign: "center"},
+      4: {cellWidth: 27, halign: "right"},
+      5: {cellWidth: 29, halign: "right", fontStyle: "bold"}
+    },
+    didParseCell: function(data){
+      if (data.section === "head"){ data.cell.text = data.cell.text.map(function(s){ return s.toUpperCase(); }); if (data.column.index >= 4) data.cell.styles.halign = "right"; if (data.column.index === 2 || data.column.index === 3) data.cell.styles.halign = "center"; }
+      if (data.section === "body" && data.column.index === 1 && data.cell.raw && data.cell.raw.det){
+        var wAvail = PROD_W - 4.8, parts = String(data.cell.raw.content).split("\n");
+        doc.setFont(F.body, "bold"); doc.setFontSize(9);
+        var nl = doc.splitTextToSize(parts[0], wAvail);
+        doc.setFont(F.body, "normal"); doc.setFontSize(7.8);
+        var dl = doc.splitTextToSize(parts.slice(1).join(" "), wAvail);
+        data.cell._name = nl; data.cell._det = dl;
+        data.cell.text = nl.concat(dl).map(function(){ return " "; });
+      }
+    },
+    didDrawCell: function(data){
+      if (!data.cell._name) return;
+      var x = data.cell.x + data.cell.padding("left");
+      var lhN = 9 * 0.3528 * 1.15, lhD = 7.8 * 0.3528 * 1.2;
+      var h = data.cell._name.length * lhN + data.cell._det.length * lhD;
+      var yy = data.cell.y + (data.cell.height - h)/2 + lhN*0.75;
+      font(F.body, "bold", 9, ink);
+      data.cell._name.forEach(function(l){ doc.text(l, x, yy); yy += lhN; });
+      yy += 0.3;
+      font(F.body, "normal", 7.8, color ? C.muted : [90,90,90]);
+      data.cell._det.forEach(function(l){ doc.text(l, x, yy); yy += lhD; });
+    },
+    didDrawPage: function(data){ if (data.pageNumber > 1) drawRunningHeader(); }
+  });
+  y = doc.lastAutoTable.finalY + 6;
+
+  function ensure(h){
+    if (y + h > H - FOOT - 8){ doc.addPage(); drawRunningHeader(); y = 30; }
+  }
+
+  /* ---- Comentario del vendedor + totales (lado a lado) ---- */
+  var totW = 78, gap = 8, leftW = CW - totW - gap;
+  var comment = (d.comentario||"").trim();
+  font(F.body, "normal", 8.8, ink);
+  var cLines = comment ? doc.splitTextToSize(comment, leftW - 12) : [];
+  var cH = comment ? 13 + cLines.length * 4.1 : 0;
+  var totH = 28;
+  ensure(Math.max(cH, totH));
+
+  var tx0 = W - M - totW;
+  font(F.body, "normal", 9.2, ink);
+  doc.text("Total neto", tx0 + 4, y + 5);  doc.text(fmtCLP(t.neto), W - M - 4, y + 5, {align:"right"});
+  doc.text("IVA 19%", tx0 + 4, y + 11);    doc.text(fmtCLP(t.iva), W - M - 4, y + 11, {align:"right"});
+  doc.setDrawColor.apply(doc, color ? C.line : C.black); doc.setLineWidth(0.2); doc.line(tx0, y + 14, W - M, y + 14);
+  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(tx0, y + 16, totW, 12, "F"); }
+  else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.5); doc.rect(tx0, y + 16, totW, 12); }
+  font(F.display, "normal", F.hasBrand ? 15 : 11, color ? C.paper : C.black);
+  if (!F.hasBrand) doc.setFont(F.body, "bold");
+  doc.setCharSpace(F.hasBrand ? 0.5 : 0); doc.text("TOTAL", tx0 + 4, y + 24.2); doc.setCharSpace(0);
+  font(F.display, "normal", F.hasBrand ? 18 : 12, color ? C.paper : C.black);
+  if (!F.hasBrand) doc.setFont(F.body, "bold");
+  doc.text(fmtCLP(t.total), W - M - 4, y + 24.6, {align:"right"});
+
+  if (comment){
+    if (color){ doc.setFillColor.apply(doc, C.plasterSoft); doc.rect(M, y, leftW, cH, "F"); doc.setFillColor.apply(doc, C.clay); doc.rect(M, y, 1.4, cH, "F"); }
+    else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.2); doc.rect(M, y, leftW, cH); doc.setLineWidth(0.8); doc.line(M, y, M, y + cH); }
+    label("Comentario del vendedor", M + 6, y + 6);
+    font(F.body, "normal", 8.8, ink);
+    doc.text(cLines, M + 6, y + 11.4, {lineHeightFactor: 1.3});
+  }
+  y += Math.max(cH, totH) + 10;
+
+  /* ---- Condiciones comerciales ---- */
+  var conds = [["Plazo de entrega", d.plazo], ["Lugar de entrega", d.lugar], ["Condiciones de pago", d.pago], ["Validez de la oferta", d.validez]]
+    .filter(function(c){ return c[1] && String(c[1]).trim(); });
+  if (conds.length){
+    font(F.body, "normal", 8.8, ink);
+    var condBlocks = conds.map(function(c){ return doc.splitTextToSize(String(c[1]), CW - 50); });
+    var condH = 11 + condBlocks.reduce(function(a,b){ return a + b.length*4.2 + 2.2; }, 0);
+    ensure(condH);
+    font(F.display, "normal", F.hasBrand ? 15 : 11, ink); if (!F.hasBrand) doc.setFont(F.body, "bold");
+    doc.setCharSpace(F.hasBrand ? 0.4 : 0); doc.text("CONDICIONES COMERCIALES", M, y); doc.setCharSpace(0);
+    doc.setFillColor.apply(doc, accent); doc.rect(M, y + 2, 16, 0.9, "F");
+    y += 8.5;
+    conds.forEach(function(c, i){
+      label(c[0], M, y + 0.2);
+      font(F.body, "normal", 8.8, ink);
+      doc.text(condBlocks[i], M + 46, y + 0.2, {lineHeightFactor: 1.35});
+      y += condBlocks[i].length * 4.2 + 2.2;
+    });
+    y += 5;
+  }
+
+  /* ---- Cierre / firma ---- */
+  ensure(24);
+  font(F.body, "normal", 8.8, ink);
+  doc.text("Quedamos atentos a sus comentarios. Saluda atentamente,", M, y);
+  y += 9;
+  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(M, y - 3.2, 1.2, 10.5, "F"); }
+  var sx = M + (color ? 4 : 0);
+  font(F.body, "bold", 10, ink); doc.text((d.vendedor||"").trim() || "Equipo Muralia", sx, y);
+  font(F.body, "normal", 8.4, color ? C.muted : C.grey);
+  doc.text("Muralia  ·  " + EMPRESA.correo + "  ·  WhatsApp " + EMPRESA.telefono, sx, y + 5);
+
+  /* ---- Pie de página en todas las páginas ---- */
+  var pages = doc.getNumberOfPages();
+  for (var p = 1; p <= pages; p++){
+    doc.setPage(p);
+    var fy = H - FOOT;
+    if (color){
+      doc.setFillColor.apply(doc, C.graphite); doc.rect(0, fy, W, FOOT, "F");
+      doc.setFillColor.apply(doc, C.clay); doc.rect(0, fy, W, 0.9, "F");
+      if (A.logoPaper) try{ doc.addImage(A.logoPaper, "PNG", M, fy + 4, 8, 8); }catch(e){}
+      font(F.display, "normal", F.hasBrand ? 14 : 10, C.paper); if (!F.hasBrand) doc.setFont(F.body, "bold");
+      doc.setCharSpace(F.hasBrand ? 1 : 0); doc.text("MURALIA", M + 11, fy + 9.9); doc.setCharSpace(0);
+      font(F.body, "normal", 7.4, C.footTxt);
     } else {
-      prodEl = document.createElement("select");
-      prodEl.className = "sel-producto";
+      doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.25); doc.line(M, fy + 2, W - M, fy + 2);
+      font(F.body, "bold", 8, C.black); doc.text("MURALIA", M, fy + 8.5);
+      font(F.body, "normal", 7.4, [90,90,90]);
     }
-    tdProd.appendChild(prodEl);
-    tr.appendChild(tdProd);
-
-    // Unidad
-    var tdUnidad = document.createElement("td");
-    tdUnidad.setAttribute("data-label","Unidad");
-    var unidadEl = document.createElement("input");
-    unidadEl.type = "text"; unidadEl.readOnly = !isCustom; unidadEl.style.width="70px";
-    if (isCustom) unidadEl.value = existing.unidad || "unidad";
-    tdUnidad.appendChild(unidadEl);
-    tr.appendChild(tdUnidad);
-
-    // Precio base
-    var tdBase = document.createElement("td");
-    tdBase.setAttribute("data-label","Precio base");
-    var baseEl = document.createElement("input");
-    baseEl.type = "number"; baseEl.min="0"; baseEl.style.width="100px";
-    baseEl.value = existing ? (existing.precioBase||0) : 0;
-    tdBase.appendChild(baseEl);
-    tr.appendChild(tdBase);
-
-    // % recargo
-    var tdRec = document.createElement("td");
-    tdRec.setAttribute("data-label","% recargo");
-    var recEl = document.createElement("input");
-    recEl.type = "number"; recEl.min="0"; recEl.style.width="70px";
-    recEl.value = existing ? (existing.recargo!=null?existing.recargo:document.getElementById("default-recargo").value) : document.getElementById("default-recargo").value;
-    tdRec.appendChild(recEl);
-    tr.appendChild(tdRec);
-
-    // Precio final (solo lectura, calculado)
-    var tdFinal = document.createElement("td");
-    tdFinal.setAttribute("data-label","Precio final");
-    tdFinal.className = "num-cell final-cell";
-    tr.appendChild(tdFinal);
-
-    // Cantidad
-    var tdQty = document.createElement("td");
-    tdQty.setAttribute("data-label","Cantidad");
-    var qtyEl = document.createElement("input");
-    qtyEl.type = "number"; qtyEl.min="0"; qtyEl.step="1"; qtyEl.style.width="70px";
-    qtyEl.value = existing ? (existing.cantidad||1) : 1;
-    tdQty.appendChild(qtyEl);
-    tr.appendChild(tdQty);
-
-    // Total
-    var tdTotal = document.createElement("td");
-    tdTotal.setAttribute("data-label","Total");
-    tdTotal.className = "num-cell total-cell";
-    tr.appendChild(tdTotal);
-
-    // Eliminar
-    var tdDel = document.createElement("td");
-    var delBtn = document.createElement("button");
-    delBtn.className = "remove-btn"; delBtn.textContent = "✕"; delBtn.title = "Quitar línea";
-    delBtn.addEventListener("click", function(){ tr.remove(); recalcTotals(); });
-    tdDel.appendChild(delBtn);
-    tr.appendChild(tdDel);
-
-    function recalcLine(){
-      var base = parseNum(baseEl.value);
-      var rec = parseNum(recEl.value);
-      var qty = parseNum(qtyEl.value);
-      var final = base * (1 + rec/100);
-      tdFinal.textContent = fmtCLP(final);
-      tdTotal.textContent = fmtCLP(final * qty);
-      tr.dataset.rawTotal = String(final * qty);
-      recalcTotals();
-    }
-
-    if (!isCustom){
-      var selCatEl = tdCat.querySelector("select");
-      function populateProductos(){
-        var chosenCat = selCatEl.value;
-        prodEl.innerHTML = "";
-        catalog.filter(function(c){ return c.categoria === chosenCat; }).forEach(function(c){
-          var opt = document.createElement("option");
-          opt.value = c.producto; opt.textContent = c.producto;
-          prodEl.appendChild(opt);
-        });
-        applyProductDefaults();
-      }
-      function applyProductDefaults(){
-        var match = catalog.find(function(c){ return c.categoria===selCatEl.value && c.producto===prodEl.value; });
-        if (match){
-          unidadEl.value = match.unidad;
-          baseEl.value = match.precioBase;
-        }
-        recalcLine();
-      }
-      selCatEl.addEventListener("change", populateProductos);
-      prodEl.addEventListener("change", applyProductDefaults);
-      populateProductos();
-      if (existing){
-        selCatEl.value = existing.categoria;
-        populateProductos();
-        prodEl.value = existing.producto;
-        applyProductDefaults();
-        baseEl.value = existing.precioBase;
-        recEl.value = existing.recargo;
-        qtyEl.value = existing.cantidad;
-      }
-    }
-
-    [baseEl, recEl, qtyEl].forEach(function(el){ el.addEventListener("input", recalcLine); });
-    recalcLine();
-
-    return tr;
+    doc.text(EMPRESA.web + "   ·   " + EMPRESA.correo + "   ·   " + EMPRESA.telefono, W/2 + 6, fy + (color ? 9.6 : 8.5), {align:"center"});
+    doc.text("Pág. " + p + " de " + pages, W - M, fy + (color ? 9.6 : 8.5), {align:"right"});
   }
 
-  function rebuildAllProductDropdowns(){
-    // si el catalogo cambia, refresca las categorias/opciones de lineas ya creadas (no-custom)
-    document.querySelectorAll("#lines-body tr").forEach(function(tr){
-      if (tr.dataset.custom === "1") return;
-      var selCat = tr.querySelector(".sel-categoria");
-      if (!selCat) return;
-      var current = selCat.value;
-      selCat.innerHTML = "";
-      getCategories().forEach(function(c){
-        var opt = document.createElement("option");
-        opt.value = c; opt.textContent = c;
-        selCat.appendChild(opt);
-      });
-      if (getCategories().indexOf(current) !== -1) selCat.value = current;
-      selCat.dispatchEvent(new Event("change"));
-    });
-  }
+  var safe = function(s){ return String(s||"").replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g," ").trim(); };
+  var fname = "Cotizacion Muralia " + safe(d.numero) + (d.cliente.trim() ? " - " + safe(d.cliente) : "") + (color ? "" : " (imprimir)") + ".pdf";
+  doc.save(fname);
+  return doc;
+}
+$("btn-pdf-color").addEventListener("click", function(){ generatePDF(true); });
+$("btn-pdf-print").addEventListener("click", function(){ generatePDF(false); });
+window.__muralia = {generatePDF: generatePDF, parseMail: parseMail, importMail: importMail, items: function(){ return items; }};
 
-  function recalcTotals(){
-    var neto = 0;
-    document.querySelectorAll("#lines-body tr").forEach(function(tr){
-      neto += parseFloat(tr.dataset.rawTotal) || 0;
-    });
-    var iva = neto * 0.19;
-    document.getElementById("t-neto").textContent = fmtCLP(neto);
-    document.getElementById("t-iva").textContent = fmtCLP(iva);
-    document.getElementById("t-total").textContent = fmtCLP(neto + iva);
-  }
-
-  document.getElementById("btn-add-line").addEventListener("click", function(){
-    document.getElementById("lines-body").appendChild(buildLineRow());
-    recalcTotals();
-  });
-  document.getElementById("btn-add-custom").addEventListener("click", function(){
-    document.getElementById("lines-body").appendChild(buildLineRow({custom:true, producto:"", unidad:"unidad", precioBase:0, recargo:document.getElementById("default-recargo").value, cantidad:1}));
-    recalcTotals();
-  });
-  document.getElementById("btn-apply-all").addEventListener("click", function(){
-    var val = document.getElementById("default-recargo").value;
-    document.querySelectorAll("#lines-body tr").forEach(function(tr){
-      var recInput = tr.children[4].querySelector("input");
-      if (recInput){ recInput.value = val; recInput.dispatchEvent(new Event("input")); }
-    });
-  });
-
-  /* ---------------- PDF ---------------- */
-
-  function collectLines(){
-    var rows = [];
-    document.querySelectorAll("#lines-body tr").forEach(function(tr){
-      var isCustom = tr.dataset.custom === "1";
-      var catTxt = isCustom ? "Personalizado" : tr.querySelector(".sel-categoria").value;
-      var prodEl = tr.children[1].querySelector("input, select");
-      var unidadEl = tr.children[2].querySelector("input");
-      var qtyEl = tr.children[6].querySelector("input");
-      var finalTxt = tr.querySelector(".final-cell").textContent;
-      var totalTxt = tr.querySelector(".total-cell").textContent;
-      rows.push({
-        categoria: catTxt,
-        producto: prodEl.value,
-        unidad: unidadEl.value,
-        cantidad: qtyEl.value,
-        precioFinal: finalTxt,
-        total: totalTxt
-      });
-    });
-    return rows;
-  }
-
-  function generatePDF(color){
-    var jsPDFLib = window.jspdf.jsPDF;
-    var doc = new jsPDFLib({unit:"pt", format:"a4"});
-    var pageWidth = doc.internal.pageSize.getWidth();
-    var margin = 40;
-    var accent = color ? [194,85,31] : [40,40,40];
-    var dark = [43,42,38];
-
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(20);
-    doc.setTextColor.apply(doc, dark);
-    doc.text("MURALIA", margin, 50);
-    doc.setFont("helvetica","normal");
-    doc.setFontSize(10);
-    doc.setTextColor(120,120,120);
-    doc.text("Aislación térmica, acústica y protección pasiva contra incendios", margin, 66);
-
-    doc.setDrawColor.apply(doc, accent);
-    doc.setLineWidth(1.2);
-    doc.line(margin, 78, pageWidth - margin, 78);
-
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(13);
-    doc.setTextColor.apply(doc, dark);
-    doc.text("COTIZACIÓN", pageWidth - margin, 50, {align:"right"});
-    doc.setFont("helvetica","normal");
-    doc.setFontSize(9);
-    doc.setTextColor(90,90,90);
-    var numero = document.getElementById("q-numero").value || "—";
-    var fecha = document.getElementById("q-fecha").value || "—";
-    doc.text("N° " + numero, pageWidth - margin, 64, {align:"right"});
-    doc.text("Fecha: " + fecha, pageWidth - margin, 76, {align:"right"});
-
-    var y = 100;
-    doc.setFontSize(9.5);
-    doc.setTextColor.apply(doc, dark);
-    var leftCol = [
-      ["Cliente / Razón social", document.getElementById("q-cliente").value],
-      ["RUT", document.getElementById("q-rut").value],
-      ["Atención", document.getElementById("q-atencion").value],
-      ["Correo", document.getElementById("q-correo").value],
-    ];
-    var rightCol = [
-      ["Vendedor", document.getElementById("q-vendedor").value],
-      ["Validez de la cotización", document.getElementById("q-validez").value],
-      ["Plazo de entrega", document.getElementById("q-plazo").value],
-      ["Lugar de entrega", document.getElementById("q-lugar").value],
-    ];
-    leftCol.forEach(function(pair, i){
-      doc.setFont("helvetica","bold"); doc.text(pair[0] + ":", margin, y + i*14);
-      doc.setFont("helvetica","normal"); doc.text(pair[1] || "—", margin + 120, y + i*14);
-    });
-    rightCol.forEach(function(pair, i){
-      var x = pageWidth/2 + 10;
-      doc.setFont("helvetica","bold"); doc.text(pair[0] + ":", x, y + i*14);
-      doc.setFont("helvetica","normal"); doc.text(pair[1] || "—", x + 130, y + i*14);
-    });
-
-    y += leftCol.length * 14 + 18;
-
-    var rows = collectLines();
-    var body = rows.map(function(r, i){
-      return [String(i+1), r.categoria, r.producto, r.unidad, r.cantidad, r.precioFinal, r.total];
-    });
-
-    doc.autoTable({
-      startY: y,
-      head: [["#","Categoría","Producto","Unidad","Cant.","Precio unit.","Total"]],
-      body: body,
-      styles: {fontSize:8.5, cellPadding:5, textColor: dark},
-      headStyles: color ? {fillColor:[43,42,38], textColor:[255,253,249]} : {fillColor:[255,255,255], textColor:[0,0,0], lineWidth:0.6, lineColor:[0,0,0]},
-      alternateRowStyles: color ? {fillColor:[239,231,218]} : {fillColor:[255,255,255]},
-      theme: color ? "striped" : "grid",
-      margin: {left:margin, right:margin},
-      columnStyles: {0:{cellWidth:20}, 4:{halign:"right"}, 5:{halign:"right"}, 6:{halign:"right"}}
-    });
-
-    var afterTableY = doc.lastAutoTable.finalY + 16;
-    var neto = document.getElementById("t-neto").textContent;
-    var iva = document.getElementById("t-iva").textContent;
-    var total = document.getElementById("t-total").textContent;
-
-    doc.setFontSize(10);
-    doc.setFont("helvetica","normal");
-    doc.text("Total neto:", pageWidth - margin - 140, afterTableY);
-    doc.text(neto, pageWidth - margin, afterTableY, {align:"right"});
-    doc.text("19% IVA:", pageWidth - margin - 140, afterTableY + 14);
-    doc.text(iva, pageWidth - margin, afterTableY + 14, {align:"right"});
-    doc.setFont("helvetica","bold");
-    doc.setFontSize(12);
-    if (color) doc.setTextColor.apply(doc, accent);
-    doc.text("TOTAL:", pageWidth - margin - 140, afterTableY + 32);
-    doc.text(total, pageWidth - margin, afterTableY + 32, {align:"right"});
-    doc.setTextColor.apply(doc, dark);
-
-    var condY = afterTableY + 60;
-    var pago = document.getElementById("q-pago").value;
-    var banco = document.getElementById("q-banco").value;
-    if (pago){
-      doc.setFont("helvetica","bold"); doc.setFontSize(9.5);
-      doc.text("Condiciones de pago:", margin, condY);
-      doc.setFont("helvetica","normal");
-      doc.text(doc.splitTextToSize(pago, pageWidth - margin*2), margin, condY + 13);
-      condY += 13 + doc.splitTextToSize(pago, pageWidth - margin*2).length * 11 + 10;
-    }
-    if (banco){
-      doc.setFont("helvetica","bold"); doc.setFontSize(9.5);
-      doc.text("Datos bancarios:", margin, condY);
-      doc.setFont("helvetica","normal");
-      doc.text(doc.splitTextToSize(banco, pageWidth - margin*2), margin, condY + 13);
-    }
-
-    doc.setFontSize(8);
-    doc.setTextColor(150,150,150);
-    doc.text("Muralia · ventas@muralia.cl · Cotización válida según condiciones indicadas arriba.", margin, doc.internal.pageSize.getHeight() - 24);
-
-    var filename = "Cotizacion-Muralia-" + (numero || "sinnumero") + (color ? "-cliente" : "-imprimir") + ".pdf";
-    doc.save(filename);
-  }
-
-  document.getElementById("btn-pdf-color").addEventListener("click", function(){ generatePDF(true); });
-  document.getElementById("btn-pdf-print").addEventListener("click", function(){ generatePDF(false); });
-
-  /* ---------------- INIT ---------------- */
-
-  document.getElementById("q-fecha").value = new Date().toISOString().slice(0,10);
-  renderCatalogTable();
-  document.getElementById("lines-body").appendChild(buildLineRow());
-  recalcTotals();
-
+/* ============================================================
+   INICIO
+   ============================================================ */
+$("f-recargo").value = recargoDefault;
+renderCatalog();
+var draft = null;
+try{ draft = JSON.parse(lsGet(LS_DRAFT) || "null"); }catch(e){}
+if (draft && draft.items && draft.form){
+  writeForm(draft.form);
+  items = draft.items.map(function(it){ it.uid = uidSeq++; return it; });
+  renderLines();
+} else {
+  freshQuote();
+}
 })();
 </script>
 </body>
