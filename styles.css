@@ -422,3 +422,16 @@ footer{padding:36px 0;background:var(--graphite);color:#c9c7bd;}
 .social-link{display:inline-flex;align-items:center;gap:7px;font-size:var(--fs-meta);color:#c9c7bd;}
 .social-link svg{width:15px;height:15px;flex-shrink:0;}
 .social-link:hover{color:var(--paper);}
+
+/* ---------- Páginas legales ---------- */
+.legal{max-width:760px;}
+.legal .legal-date{color:#7a7969;font-size:var(--fs-meta);margin-bottom:28px;}
+.legal h2{font-size:clamp(24px,3vw,30px);margin:38px 0 12px;}
+.legal p,.legal li{color:#3d3c36;margin-bottom:12px;}
+.legal ul{padding-left:20px;margin-bottom:12px;}
+.legal a{color:var(--clay-dark);text-decoration:underline;}
+
+/* Medida a pedido ("Otro") en el selector de variantes */
+.custom-dim{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:var(--fs-body-sm);font-weight:600;color:#54534c;}
+.custom-dim input{width:110px;padding:9px 11px;border:1px solid var(--line);background:var(--paper);font-family:'Archivo',sans-serif;font-size:15px;font-weight:600;color:var(--graphite);}
+.custom-dim input:focus{outline:2px solid var(--clay);outline-offset:1px;}
