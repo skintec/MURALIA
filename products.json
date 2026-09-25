@@ -16,7 +16,7 @@
           "desc": "Aislante liviano y flexible, con una cara revestida en polipropileno blanco. Se utiliza bajo las cubiertas y estructuras verticales de los galpones, ofreciendo buen desempeño térmico y acústico con una terminación reflectante a la vista.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/211fb1d06f9479a7650fc3bb47b93c8b_XL.jpg",
+            "src": "/img/productos/lana-de-vidrio.jpg",
             "alt": "Rollo de lana de vidrio con polipropileno blanco"
           },
           "base_specs": [
@@ -58,7 +58,7 @@
           "desc": "Panel rígido de lana de vidrio con una de sus caras con velo negro.",
           "media": {
             "type": "photo",
-            "src": "img/panel-velo-negro.jpg",
+            "src": "/img/panel-velo-negro.jpg",
             "alt": "Panel velo negro, corte transversal"
           },
           "base_specs": [
@@ -90,7 +90,7 @@
           "desc": "Rollo de lana de vidrio sin revestimiento.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/b1d237aad44a95e3871fc116e6241517_XL.jpg",
+            "src": "/img/productos/lana-de-vidrio-libre.jpg",
             "alt": "Rollo de lana de vidrio libre"
           },
           "base_specs": [
@@ -191,7 +191,7 @@
           "desc": "Rollo de lana de vidrio con una cara revestida en papel kraft, que actúa como barrera de vapor y facilita la manipulación e instalación.",
           "media": {
             "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/52ec984cc72302fd412e2aa145a6526c_XL.jpg",
+            "src": "/img/productos/lana-de-vidrio-papel-kraft.jpg",
             "alt": "Rollo de lana de vidrio con papel kraft"
           },
           "base_specs": [
@@ -326,7 +326,7 @@
           "desc": "Frazada de lana mineral con malla en una cara, usada en aislación de equipos y superficies de gran formato.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/184b7cb84d7b456c96a0bdfbbeaa5f14_XL.jpg",
+            "src": "/img/productos/frazada-lana-mineral.jpg",
             "alt": "Frazada de lana mineral"
           },
           "base_specs": [
@@ -399,7 +399,7 @@
           "desc": "Colchoneta de lana mineral en formato compacto, disponible libre (sin revestimiento) o con papel kraft en una o dos caras según la barrera de vapor que necesite el proyecto.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/398a8bc2e3f7f879ff0986359513be80_XL.jpg",
+            "src": "/img/productos/colchoneta-lana-mineral.jpg",
             "alt": "Colchoneta de lana mineral"
           },
           "base_specs": [
@@ -435,7 +435,7 @@
           "desc": "Panel rígido prearmado, con barrera de vapor de aluminio, pensado para fabricar ductos de climatización directamente en obra, con aislación térmica y acústica incorporada.",
           "media": {
             "type": "photo",
-            "src": "img/panel-para-ductos.jpg",
+            "src": "/img/panel-para-ductos.jpg",
             "alt": "Panel Climaver para ductos de climatización"
           },
           "base_specs": [
@@ -468,7 +468,7 @@
           "desc": "Banda de espuma de polietileno autoadhesiva, usada en tabiques y losas para evitar la transmisión del ruido de un recinto a otro, cortando puentes acústicos en el perímetro.",
           "media": {
             "type": "photo",
-            "src": "img/banda-elastoacustica.jpg",
+            "src": "/img/banda-elastoacustica.jpg",
             "alt": "Rollos de banda elastoacústica"
           },
           "base_specs": [
@@ -500,7 +500,7 @@
           "desc": "Manta de fibra cerámica de alta refractariedad, con alto grado de pureza química, baja conductividad térmica y baja densidad — para cuando la lana mineral o de vidrio ya no dan abasto.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/c889234799e865bbe90cee71f6cd2e53_XL.jpg",
+            "src": "/img/productos/fibra-ceramica.jpg",
             "alt": "Fibra cerámica"
           },
           "base_specs": [
@@ -575,7 +575,7 @@
           "desc": "Placa rígida a base de silicato, con alta resistencia al fuego. Se usa en muros y cielos cortafuego, y en la protección de estructuras metálicas.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/464131a32be92db1eb03bd70266fdd38_XL.jpg",
+            "src": "/img/productos/placa-fibrosilicato.jpg",
             "alt": "Placa de fibrosilicato"
           },
           "base_specs": [
@@ -649,7 +649,7 @@
           "desc": "Pasta usada para tratar y sellar las juntas entre placas de fibrosilicato, dejando una superficie continua lista para terminación.",
           "media": {
             "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/e2acd849d365015ef08ef5b696dc9e31_XL.jpg",
+            "src": "/img/productos/pasta-para-juntas.jpg",
             "alt": "Promat pasta para juntas"
           },
           "base_specs": [
@@ -672,7 +672,7 @@
           "desc": "Masilla flexible para sellar juntas de dilatación y pasadas de cañerías o cables, manteniendo la resistencia al fuego del elemento constructivo.",
           "media": {
             "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/471bd07fdaa7b040f7ab8b2a13f8f35b_XL.jpg",
+            "src": "/img/productos/masilla-cortafuego.jpg",
             "alt": "Masilla cortafuego en base silicona Promaseal"
           },
           "base_specs": [
@@ -710,7 +710,7 @@
           "desc": "Tira intumescente que se expande con el calor para detener el paso de llamas y humo. Su flexibilidad permite envolver cualquier diámetro de cañería en el mismo sitio, siendo especialmente eficiente como sellante de gases a altas temperaturas en puertas y ventanas.",
           "media": {
             "type": "photo",
-            "src": "img/cinta-intumescente.jpg",
+            "src": "/img/cinta-intumescente.jpg",
             "alt": "Cinta intumescente"
           },
           "base_specs": [
@@ -744,7 +744,7 @@
           "desc": "Plancha de yeso cartón de uso general, para tabiquería y cielos en los recintos.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/725ab2e5536ce3eac0a8dd17d083ff4e_XL.jpg",
+            "src": "/img/productos/yeso-carton-estandar.jpg",
             "alt": "Yeso cartón estándar"
           },
           "base_specs": [
@@ -780,7 +780,7 @@
           "desc": "Plancha de yeso cartón con núcleo especial que retarda la propagación del fuego, para tabiques y cielos que requieren clasificación cortafuego.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/cd66a7a18d37d7e5dd969c249e9a1ecb_XL.jpg",
+            "src": "/img/productos/yeso-carton-resistente-al-fuego.jpg",
             "alt": "Yeso cartón resistente al fuego"
           },
           "base_specs": [
@@ -808,7 +808,7 @@
           "desc": "Plancha de yeso cartón formulada para resistir humedad, pensada para baños, cocinas y otras zonas con exposición frecuente a la humedad.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/45e8f4939bc3bd36e4b87ab1e324d227_XL.jpg",
+            "src": "/img/productos/yeso-carton-resistente-a-la-humedad.jpg",
             "alt": "Yeso cartón resistente a la humedad"
           },
           "base_specs": [
@@ -836,7 +836,7 @@
           "desc": "Plancha con blindaje radiológico, usada en la construcción de salas de rayos X y otros recintos que requieren protección contra radiación, en clínicas y hospitales.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/53bed31cb74891ae64a31e4c592ef86d_XL.jpg",
+            "src": "/img/productos/rayos-x.jpg",
             "alt": "Placa con blindaje radiológico Safeboard"
           },
           "base_specs": [
@@ -860,7 +860,7 @@
           "desc": "Plancha de yeso cartón con mayor resistencia mecánica, pensada para recintos de alto tráfico o riesgo de golpes — pasillos, gimnasios, colegios.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/3d10c9c21f6f61faeefd4aa27b190def_XL.jpg",
+            "src": "/img/productos/yeso-carton-resistente-al-impacto.jpg",
             "alt": "Yeso cartón resistente al impacto"
           },
           "base_specs": [
@@ -888,7 +888,7 @@
           "desc": "Plancha de yeso cartón perforada, formulada para reducir la transmisión de ruido entre recintos — oficinas, salas de reunión, auditorios.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/47674e109b85ae6495880f2604f34f58_XL.jpg",
+            "src": "/img/productos/yeso-carton-con-atenuacion-acustica.jpg",
             "alt": "Placa acústica perforada"
           },
           "base_specs": [
@@ -912,7 +912,7 @@
           "desc": "Placa a base de cemento, arena y fibras de celulosa, con superficie lisa o texturada. Revestimiento rígido y resistente a la intemperie, usado en tabiques, fachadas moduladas y fachadas ventiladas.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/d3b3799d6611d677944f5f86a500beb3_XL.jpg",
+            "src": "/img/productos/planchas-de-fibrocemento.jpg",
             "alt": "Plancha de fibrocemento"
           },
           "base_specs": [
