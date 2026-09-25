@@ -7,8 +7,82 @@
       "name": "Aislación térmica y acústica",
       "hero_photo": "img/cat-confort.jpg",
       "hero_alt": "Instalación de aislación térmica en muro",
-      "intro": "El material se elige según la reglamentación térmica vigente o las especificaciones particulares de tu proyecto.",
+      "intro": "El material se elige según la zona en que lo instalarás cumpliendo con la reglamentación térmica vigente y la exigencia acústica requerida.",
       "products": [
+        {
+          "slug": "lana-de-vidrio",
+          "name": "Lana de vidrio con polipropileno blanco",
+          "short": "Rollo de lana de vidrio con polipropileno blanco en una cara.",
+          "desc": "Aislante liviano y flexible, con una cara revestida en polipropileno blanco. Se utiliza bajo las cubiertas y estructuras verticales de los galpones, ofreciendo buen desempeño térmico y acústico con una terminación reflectante a la vista.",
+          "media": {
+            "type": "photo",
+            "src": "https://skintec.cl/media/k2/items/cache/211fb1d06f9479a7650fc3bb47b93c8b_XL.jpg",
+            "alt": "Rollo de lana de vidrio con polipropileno blanco"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "fibra de vidrio con polipropileno blanco"
+            ],
+            [
+              "Aplicación",
+              "residencial e industrial"
+            ]
+          ],
+          "variants": [
+            {
+              "thickness": "50 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 25 m — rollo de 30 m²"
+                ]
+              ]
+            },
+            {
+              "thickness": "80 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,2 x 12 m — rollo de 14,4 m²"
+                ]
+              ]
+            }
+          ],
+          "unit": "m²"
+        },
+        {
+          "slug": "panel-velo-negro",
+          "name": "Panel velo negro",
+          "short": "Panel de lana de vidrio con terminación de velo negro en una de sus caras.",
+          "desc": "Panel rígido de lana de vidrio con una de sus caras con velo negro.",
+          "media": {
+            "type": "photo",
+            "src": "img/panel-velo-negro.jpg",
+            "alt": "Panel velo negro, corte transversal"
+          },
+          "base_specs": [
+            [
+              "Material",
+              "lana de vidrio con velo negro"
+            ],
+            [
+              "Densidad",
+              "35 kg/m³"
+            ],
+            [
+              "Formato de panel",
+              "1,2 m x 2,4 m"
+            ]
+          ],
+          "variants": [
+            {
+              "thickness": "50 mm",
+              "specs": []
+            }
+          ],
+          "unit": "m²"
+        },
         {
           "slug": "lana-de-vidrio-libre",
           "name": "Lana de vidrio libre",
@@ -22,7 +96,7 @@
           "base_specs": [
             [
               "Material",
-              "lana de vidrio, sin revestimiento"
+              "fibra de vidrio, sin revestimiento"
             ]
           ],
           "variants": [
@@ -123,7 +197,7 @@
           "base_specs": [
             [
               "Material",
-              "lana de vidrio con papel kraft en una cara"
+              "fibra de vidrio con papel kraft en una cara"
             ]
           ],
           "variants": [
@@ -203,55 +277,13 @@
           "unit": "m²"
         },
         {
-          "slug": "lana-de-vidrio",
-          "name": "Lana de vidrio con polipropileno blanco",
-          "short": "Rollo de lana de vidrio con polipropileno blanco en una cara.",
-          "desc": "Aislante liviano y flexible, con una cara revestida en polipropileno blanco. Se utiliza bajo las cubiertas y estructuras verticales de los galpones, ofreciendo buen desempeño térmico y acústico con una terminación reflectante a la vista.",
-          "media": {
-            "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/211fb1d06f9479a7650fc3bb47b93c8b_XL.jpg",
-            "alt": "Rollo de lana de vidrio con polipropileno blanco"
-          },
-          "base_specs": [
-            [
-              "Material",
-              "lana de vidrio con polipropileno blanco"
-            ],
-            [
-              "Aplicación",
-              "residencial e industrial"
-            ]
-          ],
-          "variants": [
-            {
-              "thickness": "50 mm",
-              "specs": [
-                [
-                  "Formato",
-                  "1,2 x 25 m — rollo de 30 m²"
-                ]
-              ]
-            },
-            {
-              "thickness": "80 mm",
-              "specs": [
-                [
-                  "Formato",
-                  "1,2 x 12 m — rollo de 14,4 m²"
-                ]
-              ]
-            }
-          ],
-          "unit": "m²"
-        },
-        {
           "slug": "lana-mineral",
           "name": "Panel de lana mineral",
           "short": "Panel de lana mineral en distintas densidades y espesores.",
           "desc": "Panel rígido de lana mineral, para cuando se necesita más densidad y resistencia térmica que la que da la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
           "media": {
             "type": "photo",
-            "src": "https://skintec.cl/media/k2/items/cache/4695cb3b19cbf906e45dac0da0913068_XL.jpg",
+            "src": "https://skintec.cl/media/k2/items/cache/9caa2793658f3cc387f216157300b1ce_XL.jpg",
             "alt": "Panel de lana mineral"
           },
           "base_specs": [
@@ -304,37 +336,19 @@
               "lana mineral con malla en una cara"
             ],
             [
-              "Formato",
-              "1,0 x 2,4 m"
+              "Densidad",
+              "100 kg/m³"
+            ],
+            [
+              "Espesor",
+              "100 mm"
+            ],
+            [
+              "Formatos disponibles",
+              "panel 1,0 x 2,4 m, o rollo 3 x 0,6 m"
             ]
           ],
-          "variants": [
-            {
-              "thickness": "50 mm",
-              "density": "80 kg/m³",
-              "specs": []
-            },
-            {
-              "thickness": "50 mm",
-              "density": "100 kg/m³",
-              "specs": []
-            },
-            {
-              "thickness": "50 mm",
-              "density": "120 kg/m³",
-              "specs": []
-            },
-            {
-              "thickness": "100 mm",
-              "density": "100 kg/m³",
-              "specs": []
-            },
-            {
-              "thickness": "100 mm",
-              "density": "120 kg/m³",
-              "specs": []
-            }
-          ],
+          "variants": [],
           "unit": "m²"
         },
         {
@@ -351,51 +365,22 @@
             [
               "Formato",
               "0,5 x 1,2 m"
+            ],
+            [
+              "Otros acabados",
+              "también disponible con papel kraft en una o dos caras"
             ]
           ],
           "variants": [
             {
-              "finish": "Libre",
               "thickness": "40 mm",
               "specs": []
             },
             {
-              "finish": "Libre",
               "thickness": "50 mm",
               "specs": []
             },
             {
-              "finish": "Libre",
-              "thickness": "80 mm",
-              "specs": []
-            },
-            {
-              "finish": "Papel una cara",
-              "thickness": "40 mm",
-              "specs": []
-            },
-            {
-              "finish": "Papel una cara",
-              "thickness": "50 mm",
-              "specs": []
-            },
-            {
-              "finish": "Papel una cara",
-              "thickness": "80 mm",
-              "specs": []
-            },
-            {
-              "finish": "Papel dos caras",
-              "thickness": "40 mm",
-              "specs": []
-            },
-            {
-              "finish": "Papel dos caras",
-              "thickness": "50 mm",
-              "specs": []
-            },
-            {
-              "finish": "Papel dos caras",
               "thickness": "80 mm",
               "specs": []
             }
@@ -403,33 +388,34 @@
           "unit": "m²"
         },
         {
-          "slug": "panel-velo-negro",
-          "name": "Panel velo negro",
-          "short": "Panel de lana de vidrio con terminación de velo negro.",
-          "desc": "Panel rígido de lana de vidrio con una cara terminada en velo negro, pensado para ductos de climatización que quedan expuestos a la vista. Entrega aislación y una terminación estética en un solo panel.",
+          "slug": "panel-para-ductos",
+          "name": "Panel para ductos Climaver",
+          "short": "Panel rígido prearmado para la fabricación de ductos de climatización.",
+          "desc": "Panel rígido prearmado, con barrera de vapor de aluminio, pensado para fabricar ductos de climatización directamente en obra, con aislación térmica y acústica incorporada.",
           "media": {
             "type": "photo",
-            "src": "img/panel-velo-negro.jpg",
-            "alt": "Panel velo negro, corte transversal"
+            "src": "img/panel-para-ductos.jpg",
+            "alt": "Panel Climaver para ductos de climatización"
           },
           "base_specs": [
             [
-              "Material",
-              "lana de vidrio con velo negro"
-            ],
-            [
-              "Densidad",
-              "35 kg/m³"
-            ],
-            [
-              "Formato de panel",
-              "1,2 x 2,4 m"
+              "Uso",
+              "fabricación de ductos de climatización"
             ]
           ],
           "variants": [
             {
-              "thickness": "50 mm",
-              "specs": []
+              "thickness": "25 mm",
+              "specs": [
+                [
+                  "Formato",
+                  "1,22 x 2,5 m"
+                ],
+                [
+                  "Resistencia térmica",
+                  "0,9 m²·K/W"
+                ]
+              ]
             }
           ],
           "unit": "m²"
@@ -529,39 +515,6 @@
             }
           ],
           "unit": "unidad"
-        },
-        {
-          "slug": "panel-para-ductos",
-          "name": "Panel para ductos",
-          "short": "Panel rígido prearmado para la fabricación de ductos de climatización.",
-          "desc": "Panel rígido prearmado, con barrera de vapor de aluminio, pensado para fabricar ductos de climatización directamente en obra, con aislación térmica y acústica incorporada.",
-          "media": {
-            "type": "photo",
-            "src": "img/panel-para-ductos.jpg",
-            "alt": "Panel Climaver para ductos de climatización"
-          },
-          "base_specs": [
-            [
-              "Uso",
-              "fabricación de ductos de climatización"
-            ]
-          ],
-          "variants": [
-            {
-              "thickness": "25 mm",
-              "specs": [
-                [
-                  "Formato",
-                  "1,22 x 2,5 m"
-                ],
-                [
-                  "Resistencia térmica",
-                  "0,9 m²·K/W"
-                ]
-              ]
-            }
-          ],
-          "unit": "m²"
         }
       ]
     },
@@ -572,11 +525,11 @@
       "name": "Protección pasiva contra incendios",
       "hero_photo": "img/cat-seguridad.jpg",
       "hero_alt": "Muro con placas de fibrosilicato instaladas",
-      "intro": "Certificaciones de soluciones constructivas, avaladas por laboratorios chilenos, para sectorizar incendios y proteger estructura y vías de evacuación.",
+      "intro": "Certificaciones de soluciones F30 a F180, avaladas por laboratorios chilenos, para sectorizar incendios y proteger estructura y vías de evacuación.",
       "products": [
         {
           "slug": "placa-fibrosilicato",
-          "name": "Placa fibrosilicato",
+          "name": "Placa fibrosilicato (Promatect)",
           "short": "Placas rígidas con alta resistencia al fuego para muros y cielos cortafuego.",
           "desc": "Placa rígida a base de silicato, con alta resistencia al fuego. Se usa en muros y cielos cortafuego, y en la protección de estructuras metálicas.",
           "media": {
@@ -673,7 +626,7 @@
         },
         {
           "slug": "masilla-cortafuego",
-          "name": "Masilla cortafuego",
+          "name": "Masilla cortafuego (Promaseal A-S)",
           "short": "Producto flexible para sellar juntas y pasadas de cañerías.",
           "desc": "Masilla flexible para sellar juntas de dilatación y pasadas de cañerías o cables, manteniendo la resistencia al fuego del elemento constructivo.",
           "media": {
@@ -684,55 +637,36 @@
           "base_specs": [
             [
               "Formato",
-              "unidad"
+              "tubo 300 cc"
             ]
           ],
-          "variants": [],
-          "unit": "unidad"
-        },
-        {
-          "slug": "sellante-cortafuego",
-          "name": "Sellante cortafuego",
-          "short": "Sella penetraciones de instalaciones eléctricas y sanitarias en muros cortafuego.",
-          "desc": "Sellante usado en penetraciones de instalaciones eléctricas y sanitarias que atraviesan muros o losas cortafuego, restituyendo su resistencia al fuego.",
-          "media": {
-            "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/9f6d22dec5a20bcdd01cd84e98637764_XL.jpg",
-            "alt": "Sellante cortafuego"
-          },
-          "base_specs": [
-            [
-              "Formato",
-              "balde de 12,5 kg"
-            ]
+          "variants": [
+            {
+              "type": "Promaseal A",
+              "specs": [
+                [
+                  "Descripción",
+                  "masilla elastomérica intumescente monocomponente de resinas acrílicas, para sellado resistente al fuego de juntas y pequeños huecos"
+                ]
+              ]
+            },
+            {
+              "type": "Promaseal S",
+              "specs": [
+                [
+                  "Descripción",
+                  "masilla elástica de silicona monocomponente, para sellado resistente al fuego de juntas de dilatación de alto movimiento"
+                ]
+              ]
+            }
           ],
-          "variants": [],
-          "unit": "unidad"
-        },
-        {
-          "slug": "bidon-de-impregnacion",
-          "name": "Bidón de impregnación",
-          "short": "Impregnante líquido usado como tratamiento previo en sistemas cortafuego.",
-          "desc": "Líquido impregnante que se aplica como tratamiento previo antes de instalar el sistema cortafuego, mejorando su desempeño en conjunto.",
-          "media": {
-            "type": "swatch",
-            "class": "swatch-board-2",
-            "label": "Bidón de impregnación"
-          },
-          "base_specs": [
-            [
-              "Formato",
-              "bidón"
-            ]
-          ],
-          "variants": [],
           "unit": "unidad"
         },
         {
           "slug": "cinta-intumescente",
-          "name": "Cinta intumescente",
-          "short": "Se expande con el calor para sellar juntas y evitar el paso de humo y llama.",
-          "desc": "Tira intumescente que se expande con el calor para detener el paso de llamas y humo. Su flexibilidad permite envolver cualquier diámetro de cañería en el mismo sitio, siendo especialmente eficiente en pasadas de tuberías plásticas.",
+          "name": "Cinta intumescente (Promaseal L)",
+          "short": "Se expande con el calor para sellar juntas y evitar el paso de humo y llamas.",
+          "desc": "Tira intumescente que se expande con el calor para detener el paso de llamas y humo. Su flexibilidad permite envolver cualquier diámetro de cañería en el mismo sitio, siendo especialmente eficiente como sellante de gases a altas temperaturas en puertas y ventanas.",
           "media": {
             "type": "photo",
             "src": "img/cinta-intumescente.jpg",
@@ -745,30 +679,7 @@
             ],
             [
               "Instalación",
-              "envuelve cualquier diámetro de cañería en obra"
-            ]
-          ],
-          "variants": [],
-          "unit": "unidad"
-        },
-        {
-          "slug": "placa-resistente-a-explosiones",
-          "name": "Placa resistente a explosiones",
-          "short": "Sistema reforzado para sectores de alto riesgo industrial.",
-          "desc": "Placa compuesta con núcleo de cemento reforzado y caras de acero galvanizado, de alta resistencia mecánica: resiste impactos, explosiones e incendios severos (incluido jet fire), pensada para sectores de alto riesgo industrial.",
-          "media": {
-            "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/15d43aef6c8a5134e1fc00a9c98b8ab0_XL.jpg",
-            "alt": "Placa resistente a explosiones"
-          },
-          "base_specs": [
-            [
-              "Núcleo",
-              "cemento reforzado"
-            ],
-            [
-              "Caras",
-              "acero galvanizado de 0,5 mm"
+              "para sellar juntas en puertas y particiones resistentes al fuego"
             ]
           ],
           "variants": [],
@@ -931,7 +842,7 @@
         },
         {
           "slug": "yeso-carton-con-atenuacion-acustica",
-          "name": "Cielos falsos con atenuación acústica (Cleaneo®)",
+          "name": "Yeso cartón con atenuación acústica (Cleaneo®)",
           "short": "Reduce la transmisión de ruido entre recintos.",
           "desc": "Plancha de yeso cartón perforada, formulada para reducir la transmisión de ruido entre recintos — oficinas, salas de reunión, auditorios.",
           "media": {

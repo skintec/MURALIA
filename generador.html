@@ -240,11 +240,12 @@
           <div><label for="f-vendedor">Vendedor</label><input type="text" id="f-vendedor" list="vendedores" placeholder="Nombre del vendedor"><datalist id="vendedores"><option value="Vittorio Molin"><option value="M. Javiera Molin"></datalist></div>
           <div><label for="f-validez">Validez</label><input type="text" id="f-validez"></div>
           <div class="span-2"><label for="f-cliente">Cliente / razón social</label><input type="text" id="f-cliente" placeholder="Ej: Constructora Ejemplo Ltda."></div>
+          <div><label for="f-mana">Maña</label><select id="f-mana"><option value="">—</option><option>PFS</option><option>PVN</option><option>PB</option><option>CI</option><option>BA</option><option>PYC</option><option>PCL</option><option>LM</option><option>PLM</option><option>FLM</option><option>CLM</option><option value="Otro">Otro</option></select><input type="text" id="f-manaotro" placeholder="Escribe la maña" style="display:none;margin-top:6px;"></div>
           <div><label for="f-rut">RUT</label><input type="text" id="f-rut" placeholder="76.123.456-7"></div>
           <div><label for="f-atencion">Atención (contacto)</label><input type="text" id="f-atencion" placeholder="Sr(a). Nombre Apellido"></div>
           <div><label for="f-correo">Correo</label><input type="email" id="f-correo" placeholder="correo@cliente.cl"></div>
           <div><label for="f-telefono">Teléfono</label><input type="text" id="f-telefono" placeholder="+56 9 …"></div>
-          <div class="span-2"><label for="f-direccion">Comuna / dirección de despacho</label><input type="text" id="f-direccion"></div>
+          <div><label for="f-direccion">Comuna / dirección de despacho</label><input type="text" id="f-direccion"></div>
         </div>
       </div>
     </div>
@@ -380,6 +381,19 @@ var EMPRESA = {
   bajada: "Aislación térmica, acústica y protección pasiva contra incendios"
 };
 
+// Datos bancarios / de facturación que salen al final del PDF.
+// Las filas con valor vacío no se imprimen: completa banco y cuenta cuando los tengas.
+var DATOS_BANCARIOS = [
+  ["Razón social", "Tecnología en Aislación y Revestimientos SpA."],
+  ["RUT", "78.276.130-7"],
+  ["Giro", "Venta e importación de revestimientos"],
+  ["Dirección", "Joaquín Rodríguez 7359, Macul"],
+  ["Banco", ""],
+  ["Tipo de cuenta", ""],
+  ["N° de cuenta", ""],
+  ["Correo", ""]
+];
+
 var DEFAULTS = {
   validez: "5 días",
   plazo: "2 a 5 días, según disponibilidad de stock al momento de la compra.",
@@ -431,25 +445,26 @@ var CATALOG = [
   {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel dos caras · Espesor 40 mm", "thickness": "40 mm", "density": "", "finish": "Papel dos caras", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 0, "id": "colchoneta-lana-mineral--Papeldoscaras-40mm"},
   {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel dos caras · Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "Papel dos caras", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 5758, "id": "colchoneta-lana-mineral--Papeldoscaras-50mm"},
   {"cat": "Aislación térmica y acústica", "slug": "colchoneta-lana-mineral", "producto": "Colchoneta de lana mineral", "variante": "Papel dos caras · Espesor 80 mm", "thickness": "80 mm", "density": "", "finish": "Papel dos caras", "formato": "0,5 x 1,2 m", "unidad": "m²", "precioBase": 7938, "id": "colchoneta-lana-mineral--Papeldoscaras-80mm"},
-  {"cat": "Aislación térmica y acústica", "slug": "panel-velo-negro", "producto": "Panel velo negro", "variante": "Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "m²", "precioBase": 8200, "id": "panel-velo-negro--50mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "panel-velo-negro", "producto": "Panel velo negro", "variante": "Espesor 50 mm", "thickness": "50 mm", "density": "", "finish": "", "formato": "1,2 m x 2,4 m", "unidad": "m²", "precioBase": 8200, "id": "panel-velo-negro--50mm"},
   {"cat": "Aislación térmica y acústica", "slug": "banda-elastoacustica", "producto": "Banda elastoacústica", "variante": "Ancho 50 mm", "thickness": "50 mm de ancho", "density": "", "finish": "", "formato": "rollo autoadhesivo de 30 m", "unidad": "unidad", "precioBase": 16830, "id": "banda-elastoacustica--50mmdeancho"},
   {"cat": "Aislación térmica y acústica", "slug": "banda-elastoacustica", "producto": "Banda elastoacústica", "variante": "Ancho 70 mm", "thickness": "70 mm de ancho", "density": "", "finish": "", "formato": "rollo autoadhesivo de 30 m", "unidad": "unidad", "precioBase": 22710, "id": "banda-elastoacustica--70mmdeancho"},
   {"cat": "Aislación térmica y acústica", "slug": "fibra-ceramica", "producto": "Fibra cerámica", "variante": "Espesor 25 mm · Densidad 96 kg/m³", "thickness": "25 mm", "density": "96 kg/m³", "finish": "", "formato": "610 x 7200 mm — caja de 4,392 m²", "unidad": "unidad", "precioBase": 0, "id": "fibra-ceramica--25mm-96kgm3"},
   {"cat": "Aislación térmica y acústica", "slug": "fibra-ceramica", "producto": "Fibra cerámica", "variante": "Espesor 25 mm · Densidad 128 kg/m³", "thickness": "25 mm", "density": "128 kg/m³", "finish": "", "formato": "610 x 7200 mm — caja de 4,392 m²", "unidad": "unidad", "precioBase": 0, "id": "fibra-ceramica--25mm-128kgm3"},
   {"cat": "Aislación térmica y acústica", "slug": "fibra-ceramica", "producto": "Fibra cerámica", "variante": "Espesor 50 mm · Densidad 96 kg/m³", "thickness": "50 mm", "density": "96 kg/m³", "finish": "", "formato": "610 x 3600 mm — caja de 2,196 m²", "unidad": "unidad", "precioBase": 0, "id": "fibra-ceramica--50mm-96kgm3"},
   {"cat": "Aislación térmica y acústica", "slug": "fibra-ceramica", "producto": "Fibra cerámica", "variante": "Espesor 50 mm · Densidad 128 kg/m³", "thickness": "50 mm", "density": "128 kg/m³", "finish": "", "formato": "610 x 3600 mm — caja de 2,196 m²", "unidad": "unidad", "precioBase": 0, "id": "fibra-ceramica--50mm-128kgm3"},
-  {"cat": "Aislación térmica y acústica", "slug": "panel-para-ductos", "producto": "Panel para ductos", "variante": "Espesor 25 mm", "thickness": "25 mm", "density": "", "finish": "", "formato": "1,22 x 2,5 m", "unidad": "m²", "precioBase": 0, "id": "panel-para-ductos--25mm"},
-  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 6 mm", "thickness": "6 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 38675, "id": "placa-fibrosilicato--6mm"},
-  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 8 mm", "thickness": "8 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 51415, "id": "placa-fibrosilicato--8mm"},
-  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 10 mm", "thickness": "10 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 59605, "id": "placa-fibrosilicato--10mm"},
-  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 12 mm", "thickness": "12 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 71435, "id": "placa-fibrosilicato--12mm"},
-  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 90317, "id": "placa-fibrosilicato--15mm"},
-  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato", "variante": "Espesor 20 mm", "thickness": "20 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 120575, "id": "placa-fibrosilicato--20mm"},
+  {"cat": "Aislación térmica y acústica", "slug": "panel-para-ductos", "producto": "Panel para ductos Climaver", "variante": "Espesor 25 mm", "thickness": "25 mm", "density": "", "finish": "", "formato": "1,22 x 2,5 m", "unidad": "m²", "precioBase": 0, "id": "panel-para-ductos--25mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato (Promatect)", "variante": "Espesor 6 mm", "thickness": "6 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 38675, "id": "placa-fibrosilicato--6mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato (Promatect)", "variante": "Espesor 8 mm", "thickness": "8 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 51415, "id": "placa-fibrosilicato--8mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato (Promatect)", "variante": "Espesor 10 mm", "thickness": "10 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 59605, "id": "placa-fibrosilicato--10mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato (Promatect)", "variante": "Espesor 12 mm", "thickness": "12 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 71435, "id": "placa-fibrosilicato--12mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato (Promatect)", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 90317, "id": "placa-fibrosilicato--15mm"},
+  {"cat": "Protección pasiva contra incendios", "slug": "placa-fibrosilicato", "producto": "Placa fibrosilicato (Promatect)", "variante": "Espesor 20 mm", "thickness": "20 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 120575, "id": "placa-fibrosilicato--20mm"},
   {"cat": "Protección pasiva contra incendios", "slug": "pasta-para-juntas", "producto": "Pasta para juntas", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "saco de 25 kg", "unidad": "unidad", "precioBase": 10831, "id": "pasta-para-juntas"},
-  {"cat": "Protección pasiva contra incendios", "slug": "masilla-cortafuego", "producto": "Masilla cortafuego", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "unidad", "unidad": "unidad", "precioBase": 16242, "id": "masilla-cortafuego"},
+  {"cat": "Protección pasiva contra incendios", "slug": "masilla-cortafuego", "producto": "Masilla cortafuego (Promaseal A-S)", "variante": "Promaseal A", "thickness": "", "density": "", "finish": "Promaseal A", "formato": "tubo 300 cc", "unidad": "unidad", "precioBase": 16242, "id": "masilla-cortafuego"},
+  {"cat": "Protección pasiva contra incendios", "slug": "masilla-cortafuego", "producto": "Masilla cortafuego (Promaseal A-S)", "variante": "Promaseal S", "thickness": "", "density": "", "finish": "Promaseal S", "formato": "tubo 300 cc", "unidad": "unidad", "precioBase": 16242, "id": "masilla-cortafuego--s"},
   {"cat": "Protección pasiva contra incendios", "slug": "sellante-cortafuego", "producto": "Sellante cortafuego", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "balde de 12,5 kg", "unidad": "unidad", "precioBase": 250613, "id": "sellante-cortafuego"},
   {"cat": "Protección pasiva contra incendios", "slug": "bidon-de-impregnacion", "producto": "Bidón de impregnación", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "bidón", "unidad": "unidad", "precioBase": 25935, "id": "bidon-de-impregnacion"},
-  {"cat": "Protección pasiva contra incendios", "slug": "cinta-intumescente", "producto": "Cinta intumescente", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "cinta flexible en rollo", "unidad": "unidad", "precioBase": 0, "id": "cinta-intumescente"},
+  {"cat": "Protección pasiva contra incendios", "slug": "cinta-intumescente", "producto": "Cinta intumescente (Promaseal L)", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "cinta flexible en rollo", "unidad": "unidad", "precioBase": 0, "id": "cinta-intumescente"},
   {"cat": "Protección pasiva contra incendios", "slug": "placa-resistente-a-explosiones", "producto": "Placa resistente a explosiones", "variante": "", "thickness": "", "density": "", "finish": "", "formato": "", "unidad": "unidad", "precioBase": 0, "id": "placa-resistente-a-explosiones"},
   {"cat": "Tabiques y cielos", "slug": "yeso-carton-estandar", "producto": "Yeso cartón estándar (ST)", "variante": "Espesor 8 mm", "thickness": "8 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 0, "id": "yeso-carton-estandar--8mm"},
   {"cat": "Tabiques y cielos", "slug": "yeso-carton-estandar", "producto": "Yeso cartón estándar (ST)", "variante": "Espesor 10 mm", "thickness": "10 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 4476.04, "id": "yeso-carton-estandar--10mm"},
@@ -462,7 +477,7 @@ var CATALOG = [
   {"cat": "Tabiques y cielos", "slug": "rayos-x", "producto": "Rayos X (Safeboard®)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "0,625 x 2,5 m", "unidad": "unidad", "precioBase": 79498.125, "id": "rayos-x--125mm"},
   {"cat": "Tabiques y cielos", "slug": "yeso-carton-resistente-al-impacto", "producto": "Yeso cartón resistente al impacto (Impact®)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 3845, "id": "yeso-carton-resistente-al-impacto--125mm"},
   {"cat": "Tabiques y cielos", "slug": "yeso-carton-resistente-al-impacto", "producto": "Yeso cartón resistente al impacto (Impact®)", "variante": "Espesor 15 mm", "thickness": "15 mm", "density": "", "finish": "", "formato": "1200 x 2400 mm", "unidad": "unidad", "precioBase": 3937, "id": "yeso-carton-resistente-al-impacto--15mm"},
-  {"cat": "Tabiques y cielos", "slug": "yeso-carton-con-atenuacion-acustica", "producto": "Cielos falsos con atenuación acústica (Cleaneo®)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "1200 x 2000 mm", "unidad": "unidad", "precioBase": 54832.8, "id": "yeso-carton-con-atenuacion-acustica--125mm"},
+  {"cat": "Tabiques y cielos", "slug": "yeso-carton-con-atenuacion-acustica", "producto": "Yeso cartón con atenuación acústica (Cleaneo®)", "variante": "Espesor 12,5 mm", "thickness": "12,5 mm", "density": "", "finish": "", "formato": "1200 x 2000 mm", "unidad": "unidad", "precioBase": 54832.8, "id": "yeso-carton-con-atenuacion-acustica--125mm"},
   {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 4 mm", "thickness": "4 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--4mm"},
   {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 6 mm", "thickness": "6 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--6mm"},
   {"cat": "Tabiques y cielos", "slug": "planchas-de-fibrocemento", "producto": "Planchas de fibrocemento", "variante": "Espesor 8 mm", "thickness": "8 mm", "density": "", "finish": "", "formato": "1,2 x 2,4 m", "unidad": "unidad", "precioBase": 0, "id": "planchas-de-fibrocemento--8mm"},
@@ -544,7 +559,7 @@ function nextNumber(){
 /* ============================================================
    ESTADO DE LA COTIZACIÓN
    ============================================================ */
-var FIELDS = ["numero","fecha","vendedor","validez","cliente","rut","atencion","correo","telefono","direccion","comentario","plazo","lugar","pago"];
+var FIELDS = ["numero","fecha","vendedor","validez","cliente","mana","manaotro","rut","atencion","correo","telefono","direccion","comentario","plazo","lugar","pago"];
 var items = [];
 var uidSeq = 1;
 var recargoDefault = Number(lsGet(LS_RECARGO) || DEFAULTS.recargo);
@@ -675,12 +690,15 @@ $("btn-apply-all").addEventListener("click", function(){
 function readForm(){
   var d = {}; FIELDS.forEach(function(f){ d[f] = $("f-"+f).value; }); return d;
 }
-function writeForm(d){ FIELDS.forEach(function(f){ if (d[f] != null) $("f-"+f).value = d[f]; }); }
+function writeForm(d){ FIELDS.forEach(function(f){ if (d[f] != null) $("f-"+f).value = d[f]; }); syncMana(); }
+function syncMana(){ $("f-manaotro").style.display = $("f-mana").value === "Otro" ? "" : "none"; }
+function manaValue(d){ return String((d.mana === "Otro" ? d.manaotro : d.mana) || "").trim(); }
+$("f-mana").addEventListener("change", function(){ syncMana(); if (this.value === "Otro") $("f-manaotro").focus(); saveDraft(); });
 function saveDraft(){ lsSet(LS_DRAFT, JSON.stringify({form:readForm(), items:items})); }
 FIELDS.forEach(function(f){ $("f-"+f).addEventListener("input", saveDraft); });
 function freshQuote(){
   writeForm({numero: nextNumber(), fecha: todayISO(), vendedor: $("f-vendedor").value || "", validez: DEFAULTS.validez,
-    cliente:"", rut:"", atencion:"", correo:"", telefono:"", direccion:"", comentario:"",
+    cliente:"", mana:"", manaotro:"", rut:"", atencion:"", correo:"", telefono:"", direccion:"", comentario:"",
     plazo: DEFAULTS.plazo, lugar: DEFAULTS.lugar, pago: DEFAULTS.pago});
   items = [newItem()];
   renderLines(); saveDraft();
@@ -738,7 +756,7 @@ function parseMail(text){
       var parts = rest.split(SEP);
       unit = (parts.shift() || "").trim();
       parts.forEach(function(p){
-        var kv = p.match(/^\s*(Espesor|Densidad|Recubrimiento|Terminaci[oó]n|Formato)\s*:\s*(.+)$/i);
+        var kv = p.match(/^\s*(Tipo|Espesor|Densidad|Recubrimiento|Terminaci[oó]n|Formato)\s*:\s*(.+)$/i);
         if (!kv) return;
         var k = norm(kv[1]);
         if (k === "espesor") attrs.thickness = kv[2].trim();
@@ -1090,6 +1108,32 @@ function generatePDF(color){
     y += 5;
   }
 
+  // Datos bancarios en dos columnas para no alargar la cotización
+  (function(){
+    var rows = DATOS_BANCARIOS.filter(function(c){ return c[1] && String(c[1]).trim(); });
+    if (!rows.length) return;
+    var colX = [M, M + CW*0.6], colW = [CW*0.6, CW*0.4], lblW = 25;
+    font(F.body, "normal", 8.8, ink);
+    var cells = rows.map(function(c, i){ return {k: c[0], v: doc.splitTextToSize(String(c[1]), colW[i % 2] - lblW - 4)}; });
+    var lines = [];
+    for (var i = 0; i < cells.length; i += 2){
+      lines.push(Math.max(cells[i].v.length, cells[i+1] ? cells[i+1].v.length : 1) * 4.2 + 2.2);
+    }
+    ensure(11 + lines.reduce(function(a,b){ return a + b; }, 0));
+    font(F.display, "normal", F.hasBrand ? 15 : 11, ink); if (!F.hasBrand) doc.setFont(F.body, "bold");
+    doc.setCharSpace(F.hasBrand ? 0.4 : 0); doc.text("DATOS BANCARIOS", M, y); doc.setCharSpace(0);
+    doc.setFillColor.apply(doc, accent); doc.rect(M, y + 2, 16, 0.9, "F");
+    y += 8.5;
+    cells.forEach(function(c, i){
+      var x = colX[i % 2];
+      label(c.k, x, y + 0.2);
+      font(F.body, "normal", 8.8, ink);
+      doc.text(c.v, x + lblW, y + 0.2, {lineHeightFactor: 1.35});
+      if (i % 2 === 1 || i === cells.length - 1) y += lines[Math.floor(i / 2)];
+    });
+    y += 5;
+  })();
+
   /* ---- Cierre / firma ---- */
   ensure(24);
   font(F.body, "normal", 8.8, ink);
@@ -1123,7 +1167,8 @@ function generatePDF(color){
   }
 
   var safe = function(s){ return String(s||"").replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g," ").trim(); };
-  var fname = "Cotizacion Muralia " + safe(d.numero) + (d.cliente.trim() ? " - " + safe(d.cliente) : "") + (color ? "" : " (imprimir)") + ".pdf";
+  var quien = [safe(d.cliente), safe(manaValue(d))].filter(Boolean).join(" ");
+  var fname = "Cotizacion Muralia " + safe(d.numero) + (quien ? " - " + quien : "") + (color ? "" : " (imprimir)") + ".pdf";
   doc.save(fname);
   return doc;
 }
