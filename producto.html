@@ -148,8 +148,8 @@
     selectorsBox.innerHTML = '';
 
     var variants = product.variants || [];
-    var DIM_LABELS = { thickness: 'Espesor', density: 'Densidad', finish: 'Recubrimiento' };
-    var allDims = ['thickness', 'density', 'finish'].filter(function (d) {
+    var DIM_LABELS = { type: 'Tipo', thickness: 'Espesor', density: 'Densidad', finish: 'Recubrimiento' };
+    var allDims = ['type', 'thickness', 'density', 'finish'].filter(function (d) {
       return variants.some(function (v) { return v[d]; });
     });
     // Only show a selector when a dimension actually varies (more than one value overall)
@@ -265,6 +265,7 @@
         thickness: current.thickness || null,
         density: current.density || null,
         finish: current.finish || null,
+        type: current.type || null,
         unit: product.unit || null,
         category: cat.name,
         qty: qty

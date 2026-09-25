@@ -38,7 +38,7 @@
     var items = getItems();
     var qty = item.qty && item.qty > 0 ? item.qty : 1;
     var existing = items.find(function (i) {
-      return i.slug === item.slug && i.thickness === item.thickness && i.density === item.density && i.finish === item.finish;
+      return i.slug === item.slug && i.thickness === item.thickness && i.density === item.density && i.finish === item.finish && (i.type || null) === (item.type || null);
     });
     if (existing) {
       existing.qty = (existing.qty || 1) + qty;
@@ -83,6 +83,7 @@
     items.forEach(function (item, i) {
       var qty = item.qty || 1;
       var line = (i + 1) + ". " + item.name + " — Cantidad: " + qty + (item.unit ? " " + item.unit : "");
+      if (item.type) line += " — Tipo: " + item.type;
       if (item.thickness) line += " — Espesor: " + item.thickness;
       if (item.density) line += " — Densidad: " + item.density;
       if (item.finish) line += " — Recubrimiento: " + item.finish;
