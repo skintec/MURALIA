@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- Tráfico interno: navegadores que abrieron el generador no se miden en Google Analytics -->
+<script>
+  try {
+    if (localStorage.getItem('skintec_interno') === '1') {
+      window['ga-disable-G-ZJXPRC2Y49'] = true;
+    }
+  } catch (e) {}
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJXPRC2Y49"></script>
 <script>
