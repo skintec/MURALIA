@@ -351,8 +351,38 @@
               "specs": []
             },
             {
+              "thickness": "50 mm",
+              "density": "120 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "80 mm",
+              "density": "80 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "80 mm",
+              "density": "100 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "80 mm",
+              "density": "120 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "100 mm",
+              "density": "80 kg/m³",
+              "specs": []
+            },
+            {
               "thickness": "100 mm",
               "density": "100 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "100 mm",
+              "density": "120 kg/m³",
               "specs": []
             }
           ],
@@ -400,7 +430,7 @@
         },
         {
           "slug": "panel-para-ductos",
-          "name": "Panel para ductos Climaver",
+          "name": "Panel para ductos (Climaver®)",
           "short": "Panel rígido prearmado para la fabricación de ductos de climatización.",
           "desc": "Panel rígido prearmado, con barrera de vapor de aluminio, pensado para fabricar ductos de climatización directamente en obra, con aislación térmica y acústica incorporada.",
           "media": {
@@ -540,7 +570,7 @@
       "products": [
         {
           "slug": "placa-fibrosilicato",
-          "name": "Placa fibrosilicato (Promatect)",
+          "name": "Placa fibrosilicato (Promatect®)",
           "short": "Placas rígidas con alta resistencia al fuego para muros y cielos cortafuego.",
           "desc": "Placa rígida a base de silicato, con alta resistencia al fuego. Se usa en muros y cielos cortafuego, y en la protección de estructuras metálicas.",
           "media": {
@@ -637,7 +667,7 @@
         },
         {
           "slug": "masilla-cortafuego",
-          "name": "Masilla cortafuego (Promaseal A-S)",
+          "name": "Masilla cortafuego (Promaseal® A-S)",
           "short": "Producto flexible para sellar juntas y pasadas de cañerías.",
           "desc": "Masilla flexible para sellar juntas de dilatación y pasadas de cañerías o cables, manteniendo la resistencia al fuego del elemento constructivo.",
           "media": {
@@ -653,7 +683,7 @@
           ],
           "variants": [
             {
-              "type": "Promaseal A",
+              "type": "Promaseal® A",
               "specs": [
                 [
                   "Descripción",
@@ -662,7 +692,7 @@
               ]
             },
             {
-              "type": "Promaseal S",
+              "type": "Promaseal® S",
               "specs": [
                 [
                   "Descripción",
@@ -675,7 +705,7 @@
         },
         {
           "slug": "cinta-intumescente",
-          "name": "Cinta intumescente (Promaseal L)",
+          "name": "Cinta intumescente (Promaseal® L)",
           "short": "Se expande con el calor para sellar juntas y evitar el paso de humo y llamas.",
           "desc": "Tira intumescente que se expande con el calor para detener el paso de llamas y humo. Su flexibilidad permite envolver cualquier diámetro de cañería en el mismo sitio, siendo especialmente eficiente como sellante de gases a altas temperaturas en puertas y ventanas.",
           "media": {
