@@ -158,14 +158,13 @@ nav a.active{color:var(--graphite);border-color:var(--clay);}
 
 /* stat strip */
 .stat-strip{background:var(--graphite);color:var(--paper);}
-.stat-strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.stat-strip .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
 .stat-cell{padding:32px 28px;border-left:1px solid rgba(255,253,249,0.15);}
 .stat-cell:first-child{border-left:none;}
 @media (max-width:760px){
-  .stat-strip .wrap{grid-template-columns:repeat(2,1fr);}
-  .stat-cell{padding:26px 20px;border-left:none;}
-  .stat-cell:nth-child(2n){border-left:1px solid rgba(255,253,249,0.15);}
-  .stat-cell:nth-child(n+3){border-top:1px solid rgba(255,253,249,0.15);}
+  .stat-strip .wrap{grid-template-columns:1fr;}
+  .stat-cell{padding:22px 20px;border-left:none;}
+  .stat-cell + .stat-cell{border-top:1px solid rgba(255,253,249,0.15);}
 }
 .stat-num{font-family:'Bebas Neue',sans-serif;font-size:38px;color:#e98a52;line-height:1;}
 .stat-label{font-size:var(--fs-label);color:#c9c7bd;margin-top:6px;}
