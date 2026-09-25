@@ -14,6 +14,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Producto | Muralia</title>
 <meta name="description" content="Detalle de producto Muralia.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Muralia">
+<meta property="og:locale" content="es_CL">
+<meta property="og:title" content="Producto | Muralia">
+<meta property="og:description" content="Detalle de producto Muralia.">
+<meta property="og:url" content="https://muralia.cl/productos.html">
+<meta property="og:image" content="https://muralia.cl/img/og-muralia.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Muralia — aislación térmica, acústica y contra incendios">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -21,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=12">
+<link rel="stylesheet" href="styles.css?v=13">
 <script src="cart.js" defer></script>
 <script src="muralia-tracking.js" defer></script>
 </head>
@@ -98,6 +109,7 @@
       <a href="empresa.html">Empresa</a>
       <a href="productos.html">Productos</a>
       <a href="contacto.html">Contacto</a>
+      <a href="privacidad.html">Privacidad</a>
       <a class="social-link" href="https://instagram.com/muralia.cl" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@muralia.cl</a>
     </nav>
     <span class="footer-note">© 2026 Muralia. Aislación térmica, acústica y protección pasiva contra incendios.</span>
@@ -126,7 +138,16 @@
   function render(cat, product) {
     document.title = product.name + ' | Muralia';
     var metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute('content', product.short);
+    if (metaDesc) metaDesc.setAttribute('content', product.short + ' ' + cat.name + ' en Chile — cotiza con Muralia.');
+    var url = 'https://muralia.cl/producto.html?slug=' + encodeURIComponent(product.slug);
+    var canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    canonical.href = url;
+    document.head.appendChild(canonical);
+    [['og:title', document.title], ['og:description', product.short], ['og:url', url]].forEach(function (pair) {
+      var tag = document.querySelector('meta[property="' + pair[0] + '"]');
+      if (tag) tag.setAttribute('content', pair[1]);
+    });
 
     document.getElementById('breadcrumb').innerHTML =
       '<a href="/">Inicio</a> / <a href="productos.html">Productos</a> / ' + esc(product.name);
@@ -278,6 +299,10 @@
   }
 
   function showNotFound() {
+    var robots = document.createElement('meta');
+    robots.name = 'robots';
+    robots.content = 'noindex';
+    document.head.appendChild(robots);
     document.getElementById('p-title').textContent = 'Producto no encontrado';
     document.getElementById('p-kicker').textContent = 'Productos';
     document.getElementById('p-lead').textContent = '';
