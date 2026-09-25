@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=13">
+<link rel="stylesheet" href="styles.css?v=14">
 <script src="cart.js" defer></script>
 <script src="muralia-tracking.js" defer></script>
 </head>
@@ -49,6 +49,7 @@
         <li><a href="/">Inicio</a></li>
         <li><a href="empresa.html">Empresa</a></li>
         <li><a href="productos.html" class="active">Productos</a></li>
+        <li><a href="presencia.html">Dónde estamos</a></li>
         <li><a href="cotizacion.html" class="cart-link">Cotización <span class="cart-count" style="display:none;">0</span></a></li>
         <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
       </ul>
@@ -80,7 +81,6 @@
         </div>
         <button type="button" class="btn btn-dark" id="add-to-cart-btn">Agregar a cotización</button>
         <p class="detail-note" id="add-feedback" style="display:none;color:var(--clay-dark);font-weight:700;">✓ Agregado a tu cotización — <a href="cotizacion.html" style="color:inherit;text-decoration:underline;">ver cotización</a></p>
-        <p class="detail-note" id="p-note" style="display:none;">Aún no contamos con fotografía propia de este producto — apenas la tengamos, la agregamos aquí.</p>
       </div>
     </div>
   </section>
@@ -108,6 +108,7 @@
     <nav class="footer-nav">
       <a href="empresa.html">Empresa</a>
       <a href="productos.html">Productos</a>
+      <a href="presencia.html">Dónde estamos</a>
       <a href="contacto.html">Contacto</a>
       <a href="privacidad.html">Privacidad</a>
       <a class="social-link" href="https://instagram.com/muralia.cl" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@muralia.cl</a>
@@ -159,10 +160,6 @@
     var unitLabel = document.getElementById('qty-unit-label');
     if (unitLabel) unitLabel.textContent = product.unit ? '(' + product.unit + ')' : '';
 
-    if (product.media.type !== 'photo') {
-      document.getElementById('p-note').style.display = '';
-    }
-
     var specsUl = document.getElementById('p-specs');
     var selectorsBox = document.getElementById('p-selectors');
     specsUl.innerHTML = '';
@@ -173,12 +170,32 @@
     var allDims = ['type', 'thickness', 'density', 'finish'].filter(function (d) {
       return variants.some(function (v) { return v[d]; });
     });
+    // Dimensiones en que el cliente puede escribir una medida propia ("Otro")
+    var customDims = product.custom_dims || [];
+    var CUSTOM_UNITS = { thickness: 'mm', density: 'kg/m³' };
+    var custom = {};   // dim -> true cuando está elegida la opción "Otro"
+    var customInputs = {};
     // Only show a selector when a dimension actually varies (more than one value overall)
     var selectorDims = allDims.filter(function (d) {
+      if (customDims.indexOf(d) !== -1) return true;
       var vals = {};
       variants.forEach(function (v) { if (v[d]) vals[v[d]] = true; });
       return Object.keys(vals).length > 1;
     });
+
+    // Valor elegido en cada dimensión, incluida la medida escrita a mano
+    function selected() {
+      var sel = {};
+      allDims.forEach(function (d) {
+        if (custom[d]) {
+          var n = customInputs[d].value.trim().replace('.', ',');
+          sel[d] = n ? n + ' ' + CUSTOM_UNITS[d] : null;
+        } else {
+          sel[d] = current[d];
+        }
+      });
+      return sel;
+    }
 
     var current = {};
     allDims.forEach(function (d) { current[d] = variants.length ? variants[0][d] : null; });
@@ -193,7 +210,7 @@
       var vals = [];
       variants.forEach(function (v) {
         var matchesOthers = allDims.every(function (d) {
-          if (d === dim) return true;
+          if (d === dim || custom[d]) return true;
           return !current[d] || v[d] === current[d];
         });
         if (matchesOthers && v[dim] && vals.indexOf(v[dim]) === -1) vals.push(v[dim]);
@@ -208,20 +225,33 @@
       row.innerHTML = '';
       var opts = validOptionsFor(dim);
       if (opts.indexOf(current[dim]) === -1) current[dim] = opts[0];
-      opts.forEach(function (val) {
+      function addChip(text, active, onClick) {
         var btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'chip' + (val === current[dim] ? ' active' : '');
-        btn.setAttribute('aria-pressed', val === current[dim] ? 'true' : 'false');
-        btn.textContent = val;
+        btn.className = 'chip' + (active ? ' active' : '');
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        btn.textContent = text;
         btn.addEventListener('click', function () {
-          current[dim] = val;
+          onClick();
           selectorDims.forEach(function (d) { renderOptions(d); });
           updateSpecs();
           resetFeedback();
         });
         row.appendChild(btn);
+      }
+      opts.forEach(function (val) {
+        addChip(val, !custom[dim] && val === current[dim], function () {
+          custom[dim] = false;
+          current[dim] = val;
+        });
       });
+      if (customInputs[dim]) {
+        addChip('Otro', !!custom[dim], function () {
+          custom[dim] = true;
+          setTimeout(function () { customInputs[dim].focus(); }, 0);
+        });
+        customInputs[dim].parentNode.style.display = custom[dim] ? '' : 'none';
+      }
     }
 
     selectorDims.forEach(function (dim) {
@@ -234,6 +264,24 @@
       row.className = 'chip-row';
       wrap.appendChild(label);
       wrap.appendChild(row);
+      if (customDims.indexOf(dim) !== -1) {
+        var box = document.createElement('label');
+        box.className = 'custom-dim';
+        box.style.display = 'none';
+        var input = document.createElement('input');
+        input.type = 'number';
+        input.min = '1';
+        input.step = 'any';
+        input.placeholder = 'Ej: ' + (dim === 'thickness' ? '65' : '120');
+        input.setAttribute('aria-label', DIM_LABELS[dim] + ' en ' + CUSTOM_UNITS[dim]);
+        input.addEventListener('input', function () { input.setCustomValidity(''); updateSpecs(); resetFeedback(); });
+        var unit = document.createElement('span');
+        unit.textContent = CUSTOM_UNITS[dim];
+        box.appendChild(input);
+        box.appendChild(unit);
+        wrap.appendChild(box);
+        customInputs[dim] = input;
+      }
       selectorsBox.appendChild(wrap);
       rowEls[dim] = row;
     });
@@ -241,14 +289,15 @@
 
     function updateSpecs() {
       specsUl.innerHTML = '';
+      var sel = selected();
       allDims.forEach(function (d) {
-        if (current[d]) {
+        if (sel[d]) {
           var li = document.createElement('li');
-          li.innerHTML = '<b>' + esc(DIM_LABELS[d]) + ':</b> ' + esc(current[d]);
+          li.innerHTML = '<b>' + esc(DIM_LABELS[d]) + ':</b> ' + esc(sel[d]) + (custom[d] ? ' (a pedido)' : '');
           specsUl.appendChild(li);
         }
       });
-      var variant = findVariant(current);
+      var variant = Object.keys(custom).some(function (d) { return custom[d]; }) ? null : findVariant(sel);
       if (variant && variant.specs && variant.specs.length) {
         var li2 = document.createElement('li');
         var html = '';
@@ -280,13 +329,20 @@
       var qtyInput = document.getElementById('qty-input');
       var qty = qtyInput ? parseInt(qtyInput.value, 10) : 1;
       if (isNaN(qty) || qty < 1) qty = 1;
+      var sel = selected();
+      var missing = allDims.filter(function (d) { return custom[d] && !sel[d]; })[0];
+      if (missing) {
+        customInputs[missing].setCustomValidity('Escribe la medida que necesitas');
+        customInputs[missing].reportValidity();
+        return;
+      }
       window.MuraliaCart.addItem({
         slug: product.slug,
         name: product.name,
-        thickness: current.thickness || null,
-        density: current.density || null,
-        finish: current.finish || null,
-        type: current.type || null,
+        thickness: sel.thickness || null,
+        density: sel.density || null,
+        finish: sel.finish || null,
+        type: sel.type || null,
         unit: product.unit || null,
         category: cat.name,
         qty: qty

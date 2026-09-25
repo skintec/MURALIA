@@ -311,14 +311,13 @@
               "thickness": "50 mm",
               "density": "140 kg/m³",
               "specs": []
-            },
-            {
-              "thickness": "80 mm",
-              "density": "80 kg/m³",
-              "specs": []
             }
           ],
-          "unit": "m²"
+          "unit": "m²",
+          "custom_dims": [
+            "thickness",
+            "density"
+          ]
         },
         {
           "slug": "frazada-lana-mineral",
@@ -336,20 +335,32 @@
               "lana mineral con malla en una cara"
             ],
             [
-              "Densidad",
-              "100 kg/m³"
-            ],
-            [
-              "Espesor",
-              "100 mm"
-            ],
-            [
               "Formatos disponibles",
               "panel 1,0 x 2,4 m, o rollo 3 x 0,6 m"
             ]
           ],
-          "variants": [],
-          "unit": "m²"
+          "variants": [
+            {
+              "thickness": "50 mm",
+              "density": "80 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "50 mm",
+              "density": "100 kg/m³",
+              "specs": []
+            },
+            {
+              "thickness": "100 mm",
+              "density": "100 kg/m³",
+              "specs": []
+            }
+          ],
+          "unit": "m²",
+          "custom_dims": [
+            "thickness",
+            "density"
+          ]
         },
         {
           "slug": "colchoneta-lana-mineral",
@@ -607,14 +618,14 @@
           "short": "Pasta para el tratamiento de juntas entre placas.",
           "desc": "Pasta usada para tratar y sellar las juntas entre placas de fibrosilicato, dejando una superficie continua lista para terminación.",
           "media": {
-            "type": "swatch",
-            "class": "swatch-board",
-            "label": "Pasta para juntas"
+            "type": "photo",
+            "src": "https://www.skintec.cl/media/k2/items/cache/e2acd849d365015ef08ef5b696dc9e31_XL.jpg",
+            "alt": "Promat pasta para juntas"
           },
           "base_specs": [
             [
               "Formato",
-              "saco de 25 kg"
+              "saco de 20 kg"
             ],
             [
               "Rendimiento aprox.",
@@ -631,8 +642,8 @@
           "desc": "Masilla flexible para sellar juntas de dilatación y pasadas de cañerías o cables, manteniendo la resistencia al fuego del elemento constructivo.",
           "media": {
             "type": "photo",
-            "src": "https://www.skintec.cl/media/k2/items/cache/5cf9cad94714c5577919c266171d935c_XL.jpg",
-            "alt": "Masilla cortafuego"
+            "src": "https://www.skintec.cl/media/k2/items/cache/471bd07fdaa7b040f7ab8b2a13f8f35b_XL.jpg",
+            "alt": "Masilla cortafuego en base silicona Promaseal"
           },
           "base_specs": [
             [
@@ -675,7 +686,7 @@
           "base_specs": [
             [
               "Formato",
-              "cinta flexible en rollo"
+              "cinta en tira"
             ],
             [
               "Instalación",
