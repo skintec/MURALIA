@@ -1009,16 +1009,8 @@ function generatePDF(color){
   if (sinPrecio.length && !confirm(sinPrecio.length + " línea(s) tienen precio $0. ¿Descargar de todos modos?")) return;
   if (!d.cliente.trim() && !confirm("No ingresaste el cliente. ¿Descargar de todos modos?")) return;
 
-  // Se arma la cotización en una sola página: si no cabe, se compacta de a poco (letra y espacios).
-  var r = null;
-  for (var lvl = 0; lvl <= PDF_MAX_LEVEL; lvl++){
-    r = buildPDF(color, d, lvl, false);
-    if (!r.overflow) break;
-  }
-  if (r.overflow){
-    r = buildPDF(color, d, PDF_MAX_LEVEL, true);
-    toast("Hay demasiados productos para una sola página: el PDF quedó de " + r.doc.getNumberOfPages() + " páginas.");
-  }
+  var r = makePDF(color, d);
+  if (r.pages > 1) toast("Hay demasiados productos para una sola página: el PDF quedó de " + r.pages + " páginas.");
 
   var safe = function(s){ return String(s||"").replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g," ").trim(); };
   var quien = [safe(d.cliente), safe(manaValue(d))].filter(Boolean).join(" ");
@@ -1026,8 +1018,25 @@ function generatePDF(color){
   r.doc.save(fname);
   return r.doc;
 }
-var PDF_MAX_LEVEL = 8;
-function buildPDF(color, d, lvl, allowPages){
+var PDF_MAX_LEVEL = 10;
+// Arma la cotización en una sola página: si no cabe se compacta de a poco (letra y espacios);
+// si sobra espacio (pocos productos) se reparte entre las secciones para que la hoja quede equilibrada.
+function makePDF(color, d){
+  var r = null, lvl;
+  for (lvl = 0; lvl <= PDF_MAX_LEVEL; lvl++){
+    r = buildPDF(color, d, lvl, false, 0);
+    if (!r.overflow) break;
+  }
+  if (r.overflow){
+    r = buildPDF(color, d, PDF_MAX_LEVEL, true, 0);
+  } else if (r.slack > 1){
+    r = buildPDF(color, d, lvl, false, Math.min(r.slack / PDF_FLEX_GAPS, 9));
+  }
+  r.lvl = lvl; r.pages = r.doc.getNumberOfPages();
+  return r;
+}
+var PDF_FLEX_GAPS = 4;
+function buildPDF(color, d, lvl, allowPages, extra){
   var jsPDF = window.jspdf.jsPDF;
   var doc = new jsPDF({unit:"mm", format:"letter"});
   var F = setupFonts(doc);
@@ -1036,101 +1045,125 @@ function buildPDF(color, d, lvl, allowPages){
   var M = 16, CW = W - M*2, FOOT = 16;
   var ink = color ? C.graphite : C.black;
   var accent = color ? C.clay : C.black;
+  var soft = color ? C.muted : [90,90,90];
+  var hair = color ? C.line : [185,185,185];
   var t = totals();
   var overflow = false;
+  extra = extra || 0;
+
+  /* Grilla: 12 columnas sobre el ancho útil. Las cajas y líneas van de borde a borde de
+     su columna y todo el texto entra P mm desde la línea de columna. */
+  var G = CW / 12, P = 4, GUT = 6;
+  var X = function(i){ return M + i * G; };
+  var RIGHT = W - M;
+  var SPLIT = X(7);                 // columna de totales / datos bancarios
+  var LEFT_W = SPLIT - GUT - M;     // ancho del bloque izquierdo (comentario / condiciones)
 
   // Escala según el nivel de compactación (0 = tamaño normal)
-  var k = 1 - lvl * 0.06;                        // 1 → 0,52
+  var k = 1 - lvl * 0.06;
   var sz = function(base, min){ return Math.max(base * k, min); };
   var S = {
-    tbl: sz(9, 6.4), det: sz(7.8, 5.8), pad: Math.max(2.6 * k * k, 0.7),
-    para: sz(7.8, 6.4), cmt: sz(8.2, 6.6), gap: Math.max(k, 0.55),
-    rowH: Math.max(11 * k, 8.6), val: sz(9.3, 7.6), sec: sz(14, 10.5)
+    tbl: sz(9, 6.4), det: sz(7.6, 5.8), pad: Math.max(3.4 * k * k, 0.8),
+    para: sz(7.8, 6.6), gap: Math.max(k, 0.55),
+    rowH: Math.max(11.5 * k, 9), val: sz(9.2, 7.8)
   };
+  var kk = Math.max(k, 0.7);             // espacios internos de bloques (se achican menos)
   var LH = function(size, f){ return size * 0.3528 * (f || 1.35); };
 
   function font(fam, style, size, rgb){ doc.setFont(fam, style||"normal"); doc.setFontSize(size); doc.setTextColor.apply(doc, rgb||ink); }
-  function label(txt, x, y, opts){ font(F.body, "bold", 6.6, color ? C.clayDark : C.black); doc.setCharSpace(0.35); doc.text(txt.toUpperCase(), x, y, opts||{}); doc.setCharSpace(0); }
+  function label(txt, x, y, opts){ font(F.body, "bold", 6.4, color ? C.clayDark : C.black); doc.setCharSpace(0.35); doc.text(txt.toUpperCase(), x, y, opts||{}); doc.setCharSpace(0); }
   function fit(txt, w){ var s = String(txt||"—"); if (doc.getTextWidth(s) <= w) return s; while (s.length > 1 && doc.getTextWidth(s + "…") > w) s = s.slice(0,-1); return s + "…"; }
+  function hline(x1, x2, yy, w, rgb){ doc.setDrawColor.apply(doc, rgb || hair); doc.setLineWidth(w || 0.2); doc.line(x1, yy, x2, yy); }
+  function display(txt, x, yy, size, rgb, opts){
+    font(F.display, "normal", F.hasBrand ? size : size * 0.72, rgb || ink); if (!F.hasBrand) doc.setFont(F.body, "bold");
+    doc.setCharSpace(F.hasBrand ? 0.4 : 0); doc.text(txt, x, yy, opts || {}); doc.setCharSpace(0);
+  }
 
   /* ---- Encabezado ---- */
   var logo = A.logoGraphite;
   if (logo) try{ doc.addImage(logo, "PNG", M, 12, 21, 21); }catch(e){}
-  var tx = M + 26;
+  var tx = X(2);
   font(F.body, "bold", 9, ink); doc.text("Aislación térmica, acústica", tx, 19);
   doc.text("y protección pasiva contra incendios", tx, 23.4);
-  font(F.body, "normal", 8, color ? C.muted : C.grey);
+  font(F.body, "normal", 7.8, soft);
   doc.text(EMPRESA.web + "   ·   " + EMPRESA.correo + "   ·   " + EMPRESA.telefono, tx, 29.5);
 
   font(F.display, "normal", F.hasBrand ? 34 : 22, accent);
   doc.setCharSpace(F.hasBrand ? 0.6 : 0);
-  doc.text("COTIZACIÓN", W - M, 23, {align:"right"});
+  doc.text("COTIZACIÓN", RIGHT, 23, {align:"right"});
   doc.setCharSpace(0);
-  font(F.body, "bold", 9.5, ink); doc.text("N° " + d.numero, W - M, 29.5, {align:"right"});
-  font(F.body, "normal", 8.5, color ? C.muted : C.grey); doc.text("Fecha " + d.fechaTxt, W - M, 34, {align:"right"});
+  font(F.body, "bold", 9.5, ink); doc.text("N° " + d.numero, RIGHT, 29.5, {align:"right"});
+  font(F.body, "normal", 8.2, soft); doc.text("Fecha " + d.fechaTxt, RIGHT, 33.8, {align:"right"});
 
-  // regla de marca: línea fina + tramo grueso terracota
-  doc.setDrawColor.apply(doc, ink); doc.setLineWidth(0.25); doc.line(M, 39, W - M, 39);
-  doc.setFillColor.apply(doc, accent); doc.rect(M, 38.1, 34, 1.8, "F");
+  // regla de marca: línea fina + tramo grueso terracota (mide 2 columnas)
+  hline(M, RIGHT, 39, 0.25, ink);
+  doc.setFillColor.apply(doc, accent); doc.rect(M, 38.1, 2 * G, 1.8, "F");
 
-  /* ---- Datos del cliente ---- */
-  var y = 44;
+  /* ---- Datos del cliente: columnas 0-5 · 5-7 · 7-12 ---- */
+  var y = 45 + extra * 0.4;
+  var cols = [X(0), X(5), X(7)], colR = [X(5), X(7), RIGHT];
   var rows = [
     [["Cliente / razón social", d.cliente], ["RUT", d.rut], ["Atención", d.atencion]],
     [["Correo", d.correo], ["Teléfono", d.telefono], ["Despacho", d.direccion]],
-    [["Vendedor", d.vendedor], ["Validez de cotización", d.validez]]
+    [["Vendedor", d.vendedor], null, ["Validez de cotización", d.validez]]
   ];
-  var colW = [CW*0.42, CW*0.25, CW*0.33], rowH = S.rowH, boxH = rows.length*rowH + 3;
+  var rowH = S.rowH, boxH = rows.length * rowH + 2;
   if (color){ doc.setFillColor.apply(doc, C.plaster); doc.rect(M, y, CW, boxH, "F"); }
   else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.2); doc.rect(M, y, CW, boxH); }
   rows.forEach(function(r, ri){
-    var cx = M + 5;
+    var cy = y + 5.6 + ri * rowH;
+    if (ri > 0) hline(M + P, RIGHT - P, y + 1 + ri * rowH, 0.15, color ? [224,213,195] : [200,200,200]);
     r.forEach(function(cell, ci){
-      var cy = y + 5.4 + ri*rowH;
-      label(cell[0], cx, cy);
-      font(F.body, ci === 0 && ri === 0 ? "bold" : "normal", S.val, ink);
-      doc.text(fit(cell[1] && String(cell[1]).trim() ? cell[1] : "—", colW[ci] - 8), cx, cy + S.val * 0.3528 + 1.3);
-      cx += colW[ci];
+      if (!cell) return;
+      label(cell[0], cols[ci] + P, cy);
+      // si el dato no cabe en su columna se achica la letra antes de cortarlo
+      var val = cell[1] && String(cell[1]).trim() ? String(cell[1]).trim() : "—", wCol = colR[ci] - cols[ci] - 2*P, vs = S.val;
+      font(F.body, ci === 0 && ri === 0 ? "bold" : "normal", vs, ink);
+      while (vs > 7.4 && doc.getTextWidth(val) > wCol){ vs -= 0.2; doc.setFontSize(vs); }
+      doc.text(fit(val, wCol), cols[ci] + P, cy + S.val * 0.3528 + 1.5);
     });
   });
-  y += boxH + 6 * S.gap;
+  y += boxH + 7 * S.gap + extra;
 
-  /* ---- Tabla de productos (solo precio final) ---- */
-  var body = items.map(function(it, i){
+  /* ---- Tabla de productos: Producto 0-5 · Cantidad 5-7 · Precio 7-9,5 · Total 9,5-12 ---- */
+  var body = items.map(function(it){
     var det = [it.variante, it.formato].filter(function(s){ return s && s !== "-"; }).join("  ·  ");
-    return [String(i+1).padStart(2,"0"), {content: it.producto + (det ? "\n" + det : ""), det: !!det},
-            String(Number(it.cantidad)||0).replace(".",","), it.unidad, fmtCLP(finalPrice(it)), fmtCLP(lineTotal(it))];
+    return [{content: it.producto + (det ? "\n" + det : ""), det: !!det},
+            fmtNum(Number(it.cantidad)||0) + " " + (it.unidad === "unidad" && Number(it.cantidad) !== 1 ? "unidades" : (it.unidad || "")), fmtCLP(finalPrice(it)), fmtCLP(lineTotal(it))];
   });
-  var PROD_W = CW - (10 + 15 + 17 + 27 + 29);
+  var PROD_W = 5 * G;
   function drawRunningHeader(){
     if (logo) try{ doc.addImage(logo, "PNG", M, 10, 10, 10); }catch(e){}
-    font(F.display, "normal", F.hasBrand ? 16 : 12, accent); doc.text("COTIZACIÓN N° " + d.numero, W - M, 17, {align:"right"});
-    doc.setDrawColor.apply(doc, ink); doc.setLineWidth(0.25); doc.line(M, 23, W - M, 23);
+    font(F.display, "normal", F.hasBrand ? 16 : 12, accent); doc.text("COTIZACIÓN N° " + d.numero, RIGHT, 17, {align:"right"});
+    hline(M, RIGHT, 23, 0.25, ink);
   }
-  var lhN = LH(S.tbl, 1.15), lhD = LH(S.det, 1.2);
+  var lhN = LH(S.tbl, 1.15), lhD = LH(S.det, 1.25);
+  var cellPad = {top: S.pad, bottom: S.pad, left: P, right: P};
+  var headPad = {top: 2.4 * kk, bottom: 2.4 * kk, left: P, right: P};
   doc.autoTable({
     startY: y,
-    head: [["#", "Producto", "Cant.", "Unidad", "Precio unit.", "Total"]],
+    head: [["Producto", "Cantidad", "Precio unit.", "Total"]],
     body: body,
     theme: "plain",
     margin: {left: M, right: M, top: 28, bottom: FOOT + 6},
-    styles: {font: F.body, fontSize: S.tbl, textColor: ink, cellPadding: {top: S.pad, bottom: S.pad, left: 2.4, right: 2.4}, valign: "middle", lineColor: color ? C.line : [190,190,190], lineWidth: {bottom: 0.2}},
+    styles: {font: F.body, fontSize: S.tbl, textColor: ink, cellPadding: cellPad, valign: "middle", lineColor: hair, lineWidth: {bottom: 0.2}},
     headStyles: color
-      ? {fillColor: C.graphite, textColor: C.paper, font: F.body, fontStyle: "bold", fontSize: 7.4, lineWidth: 0, cellPadding: {top: Math.max(S.pad, 1.6), bottom: Math.max(S.pad, 1.6), left: 2.4, right: 2.4}}
-      : {fillColor: false, textColor: C.black, font: F.body, fontStyle: "bold", fontSize: 7.4, lineWidth: {top: 0.4, bottom: 0.4}, lineColor: C.black, cellPadding: {top: Math.max(S.pad, 1.6), bottom: Math.max(S.pad, 1.6), left: 2.4, right: 2.4}},
+      ? {fillColor: C.graphite, textColor: C.paper, font: F.body, fontStyle: "bold", fontSize: 7, lineWidth: 0, cellPadding: headPad}
+      : {fillColor: false, textColor: C.black, font: F.body, fontStyle: "bold", fontSize: 7, lineWidth: {top: 0.4, bottom: 0.4}, lineColor: C.black, cellPadding: headPad},
     alternateRowStyles: color ? {fillColor: C.plasterSoft} : {},
     columnStyles: {
-      0: {cellWidth: 10, halign: "center", textColor: color ? C.clayDark : C.black, fontStyle: "bold"},
-      1: {cellWidth: PROD_W},
-      2: {cellWidth: 15, halign: "center"},
-      3: {cellWidth: 17, halign: "center"},
-      4: {cellWidth: 27, halign: "right"},
-      5: {cellWidth: 29, halign: "right", fontStyle: "bold"}
+      0: {cellWidth: PROD_W},
+      1: {cellWidth: 2 * G},
+      2: {cellWidth: 2.5 * G, halign: "right"},
+      3: {cellWidth: 2.5 * G, halign: "right", fontStyle: "bold"}
     },
     didParseCell: function(data){
-      if (data.section === "head"){ data.cell.text = data.cell.text.map(function(s){ return s.toUpperCase(); }); if (data.column.index >= 4) data.cell.styles.halign = "right"; if (data.column.index === 2 || data.column.index === 3) data.cell.styles.halign = "center"; }
-      if (data.section === "body" && data.column.index === 1 && data.cell.raw && data.cell.raw.det){
-        var wAvail = PROD_W - 4.8, parts = String(data.cell.raw.content).split("\n");
+      if (data.section === "head"){
+        data.cell.text = data.cell.text.map(function(s){ return s.toUpperCase(); });
+        data.cell.styles.halign = data.column.index >= 2 ? "right" : "left";
+      }
+      if (data.section === "body" && data.column.index === 0 && data.cell.raw && data.cell.raw.det){
+        var wAvail = PROD_W - 2 * P, parts = String(data.cell.raw.content).split("\n");
         doc.setFont(F.body, "bold"); doc.setFontSize(S.tbl);
         var nl = doc.splitTextToSize(parts[0], wAvail);
         doc.setFont(F.body, "normal"); doc.setFontSize(S.det);
@@ -1146,130 +1179,116 @@ function buildPDF(color, d, lvl, allowPages){
         }
         // altura exacta de nombre + detalle; el texto se dibuja a mano en didDrawCell
         data.cell.text = [" "];
-        data.cell.styles.minCellHeight = nl.length * lhN + dl.length * lhD + 0.3 + 2 * S.pad;
+        data.cell.styles.minCellHeight = nl.length * lhN + dl.length * lhD + 0.6 + 2 * S.pad;
+      } else if (data.section === "body" && data.column.index === 0){
+        data.cell.styles.fontStyle = "bold";
       }
     },
     didDrawCell: function(data){
       if (!data.cell._name) return;
-      var x = data.cell.x + data.cell.padding("left");
+      var x = data.cell.x + P;
       if (data.cell._inline !== false){
         var yi = data.cell.y + data.cell.height/2 + lhN*0.3;
         font(F.body, "bold", S.tbl, ink); doc.text(data.cell._name[0], x, yi);
-        font(F.body, "normal", S.det, color ? C.muted : [90,90,90]); doc.text(data.cell._det.join(" "), x + data.cell._inline, yi);
+        font(F.body, "normal", S.det, soft); doc.text(data.cell._det.join(" "), x + data.cell._inline, yi);
         return;
       }
-      var h = data.cell._name.length * lhN + data.cell._det.length * lhD;
-      var yy = data.cell.y + (data.cell.height - h)/2 + lhN*0.75;
+      var h = data.cell._name.length * lhN + data.cell._det.length * lhD + 0.6;
+      var yy = data.cell.y + (data.cell.height - h)/2 + lhN*0.78;
       font(F.body, "bold", S.tbl, ink);
       data.cell._name.forEach(function(l){ doc.text(l, x, yy); yy += lhN; });
-      yy += 0.3;
-      font(F.body, "normal", S.det, color ? C.muted : [90,90,90]);
+      yy += 0.6;
+      font(F.body, "normal", S.det, soft);
       data.cell._det.forEach(function(l){ doc.text(l, x, yy); yy += lhD; });
     },
     didDrawPage: function(data){ if (data.pageNumber > 1) drawRunningHeader(); }
   });
   if (doc.getNumberOfPages() > 1) overflow = true;
-  y = doc.lastAutoTable.finalY + 5 * S.gap;
+  y = doc.lastAutoTable.finalY + 6 * S.gap + extra * 0.6;
 
-  var LIMIT = H - FOOT - 5;
+  var LIMIT = H - FOOT - 8;
   function ensure(h){
     if (y + h <= LIMIT) return;
     if (allowPages){ doc.addPage(); drawRunningHeader(); y = 30; }
     else overflow = true;
   }
 
-  /* ---- Comentario + totales (lado a lado) ---- */
-  var totW = 78, gap = 8, leftW = CW - totW - gap;
+  /* ---- Comentario (columnas 0-7) + totales (columnas 7-12), misma altura ---- */
   var resumen = $("f-resumen").checked ? autoResumen() : "";
   var comment = [resumen, (d.comentario||"").trim()].filter(Boolean).join("\n");
-  font(F.body, "normal", S.cmt, ink);
-  var cLines = comment ? doc.splitTextToSize(comment, leftW - 12) : [];
-  var cLH = LH(S.cmt, 1.3);
-  var cH = comment ? 10.5 + cLines.length * cLH : 0;
-  var totH = 26;
-  ensure(Math.max(cH, totH));
+  font(F.body, "normal", S.para, ink);
+  var cLines = comment ? doc.splitTextToSize(comment, LEFT_W - 2*P - 1.5) : [];
+  var cLH = LH(S.para, 1.4);
+  var totRow = 7 * kk, barH = 12 * Math.max(k, 0.8), totH = 2 * totRow + 1.5 + barH;
+  var cH = comment ? Math.max(9.5 + cLines.length * cLH + 1.5, totH) : 0;
+  var blockH = Math.max(cH, totH);
+  ensure(blockH);
 
-  var tx0 = W - M - totW;
-  font(F.body, "normal", 9, ink);
-  doc.text("Total neto", tx0 + 4, y + 4.6);  doc.text(fmtCLP(t.neto), W - M - 4, y + 4.6, {align:"right"});
-  doc.text("IVA 19%", tx0 + 4, y + 10);      doc.text(fmtCLP(t.iva), W - M - 4, y + 10, {align:"right"});
-  doc.setDrawColor.apply(doc, color ? C.line : C.black); doc.setLineWidth(0.2); doc.line(tx0, y + 12.8, W - M, y + 12.8);
-  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(tx0, y + 14.5, totW, 11.5, "F"); }
-  else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.5); doc.rect(tx0, y + 14.5, totW, 11.5); }
-  font(F.display, "normal", F.hasBrand ? 15 : 11, color ? C.paper : C.black);
-  if (!F.hasBrand) doc.setFont(F.body, "bold");
-  doc.setCharSpace(F.hasBrand ? 0.5 : 0); doc.text("TOTAL", tx0 + 4, y + 22.4); doc.setCharSpace(0);
-  font(F.display, "normal", F.hasBrand ? 18 : 12, color ? C.paper : C.black);
-  if (!F.hasBrand) doc.setFont(F.body, "bold");
-  doc.text(fmtCLP(t.total), W - M - 4, y + 22.8, {align:"right"});
+  font(F.body, "normal", 8.6, ink);
+  var tb = totRow / 2 + 1.3;
+  doc.text("Total neto", SPLIT + P, y + tb);  doc.text(fmtCLP(t.neto), RIGHT - P, y + tb, {align:"right"});
+  hline(SPLIT, RIGHT, y + totRow);
+  doc.text("IVA 19%", SPLIT + P, y + totRow + tb); doc.text(fmtCLP(t.iva), RIGHT - P, y + totRow + tb, {align:"right"});
+  var by = y + blockH - barH;
+  hline(SPLIT, RIGHT, y + 2*totRow);
+  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(SPLIT, by, RIGHT - SPLIT, barH, "F"); }
+  else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.5); doc.rect(SPLIT, by, RIGHT - SPLIT, barH); }
+  display("TOTAL", SPLIT + P, by + barH/2 + 2.2, 15, color ? C.paper : C.black);
+  display(fmtCLP(t.total), RIGHT - P, by + barH/2 + 2.6, 18, color ? C.paper : C.black, {align:"right"});
 
   if (comment){
-    if (color){ doc.setFillColor.apply(doc, C.plasterSoft); doc.rect(M, y, leftW, cH, "F"); doc.setFillColor.apply(doc, C.clay); doc.rect(M, y, 1.4, cH, "F"); }
-    else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.2); doc.rect(M, y, leftW, cH); doc.setLineWidth(0.8); doc.line(M, y, M, y + cH); }
-    label("Comentario", M + 6, y + 5.6);
-    font(F.body, "normal", S.cmt, ink);
-    doc.text(cLines, M + 6, y + 10.2, {lineHeightFactor: 1.3});
-  }
-  y += Math.max(cH, totH) + 8 * S.gap;
-
-  function sectionTitle(txt){
-    font(F.display, "normal", F.hasBrand ? S.sec : S.sec * 0.75, ink); if (!F.hasBrand) doc.setFont(F.body, "bold");
-    doc.setCharSpace(F.hasBrand ? 0.4 : 0); doc.text(txt, M, y); doc.setCharSpace(0);
-    doc.setFillColor.apply(doc, accent); doc.rect(M, y + 1.8, 16, 0.9, "F");
-    y += 5 + 2.5 * S.gap;
-  }
-  var pLH = LH(S.para), pGap = 1.6 * S.gap;
-
-  /* ---- Condiciones comerciales ---- */
-  var conds = [["Plazo de entrega", d.plazo], ["Lugar de entrega", d.lugar], ["Condiciones de pago", d.pago], ["Validez de cotización", d.validez]]
-    .filter(function(c){ return c[1] && String(c[1]).trim(); });
-  if (conds.length){
+    if (color){ doc.setFillColor.apply(doc, C.plasterSoft); doc.rect(M, y, LEFT_W, blockH, "F"); doc.setFillColor.apply(doc, C.clay); doc.rect(M, y, 1.2, blockH, "F"); }
+    else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.2); doc.rect(M, y, LEFT_W, blockH); doc.setLineWidth(0.8); doc.line(M, y, M, y + blockH); }
+    label("Comentario", M + P, y + 5.4);
     font(F.body, "normal", S.para, ink);
-    var condBlocks = conds.map(function(c){ return doc.splitTextToSize(String(c[1]), CW - 46); });
-    ensure(5 + 2.5 * S.gap + condBlocks.reduce(function(a,b){ return a + b.length*pLH + pGap; }, 0));
-    sectionTitle("CONDICIONES COMERCIALES");
-    conds.forEach(function(c, i){
-      label(c[0], M, y + 0.2);
-      font(F.body, "normal", S.para, ink);
-      doc.text(condBlocks[i], M + 42, y + 0.2, {lineHeightFactor: 1.35});
-      y += condBlocks[i].length * pLH + pGap;
-    });
-    y += 4 * S.gap;
+    doc.text(cLines, M + P, y + 10.4, {lineHeightFactor: 1.4});
   }
+  y += blockH + 10 * S.gap + extra;
 
-  // Datos bancarios en dos columnas para no alargar la cotización
-  (function(){
-    var rows = DATOS_BANCARIOS.filter(function(c){ return c[1] && String(c[1]).trim(); });
-    if (!rows.length) return;
-    var colX = [M, M + CW*0.6], colW = [CW*0.6, CW*0.4], lblW = 25;
+  /* ---- Condiciones (columnas 0-7) y datos bancarios (columnas 7-12), lado a lado ----
+     Cada fila: etiqueta arriba, valor abajo y una línea fina debajo, como en la tabla. */
+  function stackRows(list, w){
     font(F.body, "normal", S.para, ink);
-    var cells = rows.map(function(c, i){ return {k: c[0], v: doc.splitTextToSize(String(c[1]), colW[i % 2] - lblW - 4)}; });
-    var lines = [];
-    for (var i = 0; i < cells.length; i += 2){
-      lines.push(Math.max(cells[i].v.length, cells[i+1] ? cells[i+1].v.length : 1) * pLH + pGap);
-    }
-    ensure(5 + 2.5 * S.gap + lines.reduce(function(a,b){ return a + b; }, 0));
-    sectionTitle("DATOS BANCARIOS");
-    cells.forEach(function(c, i){
-      var x = colX[i % 2];
-      label(c.k, x, y + 0.2);
-      font(F.body, "normal", S.para, ink);
-      doc.text(c.v, x + lblW, y + 0.2, {lineHeightFactor: 1.35});
-      if (i % 2 === 1 || i === cells.length - 1) y += lines[Math.floor(i / 2)];
+    return list.map(function(c){ var v = doc.splitTextToSize(String(c[1]), w - 2*P); return {k: c[0], v: v, h: 3.6 * kk + v.length * LH(S.para) + 2.4 * kk}; });
+  }
+  var conds = stackRows([["Plazo de entrega", d.plazo], ["Lugar de entrega", d.lugar], ["Condiciones de pago", d.pago], ["Validez de cotización", d.validez]]
+    .filter(function(c){ return c[1] && String(c[1]).trim(); }), LEFT_W);
+  var bank = stackRows(DATOS_BANCARIOS.filter(function(c){ return c[1] && String(c[1]).trim(); }), RIGHT - SPLIT);
+  // filas emparejadas: la fila i de ambas columnas tiene la misma altura
+  var nRows = Math.max(conds.length, bank.length), rowHs = [];
+  for (var i = 0; i < nRows; i++) rowHs.push(Math.max(conds[i] ? conds[i].h : 0, bank[i] ? bank[i].h : 0));
+  var headH = 8.5 * kk;
+  var lowH = headH + rowHs.reduce(function(a,b){ return a + b; }, 0);
+  if (nRows){
+    ensure(lowH);
+    [[conds, M, SPLIT - GUT, "CONDICIONES COMERCIALES"], [bank, SPLIT, RIGHT, "DATOS BANCARIOS"]].forEach(function(sec){
+      var list = sec[0], x0 = sec[1], x1 = sec[2];
+      if (!list.length) return;
+      display(sec[3], x0 + P, y + 4.2, 13);
+      hline(x0, x1, y + 6.6, 0.25, ink);
+      doc.setFillColor.apply(doc, accent); doc.rect(x0, y + 5.9, G, 1.4, "F");
+      var yy = y + headH;
+      list.forEach(function(row, ri){
+        label(row.k, x0 + P, yy + 3.6 * kk);
+        font(F.body, "normal", S.para, ink);
+        doc.text(row.v, x0 + P, yy + 3.6 * kk + LH(S.para) + 0.2, {lineHeightFactor: 1.35});
+        yy += rowHs[ri];
+        if (ri < list.length - 1) hline(x0, x1, yy - 0.8);
+      });
     });
-    y += 4 * S.gap;
-  })();
+    y += lowH + 9 * S.gap + extra;
+  }
 
   /* ---- Cierre / firma ---- */
-  ensure(6 + 7 * S.gap + 6);
-  font(F.body, "normal", S.para, ink);
-  doc.text("Quedamos atentos a sus comentarios. Saluda atentamente,", M, y);
-  y += 7 * S.gap;
-  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(M, y - 3, 1.2, 9.5, "F"); }
-  var sx = M + (color ? 4 : 0);
-  font(F.body, "bold", 9.4, ink); doc.text((d.vendedor||"").trim() || "Equipo Muralia", sx, y);
-  font(F.body, "normal", sz(7.8, 6.8), color ? C.muted : C.grey);
-  doc.text("Muralia  ·  " + EMPRESA.correo + "  ·  WhatsApp " + EMPRESA.telefono, sx, y + 4.6);
+  ensure(15);
+  font(F.body, "normal", S.para, soft);
+  doc.text("Quedamos atentos a sus comentarios. Saluda atentamente,", M + P, y);
+  y += 7 * kk;
+  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(M, y - 3.4, 1.2, 9, "F"); }
+  font(F.body, "bold", 9.4, ink); doc.text((d.vendedor||"").trim() || "Equipo Muralia", M + P, y);
+  font(F.body, "normal", S.para, soft);
+  doc.text("Muralia  ·  " + EMPRESA.correo + "  ·  WhatsApp " + EMPRESA.telefono, M + P, y + 4.4);
+  y += 6;
 
   /* ---- Pie de página en todas las páginas ---- */
   var pages = doc.getNumberOfPages();
@@ -1284,19 +1303,19 @@ function buildPDF(color, d, lvl, allowPages){
       doc.setCharSpace(F.hasBrand ? 1 : 0); doc.text("MURALIA", M + 11, fy + 9.9); doc.setCharSpace(0);
       font(F.body, "normal", 7.4, C.footTxt);
     } else {
-      doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.25); doc.line(M, fy + 2, W - M, fy + 2);
+      hline(M, RIGHT, fy + 2, 0.25, C.black);
       font(F.body, "bold", 8, C.black); doc.text("MURALIA", M, fy + 8.5);
       font(F.body, "normal", 7.4, [90,90,90]);
     }
     doc.text(EMPRESA.web + "   ·   " + EMPRESA.correo + "   ·   " + EMPRESA.telefono, W/2 + 6, fy + (color ? 9.6 : 8.5), {align:"center"});
-    if (pages > 1) doc.text("Pág. " + p + " de " + pages, W - M, fy + (color ? 9.6 : 8.5), {align:"right"});
+    if (pages > 1) doc.text("Pág. " + p + " de " + pages, RIGHT, fy + (color ? 9.6 : 8.5), {align:"right"});
   }
   if (pages > 1 && !allowPages) overflow = true;
-  return {doc: doc, overflow: overflow};
+  return {doc: doc, overflow: overflow, slack: Math.max(0, LIMIT - y)};
 }
 $("btn-pdf-color").addEventListener("click", function(){ generatePDF(true); });
 $("btn-pdf-print").addEventListener("click", function(){ generatePDF(false); });
-window.__muralia = {generatePDF: generatePDF, buildPDF: buildPDF, formData: formData, autoResumen: autoResumen, parseMail: parseMail, importMail: importMail, items: function(){ return items; }};
+window.__muralia = {generatePDF: generatePDF, buildPDF: buildPDF, pdfFor: function(color){ var r = makePDF(color, formData()); return {lvl: r.lvl, pages: r.pages, data: r.doc.output("datauristring")}; }, formData: formData, autoResumen: autoResumen, parseMail: parseMail, importMail: importMail, items: function(){ return items; }};
 
 /* ============================================================
    INICIO
