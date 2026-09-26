@@ -119,7 +119,7 @@
   .toolbar .note{font-size:12.5px;color:var(--muted);max-width:56ch;}
   .toolbar .note b{color:var(--graphite);}
   .table-scroll{overflow-x:auto;}
-  table.lines{width:100%;min-width:1060px;border-collapse:collapse;font-size:13.5px;}
+  table.lines{width:100%;min-width:1080px;border-collapse:collapse;font-size:13.5px;}
   table.lines thead th{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--paper);background:var(--graphite);padding:10px 8px;white-space:nowrap;}
   table.lines thead th.num{text-align:right;}
   table.lines tbody td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
@@ -131,6 +131,9 @@
   table.lines .base-cell{color:var(--muted);}
   .sub-hint{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35;}
   .badge-warn{display:table;margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;background:var(--clay);color:var(--paper);padding:2px 6px;margin-top:5px;}
+  .auto-resumen{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--plaster);border-left:3px solid var(--clay);padding:10px 14px;margin-bottom:14px;font-size:var(--fs-meta);}
+  .auto-resumen b{color:var(--graphite);}
+  .auto-resumen .check-row{margin:0;}
   .remove-btn{background:none;border:none;color:var(--clay-dark);font-weight:700;cursor:pointer;font-size:17px;line-height:1;padding:8px 6px;}
   .remove-btn:hover{color:var(--clay);}
   .lines-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
@@ -243,7 +246,7 @@
           <div><label for="f-numero">N° cotización</label><input type="text" id="f-numero"></div>
           <div><label for="f-fecha">Fecha</label><input type="date" id="f-fecha"></div>
           <div><label for="f-vendedor">Vendedor</label><input type="text" id="f-vendedor" list="vendedores" placeholder="Nombre del vendedor"><datalist id="vendedores"><option value="Vittorio Molin"><option value="M. Javiera Molin"></datalist></div>
-          <div><label for="f-validez">Validez</label><input type="text" id="f-validez"></div>
+          <div><label for="f-validez">Validez de cotización</label><input type="text" id="f-validez"></div>
           <div class="span-2"><label for="f-cliente">Cliente / razón social</label><input type="text" id="f-cliente" placeholder="Ej: Constructora Ejemplo Ltda."></div>
           <div><label for="f-mana">Maña</label><select id="f-mana"><option value="">—</option><option>PFS</option><option>PVN</option><option>PB</option><option>CI</option><option>BA</option><option>PYC</option><option>PCL</option><option>LM</option><option>PLM</option><option>FLM</option><option>CLM</option><option value="Otro">Otro</option></select><input type="text" id="f-manaotro" placeholder="Escribe la maña" style="display:none;margin-top:6px;"></div>
           <div><label for="f-rut">RUT</label><input type="text" id="f-rut" placeholder="76.123.456-7"></div>
@@ -267,20 +270,21 @@
             <div><label for="f-recargo">% recargo</label><input type="number" id="f-recargo" min="0" step="0.5"></div>
             <button class="btn btn-outline btn-sm" type="button" id="btn-apply-all">Aplicar a todas</button>
           </div>
-          <p class="note">El % por defecto se usa en cada línea nueva y queda guardado en este navegador. Las líneas marcadas <b>sin precio</b> no tienen precio base en el catálogo: escríbelo directamente en la línea.</p>
+          <p class="note">Elige primero la categoría de cada línea: los tres grupos del catálogo, <b>Despacho</b> u <b>Otro</b> (escribes el producto a mano). El % por defecto se usa en cada línea nueva y queda guardado en este navegador. Las líneas marcadas <b>sin precio</b> no tienen precio base en el catálogo: escríbelo directamente en la línea.</p>
         </div>
         <div class="table-scroll">
           <table class="lines">
             <thead>
               <tr>
-                <th style="width:26%">Producto</th>
-                <th style="width:19%">Variante</th>
-                <th style="width:7%">Unidad</th>
-                <th class="num" style="width:10%">Precio base</th>
+                <th style="width:13%">Categoría</th>
+                <th style="width:19%">Producto</th>
+                <th style="width:15%">Variante</th>
+                <th style="width:7%">Cantidad</th>
+                <th style="width:9%">Unidad</th>
+                <th class="num" style="width:9%">Precio base</th>
                 <th style="width:7%">% rec.</th>
-                <th class="num" style="width:9%">Precio final</th>
-                <th style="width:8%">Cantidad</th>
-                <th class="num" style="width:10%">Total</th>
+                <th class="num" style="width:8%">Precio final</th>
+                <th class="num" style="width:9%">Total</th>
                 <th style="width:3%"></th>
               </tr>
             </thead>
@@ -302,10 +306,14 @@
     <!-- 3 · COMENTARIO -->
     <div class="card">
       <div class="card-head">
-        <div><span class="kicker">Paso 3</span><h2>Comentario del vendedor</h2></div>
-        <p class="head-note">Aparece destacado en el PDF, junto a los totales. Úsalo para recomendaciones técnicas, alternativas o aclaraciones. Déjalo vacío si no aplica.</p>
+        <div><span class="kicker">Paso 3</span><h2>Comentario</h2></div>
+        <p class="head-note">Aparece destacado en el PDF, junto a los totales. El resumen de m² y bultos se calcula solo a partir de los productos. Úsalo para recomendaciones técnicas, alternativas o aclaraciones. Déjalo vacío si no aplica.</p>
       </div>
       <div class="card-body">
+        <div class="auto-resumen">
+          <span>Resumen automático: <b id="auto-resumen-txt">—</b></span>
+          <label class="check-row"><input type="checkbox" id="f-resumen" checked> Incluir en el comentario del PDF</label>
+        </div>
         <label for="f-comentario">Comentario</label>
         <textarea id="f-comentario" placeholder="Ej: Para el muro cortafuego recomendamos placa de 12 mm por cara. El despacho se coordina 24 h antes."></textarea>
       </div>
@@ -525,6 +533,11 @@ function productsList(){ // [{cat, slug, producto}] únicos, en orden
   CATALOG.forEach(function(c){ if(!seen[c.slug]){ seen[c.slug]=1; out.push({cat:c.cat, slug:c.slug, producto:c.producto}); } });
   return out;
 }
+// Categoría previa de cada línea: los tres grupos del catálogo + Despacho + Otro (texto libre)
+var GROUPS = [];
+CATALOG.forEach(function(c){ if (GROUPS.indexOf(c.cat) < 0) GROUPS.push(c.cat); });
+var G_DESPACHO = "Despacho", G_OTRO = "Otro";
+var ALL_GROUPS = GROUPS.concat([G_DESPACHO, G_OTRO]);
 function variantsOf(slug){ return CATALOG.filter(function(c){ return c.slug === slug; }); }
 function variantLabel(c){ return c.variante || "Única"; }
 
@@ -575,7 +588,7 @@ var recargoDefault = Number(lsGet(LS_RECARGO) || DEFAULTS.recargo);
 
 function newItem(opts){
   opts = opts || {};
-  var it = { uid: uidSeq++, custom: !!opts.custom, catId: "", slug: "", producto: "", variante: "", formato: "", unidad: "unidad",
+  var it = { uid: uidSeq++, custom: !!opts.custom, grupo: G_OTRO, catId: "", slug: "", producto: "", variante: "", formato: "", unidad: "unidad",
              precioBase: 0, recargo: recargoDefault, cantidad: 1 };
   if (!it.custom){
     var c = opts.catId ? byId[opts.catId] : CATALOG[0];
@@ -586,8 +599,54 @@ function newItem(opts){
 }
 function setFromCatalog(it, c){
   if (!c) return;
-  it.catId = c.id; it.slug = c.slug; it.producto = c.producto; it.variante = c.variante;
+  it.grupo = c.cat; it.catId = c.id; it.slug = c.slug; it.producto = c.producto; it.variante = c.variante;
   it.formato = c.formato; it.unidad = c.unidad; it.precioBase = c.precioBase;
+}
+function setGroup(it, g){
+  it.note = "";
+  if (GROUPS.indexOf(g) >= 0){
+    var first = productsList().filter(function(p){ return p.cat === g; })[0];
+    it.custom = false; setFromCatalog(it, variantsOf(first.slug)[0]);
+    return;
+  }
+  it.custom = true; it.grupo = g; it.catId = ""; it.slug = ""; it.formato = ""; it.precioBase = 0;
+  it.producto = g === G_DESPACHO ? "Despacho" : ""; it.variante = ""; it.unidad = "unidad";
+  if (g === G_DESPACHO) it.cantidad = 1;
+}
+function groupOf(it){
+  if (it.grupo && ALL_GROUPS.indexOf(it.grupo) >= 0) return it.grupo;
+  return it.custom ? G_OTRO : ((byId[it.catId]||{}).cat || G_OTRO);
+}
+
+/* ---------- Resumen automático: m² y bultos ---------- */
+// Superficie de un bulto según el formato: "rollo de 14,4 m²", "caja de 2,196 m²", "1200 x 2400 mm", "0,6 x 1,2 m".
+function areaPorBulto(formato){
+  var f = String(formato||"");
+  var m = f.match(/de\s+([\d.,]+)\s*m²/i);
+  if (m) return num(m[1]);
+  m = f.match(/([\d.,]+)\s*(mm|m)?\s*x\s*([\d.,]+)\s*(mm|m)\b/i);
+  if (m){
+    var k = (m[2] || m[4]).toLowerCase() === "mm" ? 1000 : 1;
+    return (num(m[1]) / k) * (num(m[3]) / k);
+  }
+  return 0;
+}
+var UNIDADES_SIN_BULTO = ["m","ml","kg","gl"];
+function lineMetrics(it){
+  var q = Number(it.cantidad) || 0, u = norm(it.unidad), area = areaPorBulto(it.formato);
+  if (groupOf(it) === G_DESPACHO || q <= 0) return {m2: 0, bultos: 0};
+  if (u === "m2") return {m2: q, bultos: area > 0 ? Math.ceil(q / area - 1e-9) : 0};
+  if (UNIDADES_SIN_BULTO.indexOf(u) >= 0) return {m2: 0, bultos: 0};
+  return {m2: area > 0 ? q * area : 0, bultos: q};
+}
+function fmtNum(n){ return (Math.round(n*100)/100).toLocaleString("es-CL", {maximumFractionDigits: 2}); }
+function autoResumen(){
+  var m2 = 0, bultos = 0;
+  items.forEach(function(it){ var r = lineMetrics(it); m2 += r.m2; bultos += r.bultos; });
+  var parts = [];
+  if (m2 > 0) parts.push(fmtNum(m2) + " m²");
+  if (bultos > 0) parts.push(fmtNum(bultos) + (bultos === 1 ? " bulto" : " bultos"));
+  return parts.length ? "Total cotizado: " + parts.join(" y ") + "." : "";
 }
 function finalPrice(it){ return Math.round((Number(it.precioBase)||0) * (1 + (Number(it.recargo)||0)/100)); }
 function lineTotal(it){ return finalPrice(it) * (Number(it.cantidad)||0); }
@@ -598,13 +657,13 @@ function totals(){
 }
 
 /* ---------- Render de líneas ---------- */
-function productOptions(selSlug){
-  var html = "", lastCat = null;
-  productsList().forEach(function(p){
-    if (p.cat !== lastCat){ if (lastCat !== null) html += "</optgroup>"; html += '<optgroup label="'+esc(p.cat)+'">'; lastCat = p.cat; }
-    html += '<option value="'+esc(p.slug)+'"'+(p.slug===selSlug?" selected":"")+'>'+esc(p.producto)+'</option>';
-  });
-  return html + "</optgroup>";
+function productOptions(selSlug, grupo){
+  return productsList().filter(function(p){ return p.cat === grupo; }).map(function(p){
+    return '<option value="'+esc(p.slug)+'"'+(p.slug===selSlug?" selected":"")+'>'+esc(p.producto)+'</option>';
+  }).join("");
+}
+function groupOptions(sel){
+  return ALL_GROUPS.map(function(g){ return '<option'+(g===sel?" selected":"")+'>'+esc(g)+'</option>'; }).join("");
 }
 var UNITS = ["unidad","m²","m","ml","kg","rollo","caja","saco","balde","gl"];
 function renderLines(){
@@ -615,15 +674,16 @@ function renderLines(){
     tr.dataset.uid = it.uid;
     if (!(Number(it.precioBase) > 0)) tr.className = "no-price";
     var noPrice = !(Number(it.precioBase) > 0) ? '<span class="badge-warn">Sin precio</span>' : "";
-    var prodCell, varCell, unitCell;
+    var prodCell, varCell, unitCell, g = groupOf(it);
     if (it.custom){
-      prodCell = '<input type="text" data-f="producto" placeholder="Nombre del producto" value="'+esc(it.producto)+'">' +
-                 (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : '<div class="sub-hint">Línea personalizada</div>');
-      varCell  = '<input type="text" data-f="variante" placeholder="Variante / detalle (opcional)" value="'+esc(it.variante)+'">';
+      var desp = g === G_DESPACHO;
+      prodCell = '<input type="text" data-f="producto" placeholder="'+(desp ? "Despacho" : "Nombre del producto")+'" value="'+esc(it.producto)+'">' +
+                 (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : '<div class="sub-hint">'+(desp ? "Despacho a obra" : "Escrito a mano")+'</div>');
+      varCell  = '<input type="text" data-f="variante" placeholder="'+(desp ? "Comuna / detalle (opcional)" : "Variante / detalle (opcional)")+'" value="'+esc(it.variante)+'">';
       unitCell = '<select data-f="unidad">' + UNITS.concat(UNITS.indexOf(it.unidad)<0?[it.unidad]:[]).map(function(u){ return '<option'+(u===it.unidad?" selected":"")+'>'+esc(u)+'</option>'; }).join("") + '</select>';
     } else {
       var vs = variantsOf(it.slug);
-      prodCell = '<select data-f="slug">'+productOptions(it.slug)+'</select>' + (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : "");
+      prodCell = '<select data-f="slug">'+productOptions(it.slug, g)+'</select>' + (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : "");
       varCell  = (vs.length > 1
         ? '<select data-f="catId">'+vs.map(function(v){ return '<option value="'+esc(v.id)+'"'+(v.id===it.catId?" selected":"")+'>'+esc(variantLabel(v))+'</option>'; }).join("")+'</select>'
         : '<div style="padding-top:8px;">'+esc(variantLabel(vs[0]||{}))+'</div>') +
@@ -631,13 +691,14 @@ function renderLines(){
       unitCell = '<div style="padding-top:8px;">'+esc(it.unidad)+'</div>';
     }
     tr.innerHTML =
+      '<td data-label="Categoría"><select data-f="grupo">'+groupOptions(g)+'</select></td>'+
       '<td data-label="Producto">'+prodCell+'</td>'+
       '<td data-label="Variante">'+varCell+'</td>'+
+      '<td data-label="Cantidad"><input type="number" min="0" step="any" data-f="cantidad" value="'+it.cantidad+'"></td>'+
       '<td data-label="Unidad">'+unitCell+'</td>'+
       '<td data-label="Precio base" class="num"><input type="number" min="0" step="1" data-f="precioBase" value="'+(Number(it.precioBase)||0)+'" style="text-align:right;">'+noPrice+'</td>'+
       '<td data-label="% recargo"><input type="number" min="0" step="0.5" data-f="recargo" value="'+it.recargo+'"></td>'+
       '<td data-label="Precio final" class="num calc" data-c="final">'+fmtCLP(finalPrice(it))+'</td>'+
-      '<td data-label="Cantidad"><input type="number" min="0" step="any" data-f="cantidad" value="'+it.cantidad+'"></td>'+
       '<td data-label="Total" class="num calc" data-c="total">'+fmtCLP(lineTotal(it))+'</td>'+
       '<td><button class="remove-btn" type="button" data-del="1" title="Quitar línea">✕</button></td>';
     body.appendChild(tr);
@@ -649,6 +710,7 @@ function renderTotals(){
   $("t-neto").textContent = fmtCLP(t.neto);
   $("t-iva").textContent = fmtCLP(t.iva);
   $("t-total").textContent = fmtCLP(t.total);
+  $("auto-resumen-txt").textContent = autoResumen() || "—";
 }
 function findItem(el){
   var tr = el.closest("tr[data-uid]"); if(!tr) return null;
@@ -658,7 +720,7 @@ function findItem(el){
 $("lines-body").addEventListener("input", function(e){
   var f = e.target.dataset.f; if(!f) return;
   var r = findItem(e.target); if(!r || !r.it) return;
-  if (f === "slug" || f === "catId" || f === "unidad") return; // se manejan en change
+  if (f === "grupo" || f === "slug" || f === "catId" || f === "unidad") return; // se manejan en change
   r.it[f] = (f==="producto"||f==="variante") ? e.target.value : num(e.target.value);
   r.tr.querySelector('[data-c="final"]').textContent = fmtCLP(finalPrice(r.it));
   r.tr.querySelector('[data-c="total"]').textContent = fmtCLP(lineTotal(r.it));
@@ -672,9 +734,10 @@ $("lines-body").addEventListener("input", function(e){
 $("lines-body").addEventListener("change", function(e){
   var f = e.target.dataset.f;
   var r = findItem(e.target); if(!r || !r.it) return;
-  if (f === "slug"){ setFromCatalog(r.it, variantsOf(e.target.value)[0]); r.it.note = ""; renderLines(); }
+  if (f === "grupo"){ setGroup(r.it, e.target.value); renderLines(); }
+  else if (f === "slug"){ setFromCatalog(r.it, variantsOf(e.target.value)[0]); r.it.note = ""; renderLines(); }
   else if (f === "catId"){ setFromCatalog(r.it, byId[e.target.value]); r.it.note = ""; renderLines(); }
-  else if (f === "unidad"){ r.it.unidad = e.target.value; }
+  else if (f === "unidad"){ r.it.unidad = e.target.value; renderTotals(); }
   saveDraft();
 });
 $("lines-body").addEventListener("click", function(e){
@@ -703,7 +766,8 @@ function writeForm(d){ FIELDS.forEach(function(f){ if (d[f] != null) $("f-"+f).v
 function syncMana(){ $("f-manaotro").style.display = $("f-mana").value === "Otro" ? "" : "none"; }
 function manaValue(d){ return String((d.mana === "Otro" ? d.manaotro : d.mana) || "").trim(); }
 $("f-mana").addEventListener("change", function(){ syncMana(); if (this.value === "Otro") $("f-manaotro").focus(); saveDraft(); });
-function saveDraft(){ lsSet(LS_DRAFT, JSON.stringify({form:readForm(), items:items})); }
+function saveDraft(){ lsSet(LS_DRAFT, JSON.stringify({form:readForm(), items:items, resumen:$("f-resumen").checked})); }
+$("f-resumen").addEventListener("change", saveDraft);
 FIELDS.forEach(function(f){ $("f-"+f).addEventListener("input", saveDraft); });
 function freshQuote(){
   writeForm({numero: nextNumber(), fecha: todayISO(), vendedor: $("f-vendedor").value || "", validez: DEFAULTS.validez,
@@ -945,6 +1009,25 @@ function generatePDF(color){
   if (sinPrecio.length && !confirm(sinPrecio.length + " línea(s) tienen precio $0. ¿Descargar de todos modos?")) return;
   if (!d.cliente.trim() && !confirm("No ingresaste el cliente. ¿Descargar de todos modos?")) return;
 
+  // Se arma la cotización en una sola página: si no cabe, se compacta de a poco (letra y espacios).
+  var r = null;
+  for (var lvl = 0; lvl <= PDF_MAX_LEVEL; lvl++){
+    r = buildPDF(color, d, lvl, false);
+    if (!r.overflow) break;
+  }
+  if (r.overflow){
+    r = buildPDF(color, d, PDF_MAX_LEVEL, true);
+    toast("Hay demasiados productos para una sola página: el PDF quedó de " + r.doc.getNumberOfPages() + " páginas.");
+  }
+
+  var safe = function(s){ return String(s||"").replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g," ").trim(); };
+  var quien = [safe(d.cliente), safe(manaValue(d))].filter(Boolean).join(" ");
+  var fname = "Cotizacion Muralia " + safe(d.numero) + (quien ? " - " + quien : "") + (color ? "" : " (imprimir)") + ".pdf";
+  r.doc.save(fname);
+  return r.doc;
+}
+var PDF_MAX_LEVEL = 8;
+function buildPDF(color, d, lvl, allowPages){
   var jsPDF = window.jspdf.jsPDF;
   var doc = new jsPDF({unit:"mm", format:"letter"});
   var F = setupFonts(doc);
@@ -954,12 +1037,23 @@ function generatePDF(color){
   var ink = color ? C.graphite : C.black;
   var accent = color ? C.clay : C.black;
   var t = totals();
+  var overflow = false;
+
+  // Escala según el nivel de compactación (0 = tamaño normal)
+  var k = 1 - lvl * 0.06;                        // 1 → 0,52
+  var sz = function(base, min){ return Math.max(base * k, min); };
+  var S = {
+    tbl: sz(9, 6.4), det: sz(7.8, 5.8), pad: Math.max(2.6 * k * k, 0.7),
+    para: sz(7.8, 6.4), cmt: sz(8.2, 6.6), gap: Math.max(k, 0.55),
+    rowH: Math.max(11 * k, 8.6), val: sz(9.3, 7.6), sec: sz(14, 10.5)
+  };
+  var LH = function(size, f){ return size * 0.3528 * (f || 1.35); };
 
   function font(fam, style, size, rgb){ doc.setFont(fam, style||"normal"); doc.setFontSize(size); doc.setTextColor.apply(doc, rgb||ink); }
   function label(txt, x, y, opts){ font(F.body, "bold", 6.6, color ? C.clayDark : C.black); doc.setCharSpace(0.35); doc.text(txt.toUpperCase(), x, y, opts||{}); doc.setCharSpace(0); }
   function fit(txt, w){ var s = String(txt||"—"); if (doc.getTextWidth(s) <= w) return s; while (s.length > 1 && doc.getTextWidth(s + "…") > w) s = s.slice(0,-1); return s + "…"; }
 
-  /* ---- Encabezado página 1 ---- */
+  /* ---- Encabezado ---- */
   var logo = A.logoGraphite;
   if (logo) try{ doc.addImage(logo, "PNG", M, 12, 21, 21); }catch(e){}
   var tx = M + 26;
@@ -979,56 +1073,57 @@ function generatePDF(color){
   doc.setDrawColor.apply(doc, ink); doc.setLineWidth(0.25); doc.line(M, 39, W - M, 39);
   doc.setFillColor.apply(doc, accent); doc.rect(M, 38.1, 34, 1.8, "F");
 
-  /* ---- Datos del cliente (grilla 3 x 3) ---- */
-  var y = 45;
+  /* ---- Datos del cliente ---- */
+  var y = 44;
   var rows = [
     [["Cliente / razón social", d.cliente], ["RUT", d.rut], ["Atención", d.atencion]],
     [["Correo", d.correo], ["Teléfono", d.telefono], ["Despacho", d.direccion]],
-    [["Vendedor", d.vendedor], ["Validez de la oferta", d.validez], ["Fecha de emisión", d.fechaTxt]]
+    [["Vendedor", d.vendedor], ["Validez de cotización", d.validez]]
   ];
-  var colW = [CW*0.42, CW*0.25, CW*0.33], rowH = 11, boxH = rows.length*rowH + 4;
+  var colW = [CW*0.42, CW*0.25, CW*0.33], rowH = S.rowH, boxH = rows.length*rowH + 3;
   if (color){ doc.setFillColor.apply(doc, C.plaster); doc.rect(M, y, CW, boxH, "F"); }
   else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.2); doc.rect(M, y, CW, boxH); }
   rows.forEach(function(r, ri){
     var cx = M + 5;
     r.forEach(function(cell, ci){
-      var cy = y + 6 + ri*rowH;
+      var cy = y + 5.4 + ri*rowH;
       label(cell[0], cx, cy);
-      font(F.body, ci === 0 && ri === 0 ? "bold" : "normal", 9.3, ink);
-      doc.text(fit(cell[1] && String(cell[1]).trim() ? cell[1] : "—", colW[ci] - 8), cx, cy + 4.6);
+      font(F.body, ci === 0 && ri === 0 ? "bold" : "normal", S.val, ink);
+      doc.text(fit(cell[1] && String(cell[1]).trim() ? cell[1] : "—", colW[ci] - 8), cx, cy + S.val * 0.3528 + 1.3);
       cx += colW[ci];
     });
   });
-  y += boxH + 7;
+  y += boxH + 6 * S.gap;
 
   /* ---- Tabla de productos (solo precio final) ---- */
   var body = items.map(function(it, i){
     var det = [it.variante, it.formato].filter(function(s){ return s && s !== "-"; }).join("  ·  ");
-    return [String(i+1).padStart(2,"0"), {content: it.producto + (det ? "\n" + det : ""), det: !!det}, it.unidad,
-            String(Number(it.cantidad)||0).replace(".",","), fmtCLP(finalPrice(it)), fmtCLP(lineTotal(it))];
+    return [String(i+1).padStart(2,"0"), {content: it.producto + (det ? "\n" + det : ""), det: !!det},
+            String(Number(it.cantidad)||0).replace(".",","), it.unidad, fmtCLP(finalPrice(it)), fmtCLP(lineTotal(it))];
   });
-  var PROD_W = CW - (10 + 17 + 15 + 27 + 29);
+  var PROD_W = CW - (10 + 15 + 17 + 27 + 29);
   function drawRunningHeader(){
     if (logo) try{ doc.addImage(logo, "PNG", M, 10, 10, 10); }catch(e){}
     font(F.display, "normal", F.hasBrand ? 16 : 12, accent); doc.text("COTIZACIÓN N° " + d.numero, W - M, 17, {align:"right"});
     doc.setDrawColor.apply(doc, ink); doc.setLineWidth(0.25); doc.line(M, 23, W - M, 23);
   }
+  var lhN = LH(S.tbl, 1.15), lhD = LH(S.det, 1.2);
   doc.autoTable({
     startY: y,
-    head: [["#", "Producto", "Unidad", "Cant.", "Precio unit.", "Total"]],
+    head: [["#", "Producto", "Cant.", "Unidad", "Precio unit.", "Total"]],
     body: body,
     theme: "plain",
-    margin: {left: M, right: M, top: 28, bottom: FOOT + 8},
-    styles: {font: F.body, fontSize: 9, textColor: ink, cellPadding: {top: 2.8, bottom: 2.8, left: 2.4, right: 2.4}, valign: "middle", lineColor: color ? C.line : [190,190,190], lineWidth: {bottom: 0.2}},
+    margin: {left: M, right: M, top: 28, bottom: FOOT + 6},
+    styles: {font: F.body, fontSize: S.tbl, textColor: ink, cellPadding: {top: S.pad, bottom: S.pad, left: 2.4, right: 2.4}, valign: "middle", lineColor: color ? C.line : [190,190,190], lineWidth: {bottom: 0.2}},
     headStyles: color
-      ? {fillColor: C.graphite, textColor: C.paper, font: F.body, fontStyle: "bold", fontSize: 7.6, lineWidth: 0}
-      : {fillColor: false, textColor: C.black, font: F.body, fontStyle: "bold", fontSize: 7.6, lineWidth: {top: 0.4, bottom: 0.4}, lineColor: C.black},
+      ? {fillColor: C.graphite, textColor: C.paper, font: F.body, fontStyle: "bold", fontSize: 7.4, lineWidth: 0, cellPadding: {top: Math.max(S.pad, 1.6), bottom: Math.max(S.pad, 1.6), left: 2.4, right: 2.4}}
+      : {fillColor: false, textColor: C.black, font: F.body, fontStyle: "bold", fontSize: 7.4, lineWidth: {top: 0.4, bottom: 0.4}, lineColor: C.black, cellPadding: {top: Math.max(S.pad, 1.6), bottom: Math.max(S.pad, 1.6), left: 2.4, right: 2.4}},
     alternateRowStyles: color ? {fillColor: C.plasterSoft} : {},
     columnStyles: {
       0: {cellWidth: 10, halign: "center", textColor: color ? C.clayDark : C.black, fontStyle: "bold"},
       1: {cellWidth: PROD_W},
-      2: {cellWidth: 17, halign: "center"},
-      3: {cellWidth: 15, halign: "center"},
+      2: {cellWidth: 15, halign: "center"},
+      3: {cellWidth: 17, halign: "center"},
       4: {cellWidth: 27, halign: "right"},
       5: {cellWidth: 29, halign: "right", fontStyle: "bold"}
     },
@@ -1036,85 +1131,110 @@ function generatePDF(color){
       if (data.section === "head"){ data.cell.text = data.cell.text.map(function(s){ return s.toUpperCase(); }); if (data.column.index >= 4) data.cell.styles.halign = "right"; if (data.column.index === 2 || data.column.index === 3) data.cell.styles.halign = "center"; }
       if (data.section === "body" && data.column.index === 1 && data.cell.raw && data.cell.raw.det){
         var wAvail = PROD_W - 4.8, parts = String(data.cell.raw.content).split("\n");
-        doc.setFont(F.body, "bold"); doc.setFontSize(9);
+        doc.setFont(F.body, "bold"); doc.setFontSize(S.tbl);
         var nl = doc.splitTextToSize(parts[0], wAvail);
-        doc.setFont(F.body, "normal"); doc.setFontSize(7.8);
-        var dl = doc.splitTextToSize(parts.slice(1).join(" "), wAvail);
-        data.cell._name = nl; data.cell._det = dl;
-        data.cell.text = nl.concat(dl).map(function(){ return " "; });
+        doc.setFont(F.body, "normal"); doc.setFontSize(S.det);
+        var detTxt = parts.slice(1).join(" ");
+        var dl = doc.splitTextToSize(detTxt, wAvail);
+        data.cell._name = nl; data.cell._det = dl; data.cell._inline = false;
+        // compactando: nombre y detalle en la misma línea si caben
+        if (lvl >= 3 && nl.length === 1){
+          doc.setFont(F.body, "bold"); doc.setFontSize(S.tbl);
+          var wn = doc.getTextWidth(nl[0] + "  ");
+          doc.setFont(F.body, "normal"); doc.setFontSize(S.det);
+          if (wn + doc.getTextWidth(detTxt) <= wAvail){ data.cell._inline = wn; dl = []; }
+        }
+        // altura exacta de nombre + detalle; el texto se dibuja a mano en didDrawCell
+        data.cell.text = [" "];
+        data.cell.styles.minCellHeight = nl.length * lhN + dl.length * lhD + 0.3 + 2 * S.pad;
       }
     },
     didDrawCell: function(data){
       if (!data.cell._name) return;
       var x = data.cell.x + data.cell.padding("left");
-      var lhN = 9 * 0.3528 * 1.15, lhD = 7.8 * 0.3528 * 1.2;
+      if (data.cell._inline !== false){
+        var yi = data.cell.y + data.cell.height/2 + lhN*0.3;
+        font(F.body, "bold", S.tbl, ink); doc.text(data.cell._name[0], x, yi);
+        font(F.body, "normal", S.det, color ? C.muted : [90,90,90]); doc.text(data.cell._det.join(" "), x + data.cell._inline, yi);
+        return;
+      }
       var h = data.cell._name.length * lhN + data.cell._det.length * lhD;
       var yy = data.cell.y + (data.cell.height - h)/2 + lhN*0.75;
-      font(F.body, "bold", 9, ink);
+      font(F.body, "bold", S.tbl, ink);
       data.cell._name.forEach(function(l){ doc.text(l, x, yy); yy += lhN; });
       yy += 0.3;
-      font(F.body, "normal", 7.8, color ? C.muted : [90,90,90]);
+      font(F.body, "normal", S.det, color ? C.muted : [90,90,90]);
       data.cell._det.forEach(function(l){ doc.text(l, x, yy); yy += lhD; });
     },
     didDrawPage: function(data){ if (data.pageNumber > 1) drawRunningHeader(); }
   });
-  y = doc.lastAutoTable.finalY + 6;
+  if (doc.getNumberOfPages() > 1) overflow = true;
+  y = doc.lastAutoTable.finalY + 5 * S.gap;
 
+  var LIMIT = H - FOOT - 5;
   function ensure(h){
-    if (y + h > H - FOOT - 8){ doc.addPage(); drawRunningHeader(); y = 30; }
+    if (y + h <= LIMIT) return;
+    if (allowPages){ doc.addPage(); drawRunningHeader(); y = 30; }
+    else overflow = true;
   }
 
-  /* ---- Comentario del vendedor + totales (lado a lado) ---- */
+  /* ---- Comentario + totales (lado a lado) ---- */
   var totW = 78, gap = 8, leftW = CW - totW - gap;
-  var comment = (d.comentario||"").trim();
-  font(F.body, "normal", 8.8, ink);
+  var resumen = $("f-resumen").checked ? autoResumen() : "";
+  var comment = [resumen, (d.comentario||"").trim()].filter(Boolean).join("\n");
+  font(F.body, "normal", S.cmt, ink);
   var cLines = comment ? doc.splitTextToSize(comment, leftW - 12) : [];
-  var cH = comment ? 13 + cLines.length * 4.1 : 0;
-  var totH = 28;
+  var cLH = LH(S.cmt, 1.3);
+  var cH = comment ? 10.5 + cLines.length * cLH : 0;
+  var totH = 26;
   ensure(Math.max(cH, totH));
 
   var tx0 = W - M - totW;
-  font(F.body, "normal", 9.2, ink);
-  doc.text("Total neto", tx0 + 4, y + 5);  doc.text(fmtCLP(t.neto), W - M - 4, y + 5, {align:"right"});
-  doc.text("IVA 19%", tx0 + 4, y + 11);    doc.text(fmtCLP(t.iva), W - M - 4, y + 11, {align:"right"});
-  doc.setDrawColor.apply(doc, color ? C.line : C.black); doc.setLineWidth(0.2); doc.line(tx0, y + 14, W - M, y + 14);
-  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(tx0, y + 16, totW, 12, "F"); }
-  else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.5); doc.rect(tx0, y + 16, totW, 12); }
+  font(F.body, "normal", 9, ink);
+  doc.text("Total neto", tx0 + 4, y + 4.6);  doc.text(fmtCLP(t.neto), W - M - 4, y + 4.6, {align:"right"});
+  doc.text("IVA 19%", tx0 + 4, y + 10);      doc.text(fmtCLP(t.iva), W - M - 4, y + 10, {align:"right"});
+  doc.setDrawColor.apply(doc, color ? C.line : C.black); doc.setLineWidth(0.2); doc.line(tx0, y + 12.8, W - M, y + 12.8);
+  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(tx0, y + 14.5, totW, 11.5, "F"); }
+  else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.5); doc.rect(tx0, y + 14.5, totW, 11.5); }
   font(F.display, "normal", F.hasBrand ? 15 : 11, color ? C.paper : C.black);
   if (!F.hasBrand) doc.setFont(F.body, "bold");
-  doc.setCharSpace(F.hasBrand ? 0.5 : 0); doc.text("TOTAL", tx0 + 4, y + 24.2); doc.setCharSpace(0);
+  doc.setCharSpace(F.hasBrand ? 0.5 : 0); doc.text("TOTAL", tx0 + 4, y + 22.4); doc.setCharSpace(0);
   font(F.display, "normal", F.hasBrand ? 18 : 12, color ? C.paper : C.black);
   if (!F.hasBrand) doc.setFont(F.body, "bold");
-  doc.text(fmtCLP(t.total), W - M - 4, y + 24.6, {align:"right"});
+  doc.text(fmtCLP(t.total), W - M - 4, y + 22.8, {align:"right"});
 
   if (comment){
     if (color){ doc.setFillColor.apply(doc, C.plasterSoft); doc.rect(M, y, leftW, cH, "F"); doc.setFillColor.apply(doc, C.clay); doc.rect(M, y, 1.4, cH, "F"); }
     else { doc.setDrawColor.apply(doc, C.black); doc.setLineWidth(0.2); doc.rect(M, y, leftW, cH); doc.setLineWidth(0.8); doc.line(M, y, M, y + cH); }
-    label("Comentario del vendedor", M + 6, y + 6);
-    font(F.body, "normal", 8.8, ink);
-    doc.text(cLines, M + 6, y + 11.4, {lineHeightFactor: 1.3});
+    label("Comentario", M + 6, y + 5.6);
+    font(F.body, "normal", S.cmt, ink);
+    doc.text(cLines, M + 6, y + 10.2, {lineHeightFactor: 1.3});
   }
-  y += Math.max(cH, totH) + 10;
+  y += Math.max(cH, totH) + 8 * S.gap;
+
+  function sectionTitle(txt){
+    font(F.display, "normal", F.hasBrand ? S.sec : S.sec * 0.75, ink); if (!F.hasBrand) doc.setFont(F.body, "bold");
+    doc.setCharSpace(F.hasBrand ? 0.4 : 0); doc.text(txt, M, y); doc.setCharSpace(0);
+    doc.setFillColor.apply(doc, accent); doc.rect(M, y + 1.8, 16, 0.9, "F");
+    y += 5 + 2.5 * S.gap;
+  }
+  var pLH = LH(S.para), pGap = 1.6 * S.gap;
 
   /* ---- Condiciones comerciales ---- */
-  var conds = [["Plazo de entrega", d.plazo], ["Lugar de entrega", d.lugar], ["Condiciones de pago", d.pago], ["Validez de la oferta", d.validez]]
+  var conds = [["Plazo de entrega", d.plazo], ["Lugar de entrega", d.lugar], ["Condiciones de pago", d.pago], ["Validez de cotización", d.validez]]
     .filter(function(c){ return c[1] && String(c[1]).trim(); });
   if (conds.length){
-    font(F.body, "normal", 8.8, ink);
-    var condBlocks = conds.map(function(c){ return doc.splitTextToSize(String(c[1]), CW - 50); });
-    var condH = 11 + condBlocks.reduce(function(a,b){ return a + b.length*4.2 + 2.2; }, 0);
-    ensure(condH);
-    font(F.display, "normal", F.hasBrand ? 15 : 11, ink); if (!F.hasBrand) doc.setFont(F.body, "bold");
-    doc.setCharSpace(F.hasBrand ? 0.4 : 0); doc.text("CONDICIONES COMERCIALES", M, y); doc.setCharSpace(0);
-    doc.setFillColor.apply(doc, accent); doc.rect(M, y + 2, 16, 0.9, "F");
-    y += 8.5;
+    font(F.body, "normal", S.para, ink);
+    var condBlocks = conds.map(function(c){ return doc.splitTextToSize(String(c[1]), CW - 46); });
+    ensure(5 + 2.5 * S.gap + condBlocks.reduce(function(a,b){ return a + b.length*pLH + pGap; }, 0));
+    sectionTitle("CONDICIONES COMERCIALES");
     conds.forEach(function(c, i){
       label(c[0], M, y + 0.2);
-      font(F.body, "normal", 8.8, ink);
-      doc.text(condBlocks[i], M + 46, y + 0.2, {lineHeightFactor: 1.35});
-      y += condBlocks[i].length * 4.2 + 2.2;
+      font(F.body, "normal", S.para, ink);
+      doc.text(condBlocks[i], M + 42, y + 0.2, {lineHeightFactor: 1.35});
+      y += condBlocks[i].length * pLH + pGap;
     });
-    y += 5;
+    y += 4 * S.gap;
   }
 
   // Datos bancarios en dos columnas para no alargar la cotización
@@ -1122,37 +1242,34 @@ function generatePDF(color){
     var rows = DATOS_BANCARIOS.filter(function(c){ return c[1] && String(c[1]).trim(); });
     if (!rows.length) return;
     var colX = [M, M + CW*0.6], colW = [CW*0.6, CW*0.4], lblW = 25;
-    font(F.body, "normal", 8.8, ink);
+    font(F.body, "normal", S.para, ink);
     var cells = rows.map(function(c, i){ return {k: c[0], v: doc.splitTextToSize(String(c[1]), colW[i % 2] - lblW - 4)}; });
     var lines = [];
     for (var i = 0; i < cells.length; i += 2){
-      lines.push(Math.max(cells[i].v.length, cells[i+1] ? cells[i+1].v.length : 1) * 4.2 + 2.2);
+      lines.push(Math.max(cells[i].v.length, cells[i+1] ? cells[i+1].v.length : 1) * pLH + pGap);
     }
-    ensure(11 + lines.reduce(function(a,b){ return a + b; }, 0));
-    font(F.display, "normal", F.hasBrand ? 15 : 11, ink); if (!F.hasBrand) doc.setFont(F.body, "bold");
-    doc.setCharSpace(F.hasBrand ? 0.4 : 0); doc.text("DATOS BANCARIOS", M, y); doc.setCharSpace(0);
-    doc.setFillColor.apply(doc, accent); doc.rect(M, y + 2, 16, 0.9, "F");
-    y += 8.5;
+    ensure(5 + 2.5 * S.gap + lines.reduce(function(a,b){ return a + b; }, 0));
+    sectionTitle("DATOS BANCARIOS");
     cells.forEach(function(c, i){
       var x = colX[i % 2];
       label(c.k, x, y + 0.2);
-      font(F.body, "normal", 8.8, ink);
+      font(F.body, "normal", S.para, ink);
       doc.text(c.v, x + lblW, y + 0.2, {lineHeightFactor: 1.35});
       if (i % 2 === 1 || i === cells.length - 1) y += lines[Math.floor(i / 2)];
     });
-    y += 5;
+    y += 4 * S.gap;
   })();
 
   /* ---- Cierre / firma ---- */
-  ensure(24);
-  font(F.body, "normal", 8.8, ink);
+  ensure(6 + 7 * S.gap + 6);
+  font(F.body, "normal", S.para, ink);
   doc.text("Quedamos atentos a sus comentarios. Saluda atentamente,", M, y);
-  y += 9;
-  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(M, y - 3.2, 1.2, 10.5, "F"); }
+  y += 7 * S.gap;
+  if (color){ doc.setFillColor.apply(doc, C.clay); doc.rect(M, y - 3, 1.2, 9.5, "F"); }
   var sx = M + (color ? 4 : 0);
-  font(F.body, "bold", 10, ink); doc.text((d.vendedor||"").trim() || "Equipo Muralia", sx, y);
-  font(F.body, "normal", 8.4, color ? C.muted : C.grey);
-  doc.text("Muralia  ·  " + EMPRESA.correo + "  ·  WhatsApp " + EMPRESA.telefono, sx, y + 5);
+  font(F.body, "bold", 9.4, ink); doc.text((d.vendedor||"").trim() || "Equipo Muralia", sx, y);
+  font(F.body, "normal", sz(7.8, 6.8), color ? C.muted : C.grey);
+  doc.text("Muralia  ·  " + EMPRESA.correo + "  ·  WhatsApp " + EMPRESA.telefono, sx, y + 4.6);
 
   /* ---- Pie de página en todas las páginas ---- */
   var pages = doc.getNumberOfPages();
@@ -1172,18 +1289,14 @@ function generatePDF(color){
       font(F.body, "normal", 7.4, [90,90,90]);
     }
     doc.text(EMPRESA.web + "   ·   " + EMPRESA.correo + "   ·   " + EMPRESA.telefono, W/2 + 6, fy + (color ? 9.6 : 8.5), {align:"center"});
-    doc.text("Pág. " + p + " de " + pages, W - M, fy + (color ? 9.6 : 8.5), {align:"right"});
+    if (pages > 1) doc.text("Pág. " + p + " de " + pages, W - M, fy + (color ? 9.6 : 8.5), {align:"right"});
   }
-
-  var safe = function(s){ return String(s||"").replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g," ").trim(); };
-  var quien = [safe(d.cliente), safe(manaValue(d))].filter(Boolean).join(" ");
-  var fname = "Cotizacion Muralia " + safe(d.numero) + (quien ? " - " + quien : "") + (color ? "" : " (imprimir)") + ".pdf";
-  doc.save(fname);
-  return doc;
+  if (pages > 1 && !allowPages) overflow = true;
+  return {doc: doc, overflow: overflow};
 }
 $("btn-pdf-color").addEventListener("click", function(){ generatePDF(true); });
 $("btn-pdf-print").addEventListener("click", function(){ generatePDF(false); });
-window.__muralia = {generatePDF: generatePDF, parseMail: parseMail, importMail: importMail, items: function(){ return items; }};
+window.__muralia = {generatePDF: generatePDF, buildPDF: buildPDF, formData: formData, autoResumen: autoResumen, parseMail: parseMail, importMail: importMail, items: function(){ return items; }};
 
 /* ============================================================
    INICIO
@@ -1194,7 +1307,8 @@ var draft = null;
 try{ draft = JSON.parse(lsGet(LS_DRAFT) || "null"); }catch(e){}
 if (draft && draft.items && draft.form){
   writeForm(draft.form);
-  items = draft.items.map(function(it){ it.uid = uidSeq++; return it; });
+  items = draft.items.map(function(it){ it.uid = uidSeq++; it.grupo = groupOf(it); return it; });
+  if (draft.resumen === false) $("f-resumen").checked = false;
   renderLines();
 } else {
   freshQuote();
