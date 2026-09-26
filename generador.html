@@ -1125,24 +1125,27 @@ function buildPDF(color, d, lvl, allowPages, extra){
   });
   y += boxH + 7 * S.gap + extra;
 
-  /* ---- Tabla de productos: Producto 0-5 · Cantidad 5-7 · Precio 7-9,5 · Total 9,5-12 ---- */
-  var body = items.map(function(it){
+  /* ---- Tabla de productos (solo precio final) ---- */
+  var body = items.map(function(it, i){
     var det = [it.variante, it.formato].filter(function(s){ return s && s !== "-"; }).join("  ·  ");
-    return [{content: it.producto + (det ? "\n" + det : ""), det: !!det},
-            fmtNum(Number(it.cantidad)||0) + " " + (it.unidad === "unidad" && Number(it.cantidad) !== 1 ? "unidades" : (it.unidad || "")), fmtCLP(finalPrice(it)), fmtCLP(lineTotal(it))];
+    return [String(i+1).padStart(2,"0"), {content: it.producto + (det ? "\n" + det : ""), det: !!det},
+            fmtNum(Number(it.cantidad)||0), it.unidad || "", fmtCLP(finalPrice(it)), fmtCLP(lineTotal(it))];
   });
-  var PROD_W = 5 * G;
+  // Anchos proporcionados: el producto se lleva el espacio que dejan las columnas fijas
+  var TW = {num: 10, cant: 16, unid: 18, precio: 28, total: 31};
+  var PROD_W = CW - (TW.num + TW.cant + TW.unid + TW.precio + TW.total);
   function drawRunningHeader(){
     if (logo) try{ doc.addImage(logo, "PNG", M, 10, 10, 10); }catch(e){}
     font(F.display, "normal", F.hasBrand ? 16 : 12, accent); doc.text("COTIZACIÓN N° " + d.numero, RIGHT, 17, {align:"right"});
     hline(M, RIGHT, 23, 0.25, ink);
   }
   var lhN = LH(S.tbl, 1.15), lhD = LH(S.det, 1.25);
-  var cellPad = {top: S.pad, bottom: S.pad, left: P, right: P};
+  var TP = lvl >= 3 ? 3 : P;      // margen lateral de celdas (se reduce al compactar)
+  var cellPad = {top: S.pad, bottom: S.pad, left: TP, right: TP};
   var headPad = {top: 2.4 * kk, bottom: 2.4 * kk, left: P, right: P};
   doc.autoTable({
     startY: y,
-    head: [["Producto", "Cantidad", "Precio unit.", "Total"]],
+    head: [["#", "Producto", "Cant.", "Unidad", "Precio unit.", "Total"]],
     body: body,
     theme: "plain",
     margin: {left: M, right: M, top: 28, bottom: FOOT + 6},
@@ -1152,18 +1155,22 @@ function buildPDF(color, d, lvl, allowPages, extra){
       : {fillColor: false, textColor: C.black, font: F.body, fontStyle: "bold", fontSize: 7, lineWidth: {top: 0.4, bottom: 0.4}, lineColor: C.black, cellPadding: headPad},
     alternateRowStyles: color ? {fillColor: C.plasterSoft} : {},
     columnStyles: {
-      0: {cellWidth: PROD_W},
-      1: {cellWidth: 2 * G},
-      2: {cellWidth: 2.5 * G, halign: "right"},
-      3: {cellWidth: 2.5 * G, halign: "right", fontStyle: "bold"}
+      0: {cellWidth: TW.num, halign: "center", textColor: color ? C.clayDark : C.black, fontStyle: "bold", cellPadding: {top: S.pad, bottom: S.pad, left: 1, right: 1}},
+      1: {cellWidth: PROD_W},
+      2: {cellWidth: TW.cant, halign: "center"},
+      3: {cellWidth: TW.unid, halign: "center"},
+      4: {cellWidth: TW.precio, halign: "right"},
+      5: {cellWidth: TW.total, halign: "right", fontStyle: "bold"}
     },
     didParseCell: function(data){
       if (data.section === "head"){
         data.cell.text = data.cell.text.map(function(s){ return s.toUpperCase(); });
-        data.cell.styles.halign = data.column.index >= 2 ? "right" : "left";
+        var ci = data.column.index;
+        data.cell.styles.halign = ci >= 4 ? "right" : (ci === 1 ? "left" : "center");
+        if (ci === 0){ data.cell.styles.cellPadding = {top: 2.4 * kk, bottom: 2.4 * kk, left: 1, right: 1}; data.cell.styles.textColor = color ? C.paper : C.black; }
       }
-      if (data.section === "body" && data.column.index === 0 && data.cell.raw && data.cell.raw.det){
-        var wAvail = PROD_W - 2 * P, parts = String(data.cell.raw.content).split("\n");
+      if (data.section === "body" && data.column.index === 1 && data.cell.raw && data.cell.raw.det){
+        var wAvail = PROD_W - 2 * TP, parts = String(data.cell.raw.content).split("\n");
         doc.setFont(F.body, "bold"); doc.setFontSize(S.tbl);
         var nl = doc.splitTextToSize(parts[0], wAvail);
         doc.setFont(F.body, "normal"); doc.setFontSize(S.det);
@@ -1180,13 +1187,13 @@ function buildPDF(color, d, lvl, allowPages, extra){
         // altura exacta de nombre + detalle; el texto se dibuja a mano en didDrawCell
         data.cell.text = [" "];
         data.cell.styles.minCellHeight = nl.length * lhN + dl.length * lhD + 0.6 + 2 * S.pad;
-      } else if (data.section === "body" && data.column.index === 0){
+      } else if (data.section === "body" && data.column.index === 1){
         data.cell.styles.fontStyle = "bold";
       }
     },
     didDrawCell: function(data){
       if (!data.cell._name) return;
-      var x = data.cell.x + P;
+      var x = data.cell.x + TP;
       if (data.cell._inline !== false){
         var yi = data.cell.y + data.cell.height/2 + lhN*0.3;
         font(F.body, "bold", S.tbl, ink); doc.text(data.cell._name[0], x, yi);
@@ -1257,7 +1264,7 @@ function buildPDF(color, d, lvl, allowPages, extra){
   // filas emparejadas: la fila i de ambas columnas tiene la misma altura
   var nRows = Math.max(conds.length, bank.length), rowHs = [];
   for (var i = 0; i < nRows; i++) rowHs.push(Math.max(conds[i] ? conds[i].h : 0, bank[i] ? bank[i].h : 0));
-  var headH = 8.5 * kk;
+  var headH = 7.4 + 1.1 * kk;   // el título ocupa 6,6 mm fijos
   var lowH = headH + rowHs.reduce(function(a,b){ return a + b; }, 0);
   if (nRows){
     ensure(lowH);
