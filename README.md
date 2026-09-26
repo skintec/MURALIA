@@ -1,6 +1,5 @@
 # MURALIA
-www.muralia.cl/index.html#ver
-https://muralia.cl/generador.html
+www.muralia.cl/index.html#ver    https://muralia.cl/generador.html    https://github.com/skintec/oc
 
 ## SEO: fichas de producto estáticas
 Las fichas viven en `/productos/<slug>.html` y se generan con:
