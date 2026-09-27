@@ -83,7 +83,7 @@ def build(cat, p, siblings):
         f'<a href="/productos/{s["slug"]}.html"><span>{e(s["name"])}</span><span class="arrow">&#8594;</span></a>'
         for s in siblings if s["slug"] != p["slug"]
     )
-    media = f'<img src="{e(p["media"]["src"])}" alt="{e(p["media"].get("alt") or p["name"])}">'
+    media = f'<img fetchpriority="high" src="{e(p["media"]["src"])}" alt="{e(p["media"].get("alt") or p["name"])}">'
 
     rep = {
         "{{TITLE}}": e(title),

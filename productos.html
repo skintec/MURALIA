@@ -173,10 +173,10 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=15">
+<link rel="preload" href="/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="styles.css?v=16">
 <script src="cart.js" defer></script>
 <script src="muralia-tracking.js" defer></script>
 </head>
@@ -184,7 +184,7 @@
 <header>
   <div class="wrap header-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
+      <img class="brand-mark" src="logo-graphite-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"><span></span></button>
@@ -218,7 +218,7 @@
           <div class="catalog-media"><img src="img/cat-confort.jpg" alt="Instalación de aislación térmica en muro"></div>
           <div class="catalog-body">
             <span class="kicker" style="margin-bottom:4px;">01 — Confort</span>
-            <h3>Aislación térmica y acústica</h3>
+            <h2>Aislación térmica y acústica</h2>
             <p class="catalog-intro">El material se elige según la reglamentación térmica vigente o las especificaciones particulares de tu proyecto.</p>
           </div>
           <div class="product-list">
@@ -239,7 +239,7 @@
           <div class="catalog-media"><img src="img/cat-seguridad.jpg" alt="Muro con placas de fibrosilicato instaladas"></div>
           <div class="catalog-body">
             <span class="kicker" style="margin-bottom:4px;">02 — Seguridad</span>
-            <h3>Protección pasiva contra incendios</h3>
+            <h2>Protección pasiva contra incendios</h2>
             <p class="catalog-intro">Certificaciones de soluciones constructivas, avaladas por laboratorios chilenos y extranjeros, para sectorizar incendios y proteger estructura y vías de evacuación.</p>
           </div>
           <div class="product-list">
@@ -251,10 +251,10 @@
         </div>
 
         <div class="catalog-block" id="tabiques">
-          <div class="catalog-media"><img src="https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1400&q=85" alt="Sala en construcción con estructura de tabiquería"></div>
+          <div class="catalog-media"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1000&q=75" srcset="https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1000&q=75 1000w" sizes="(max-width:900px) 100vw, 33vw" alt="Sala en construcción con estructura de tabiquería"></div>
           <div class="catalog-body">
             <span class="kicker" style="margin-bottom:4px;">03 — Estructura</span>
-            <h3>Tabiques y cielos</h3>
+            <h2>Tabiques y cielos</h2>
             <p class="catalog-intro">Desde tabiques estándar hasta versiones resistentes a la humedad, al fuego, al impacto o a la radiación, según lo exija el recinto.</p>
           </div>
           <div class="product-list">
@@ -283,7 +283,7 @@
 <footer>
   <div class="wrap footer-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper.png" alt="Muralia">
+      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">
