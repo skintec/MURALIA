@@ -38,10 +38,10 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=15">
+<link rel="preload" href="/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="styles.css?v=16">
 <script src="cart.js" defer></script>
 <script src="muralia-tracking.js" defer></script>
 </head>
@@ -49,7 +49,7 @@
 <header>
   <div class="wrap header-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
+      <img class="brand-mark" src="logo-graphite-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"><span></span></button>
@@ -67,7 +67,7 @@
 <main>
 
   <section class="page-hero" style="padding:0;">
-    <div class="page-hero-bg" style="background-image:linear-gradient(100deg, rgba(20,19,17,0.92) 0%, rgba(20,19,17,0.65) 100%), url('https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1600&q=70');"></div>
+    <div class="page-hero-bg bg-resp" style="--bg-lg:url('https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1600&q=70');--bg-sm:url('https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=760&q=65');"></div>
     <div class="wrap page-hero-content">
       <div class="breadcrumb"><a href="/">Inicio</a> / Empresa</div>
       <span class="kicker">Empresa</span>
@@ -106,7 +106,7 @@
 <footer>
   <div class="wrap footer-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" style="width:25px;height:25px;" src="logo-paper.png" alt="Muralia">
+      <img class="brand-mark" style="width:25px;height:25px;" src="logo-paper-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">

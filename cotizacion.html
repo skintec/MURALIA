@@ -39,10 +39,9 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=15">
+<link rel="preload" href="/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=16">
 <script src="cart.js" defer></script>
 <script src="muralia-tracking.js" defer></script>
 </head>
@@ -50,7 +49,7 @@
 <header>
   <div class="wrap header-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
+      <img class="brand-mark" src="logo-graphite-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"><span></span></button>
@@ -102,7 +101,7 @@
 <footer>
   <div class="wrap footer-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper.png" alt="Muralia">
+      <img class="brand-mark" style="width:20px;height:20px;" src="logo-paper-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">
@@ -158,7 +157,7 @@
       var densityTxt = item.density ? (' — Densidad: ' + esc(item.density)) : '';
       var finishTxt = item.finish ? (' — Recubrimiento: ' + esc(item.finish)) : '';
       label.innerHTML = '<span style="font-weight:700;color:var(--graphite);">' + esc(item.name) + '</span>' +
-        '<span style="color:#7a7969;font-size:var(--fs-meta);">' + typeTxt + thicknessTxt + densityTxt + finishTxt + '</span>';
+        '<span style="color:#6b6a5d;font-size:var(--fs-meta);">' + typeTxt + thicknessTxt + densityTxt + finishTxt + '</span>';
 
       var qtyWrap = document.createElement('div');
       qtyWrap.style.cssText = 'display:flex;align-items:center;gap:8px;flex-shrink:0;';
@@ -167,7 +166,7 @@
       qtyLabel.style.cssText = 'font-size:var(--fs-label);font-weight:700;color:var(--clay-dark);text-transform:uppercase;letter-spacing:0.5px;';
       var qtyUnitSpan = document.createElement('span');
       qtyUnitSpan.textContent = item.unit ? ' (' + item.unit + ')' : '';
-      qtyUnitSpan.style.cssText = 'font-size:var(--fs-label);font-weight:600;color:#7a7969;';
+      qtyUnitSpan.style.cssText = 'font-size:var(--fs-label);font-weight:600;color:#6b6a5d;';
       var qtyInput = document.createElement('input');
       qtyInput.type = 'number';
       qtyInput.min = '1';

@@ -86,10 +86,9 @@
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=15">
+<link rel="preload" href="/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css?v=16">
 <script src="/cart.js" defer></script>
 <script src="/muralia-tracking.js" defer></script>
 </head>
@@ -97,7 +96,7 @@
 <header>
   <div class="wrap header-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" src="/logo-graphite.png" alt="Muralia">
+      <img class="brand-mark" src="/logo-graphite-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"><span></span></button>
@@ -126,7 +125,7 @@
 
   <section id="p-body">
     <div class="wrap detail-grid">
-      <div class="detail-media" id="p-media"><img src="/img/panel-para-ductos.jpg" alt="Panel Climaver para ductos de climatización"></div>
+      <div class="detail-media" id="p-media"><img fetchpriority="high" src="/img/panel-para-ductos.jpg" alt="Panel Climaver para ductos de climatización"></div>
       <div>
         <p id="p-desc">Panel rígido prearmado, con barrera de vapor de aluminio, pensado para fabricar ductos de climatización directamente en obra, con aislación térmica y acústica incorporada.</p>
         <ul class="spec-list" id="p-avail" style="margin-bottom:0;"><li><b>Espesores:</b> 25 mm</li></ul>
@@ -199,7 +198,7 @@
 <footer>
   <div class="wrap footer-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" style="width:20px;height:20px;" src="/logo-paper.png" alt="Muralia">
+      <img class="brand-mark" style="width:20px;height:20px;" src="/logo-paper-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">
@@ -241,7 +240,11 @@
     document.getElementById('p-title').textContent = product.name;
     document.getElementById('p-lead').textContent = product.short;
     document.getElementById('p-desc').textContent = product.desc;
-    document.getElementById('p-media').innerHTML = mediaHTML(product.media, product.name);
+    // la foto ya viene en el HTML: solo se reemplaza si cambió (evita volver a cargarla y retrasar el LCP)
+    var mediaBox = document.getElementById('p-media'), curImg = mediaBox.querySelector('img'), tmp = document.createElement('div');
+    tmp.innerHTML = mediaHTML(product.media, product.name);
+    var newImg = tmp.querySelector('img');
+    if (!(curImg && newImg && curImg.src === newImg.src)) mediaBox.innerHTML = tmp.innerHTML;
     var unitLabel = document.getElementById('qty-unit-label');
     if (unitLabel) unitLabel.textContent = product.unit ? '(' + product.unit + ')' : '';
 

@@ -77,10 +77,10 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=15">
+<link rel="preload" href="/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="styles.css?v=16">
 <script src="cart.js" defer></script>
 <script src="muralia-tracking.js" defer></script>
 </head>
@@ -88,7 +88,7 @@
 <header>
   <div class="wrap header-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" src="logo-graphite.png" alt="Muralia">
+      <img class="brand-mark" src="logo-graphite-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" onclick="const el=document.getElementById('nav-list'); const open=el.classList.toggle('open'); this.setAttribute('aria-expanded', open);"><span></span></button>
@@ -107,7 +107,7 @@
 
   <section class="hero" style="padding:0;">
     <div class="hero-bg"></div>
-    <img class="hero-mark" src="logo-paper.png" alt="" aria-hidden="true">
+    <img class="hero-mark" src="logo-paper-680.png" alt="" aria-hidden="true" width="340" height="340" loading="lazy" decoding="async">
     <div class="wrap hero-content">
       <span class="eyebrow">Especialistas en protección de obra</span>
       <h1>Protección térmica, acústica y contra incendios para tu obra.</h1>
@@ -138,7 +138,7 @@
           <a class="btn btn-dark" href="empresa.html" style="margin-top:10px;">Conoce la empresa</a>
         </div>
         <div class="about-photo">
-          <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1000&q=75" alt="Estructura de acero en obra">
+          <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1000&q=75" srcset="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1000&q=75 1000w" sizes="(max-width:900px) 100vw, 50vw" alt="Estructura de acero en obra">
           <span class="about-photo-tag">Obra en ejecución</span>
         </div>
       </div>
@@ -205,19 +205,19 @@
       <div class="featured-grid">
         <a class="featured-card" href="/productos/lana-de-vidrio.html">
           <img loading="lazy" decoding="async" src="/img/productos/lana-de-vidrio.jpg" alt="Rollo de lana de vidrio con polipropileno blanco">
-          <div class="featured-body"><h4>Lana de vidrio</h4><span>Ver detalle →</span></div>
+          <div class="featured-body"><h3>Lana de vidrio</h3><span>Ver detalle →</span></div>
         </a>
         <a class="featured-card" href="/productos/panel-velo-negro.html">
           <img loading="lazy" decoding="async" src="img/panel-velo-negro.jpg" alt="Panel de lana de vidrio con velo negro">
-          <div class="featured-body"><h4>Panel velo negro</h4><span>Ver detalle →</span></div>
+          <div class="featured-body"><h3>Panel velo negro</h3><span>Ver detalle →</span></div>
         </a>
         <a class="featured-card" href="/productos/placa-fibrosilicato.html">
           <img loading="lazy" decoding="async" src="/img/productos/placa-fibrosilicato.jpg" alt="Placa de fibrosilicato resistente al fuego">
-          <div class="featured-body"><h4>Placa fibrosilicato</h4><span>Ver detalle →</span></div>
+          <div class="featured-body"><h3>Placa fibrosilicato</h3><span>Ver detalle →</span></div>
         </a>
         <a class="featured-card" href="/productos/rayos-x.html">
           <img loading="lazy" decoding="async" src="/img/productos/rayos-x.jpg" alt="Plancha con blindaje radiológico para salas de rayos X">
-          <div class="featured-body"><h4>Rayos X</h4><span>Ver detalle →</span></div>
+          <div class="featured-body"><h3>Rayos X</h3><span>Ver detalle →</span></div>
         </a>
       </div>
     </div>
@@ -234,7 +234,7 @@
 <footer>
   <div class="wrap footer-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" style="width:25px;height:25px;" src="logo-paper.png" alt="Muralia">
+      <img class="brand-mark" style="width:25px;height:25px;" src="logo-paper-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">
