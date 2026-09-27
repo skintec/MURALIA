@@ -176,7 +176,9 @@
 
   function mediaHTML(media, name) {
     if (media.type === 'photo') {
-      return '<img src="/' + media.src + '" alt="' + esc(media.alt || name) + '">';
+      // rutas del sitio ("/img/…" o "img/…") quedan absolutas; las URL externas se usan tal cual
+      var src = /^https?:\/\//.test(media.src) ? media.src : '/' + String(media.src).replace(/^\/+/, '');
+      return '<img src="' + esc(src) + '" alt="' + esc(media.alt || name) + '">';
     }
     var colorStyle = media.class === 'swatch-pp' ? ' style="color:var(--graphite);"' : '';
     return '<div class="swatch ' + media.class + '" style="height:340px;">' +
