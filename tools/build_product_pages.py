@@ -70,7 +70,7 @@ def build(cat, p, siblings):
     }
     ld = "\n".join(
         '<script type="application/ld+json">\n' + json.dumps(x, ensure_ascii=False, indent=1) + "\n</script>"
-        for x in (product_ld, crumbs_ld, faq_ld)
+        for x in (crumbs_ld, faq_ld)
     )
 
     specs = "".join(f"<li><b>{e(k)}:</b> {e(v)}</li>" for k, v in availability(p))
