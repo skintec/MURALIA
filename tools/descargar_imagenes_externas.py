@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Descarga las imágenes que el sitio carga desde otros dominios (Unsplash, ayrsa.cl),
+"""Descarga las imágenes que el sitio carga desde Unsplash,
 las guarda en img/ y reemplaza todas las referencias por la ruta local.
 
 Uso (desde la raíz del repo):  python3 tools/descargar_imagenes_externas.py
@@ -17,7 +17,6 @@ NOMBRES = {
     "photo-1600965581129-eef8a214ec9d": "img/contacto-obra",      # Contacto
     "photo-1704742950992-9815a104820c": "img/cat-tabiques",       # Productos: tabiques y cielos
 }
-AYRSA = {"https://ayrsa.cl/wp-content/uploads/2016/08/lana-mineral-roca.jpg": "img/productos/lana-mineral.jpg"}
 
 ARCHIVOS = [f for f in glob.glob("*.html") + glob.glob("productos/*.html") +
             ["styles.css", "products.json", "tools/producto.template.html"] if os.path.exists(f)]
@@ -25,8 +24,6 @@ URL_UNSPLASH = re.compile(r"https://images\.unsplash\.com/(photo-[0-9a-f-]+)\?[^
 
 
 def local_de(url):
-    if url in AYRSA:
-        return AYRSA[url]
     m = URL_UNSPLASH.fullmatch(url)
     if not m or m.group(1) not in NOMBRES:
         return None
@@ -38,7 +35,7 @@ def descargar(url, destino):
     if os.path.exists(destino):
         return
     # fm=jpg: Unsplash entrega JPG (con auto=format podría responder AVIF/WebP)
-    pedir = url + "&fm=jpg" if "unsplash" in url and "fm=" not in url else url
+    pedir = url + "&fm=jpg" if "fm=" not in url else url
     req = urllib.request.Request(pedir, headers={"User-Agent": "Mozilla/5.0 (muralia.cl)"})
     with urllib.request.urlopen(req, timeout=60) as r:
         data = r.read()
@@ -54,7 +51,6 @@ urls = set()
 for f in ARCHIVOS:
     s = open(f, encoding="utf-8").read()
     urls.update(m.group(0) for m in URL_UNSPLASH.finditer(s))
-    urls.update(u for u in AYRSA if u in s)
 
 mapa = {u: local_de(u) for u in sorted(urls)}
 sin_nombre = [u for u, l in mapa.items() if not l]
