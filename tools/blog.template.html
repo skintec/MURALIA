@@ -20,9 +20,20 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Página no encontrada | Muralia</title>
-<meta name="description" content="La página que buscas no existe en muralia.cl.">
-<meta name="robots" content="noindex">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{META}}">
+<link rel="canonical" href="{{URL}}">
+<meta property="og:type" content="{{OG_TYPE}}">
+<meta property="og:site_name" content="Muralia">
+<meta property="og:locale" content="es_CL">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{META}}">
+<meta property="og:url" content="{{URL}}">
+<meta property="og:image" content="{{IMG}}">
+<meta property="og:image:alt" content="{{IMG_ALT}}">
+{{EXTRA_META}}
+<meta name="twitter:card" content="summary_large_image">
+{{JSONLD}}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -46,7 +57,7 @@
         <li><a href="/">Inicio</a></li>
         <li><a href="/empresa.html">Empresa</a></li>
         <li><a href="/productos.html">Productos</a></li>
-        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/blog.html" class="active">Blog</a></li>
         <li><a href="/cotizacion.html" class="cart-link">Cotización <span class="cart-count" style="display:none;">0</span></a></li>
         <li><a href="/contacto.html" class="nav-cta">Contacto</a></li>
       </ul>
@@ -55,16 +66,63 @@
 </header>
 <main>
 
-  <section class="page-hero" style="padding:0;min-height:320px;">
+  <section class="page-hero article-hero" style="padding:0;min-height:220px;">
     <div class="page-hero-bg" style="background:linear-gradient(135deg, #2b2a26 0%, #3e4a3c 100%);"></div>
     <div class="wrap page-hero-content">
-      <span class="kicker">Error 404</span>
-      <h1>No encontramos esta página</h1>
-      <p class="lead">Puede que el enlace esté desactualizado o que la dirección tenga un error.</p>
-      <div class="cta-row" style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;">
-        <a class="btn btn-primary" href="/productos.html">Ver productos</a>
-        <a class="btn btn-secondary" href="/">Ir al inicio</a>
+      <nav class="breadcrumb" aria-label="Ruta"><a href="/">Inicio</a> / <a href="/blog.html">Blog</a> / {{KICKER}}</nav>
+      <span class="kicker">{{KICKER}}</span>
+      <h1>{{H1}}</h1>
+      <p class="post-meta post-meta-hero"><time datetime="{{DATE_ISO}}">{{DATE_TXT}}</time> · {{READ_MIN}} min de lectura · Equipo Muralia</p>
+    </div>
+  </section>
+
+  <section class="article-section">
+    <div class="wrap article-layout">
+      <article class="prose">
+        <figure class="article-cover"><img src="{{IMG_SRC}}" alt="{{IMG_ALT}}" width="{{IMG_W}}" height="{{IMG_H}}" fetchpriority="high"></figure>
+{{BODY}}
+        <div class="article-faq">
+          <h2 id="preguntas-frecuentes">Preguntas frecuentes</h2>
+          <div class="faq-list">{{FAQ}}</div>
+        </div>
+      </article>
+      <aside class="article-aside">
+        <div class="toc">
+          <span class="kicker">En este artículo</span>
+          <ol>{{TOC}}</ol>
+        </div>
+        <div class="aside-cta">
+          <span class="kicker">¿Tienes un proyecto?</span>
+          <p>Te asesoramos con el sistema correcto y cotizamos los materiales para tu obra.</p>
+          <a class="btn btn-primary" href="/contacto.html">Hablar con ventas</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="product-extra section-tight" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Productos relacionados</span>
+          <h2>Materiales para esta solución</h2>
+        </div>
+        <p><a href="/productos.html">Ver el catálogo completo →</a></p>
       </div>
+      <div class="product-list">{{RELATED}}</div>
+    </div>
+  </section>
+
+  <section class="section-plaster section-tight">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="kicker">Blog</span>
+          <h2>Sigue leyendo</h2>
+        </div>
+        <p><a href="/blog.html">Ver todos los artículos →</a></p>
+      </div>
+      <div class="post-grid">{{MORE}}</div>
     </div>
   </section>
 
@@ -72,7 +130,7 @@
 <footer>
   <div class="wrap footer-inner">
     <a class="brand" href="/">
-      <img class="brand-mark" style="width:25px;height:25px;" src="/logo-paper-96.png" alt="" width="32" height="32">
+      <img class="brand-mark" style="width:20px;height:20px;" src="/logo-paper-96.png" alt="" width="32" height="32">
       <span class="brand-name">MURALIA</span>
     </a>
     <nav class="footer-nav">

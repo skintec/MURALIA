@@ -120,11 +120,7 @@ for cat in data["categories"]:
             f.write(build(cat, p, cat["products"]))
         urls.append(f"{SITE}/productos/{p['slug']}.html")
 
-# sitemap.xml
-today = datetime.date.today().isoformat()
-pages = [SITE + "/", SITE + "/productos.html", SITE + "/empresa.html", SITE + "/contacto.html"] + urls + [SITE + "/privacidad.html"]
-sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-sm += [f"  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>" for u in pages]
-sm.append("</urlset>")
-open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm) + "\n")
-print(f"{len(urls)} páginas de producto + sitemap.xml ({len(pages)} URLs)")
+# sitemap.xml (páginas fijas + productos + blog)
+from sitemap import write_sitemap  # noqa: E402
+n = write_sitemap()
+print(f"{len(urls)} páginas de producto + sitemap.xml ({n} URLs)")
