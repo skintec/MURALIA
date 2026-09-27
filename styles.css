@@ -133,13 +133,13 @@ nav a.active{color:var(--graphite);border-color:var(--clay);}
   position:absolute;inset:0;
   background-image:
     linear-gradient(100deg, rgba(20,19,17,0.94) 0%, rgba(20,19,17,0.78) 45%, rgba(20,19,17,0.5) 100%),
-    url('https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?auto=format&fit=crop&w=1920&q=75');
+    url('img/hero-obra-1920.jpg');
   background-size:cover;
   background-position:center 65%;
 }
 /* Foto de fondo más liviana en tablet y celular (Unsplash la redimensiona en su servidor) */
-@media (max-width:1100px){ .hero-bg{background-image:linear-gradient(100deg, rgba(20,19,17,0.94) 0%, rgba(20,19,17,0.78) 45%, rgba(20,19,17,0.5) 100%), url('https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?auto=format&fit=crop&w=1280&q=70');} }
-@media (max-width:640px){ .hero-bg{background-image:linear-gradient(100deg, rgba(20,19,17,0.94) 0%, rgba(20,19,17,0.78) 45%, rgba(20,19,17,0.5) 100%), url('https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?auto=format&fit=crop&w=760&q=65');} }
+@media (max-width:1100px){ .hero-bg{background-image:linear-gradient(100deg, rgba(20,19,17,0.94) 0%, rgba(20,19,17,0.78) 45%, rgba(20,19,17,0.5) 100%), url('img/hero-obra-1280.jpg');} }
+@media (max-width:640px){ .hero-bg{background-image:linear-gradient(100deg, rgba(20,19,17,0.94) 0%, rgba(20,19,17,0.78) 45%, rgba(20,19,17,0.5) 100%), url('img/hero-obra-760.jpg');} }
 .hero-content{position:relative;z-index:2;padding-top:88px;padding-bottom:88px;color:var(--paper);}
 .hero-mark{
   position:absolute;

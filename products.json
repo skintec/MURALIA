@@ -283,7 +283,7 @@
           "desc": "Panel rígido de lana mineral, para cuando se necesita más densidad y resistencia térmica que la que da la lana de vidrio — aplicaciones industriales exigentes, ductos y equipos.",
           "media": {
             "type": "photo",
-            "src": "https://ayrsa.cl/wp-content/uploads/2016/08/lana-mineral-roca.jpg",
+            "src": "/img/lana-mineral.jpg",
             "alt": "Paneles de lana mineral"
           },
           "base_specs": [
@@ -733,7 +733,7 @@
       "num": "03",
       "tag": "Estructura",
       "name": "Tabiques y cielos",
-      "hero_photo": "https://images.unsplash.com/photo-1704742950992-9815a104820c?auto=format&fit=crop&w=1400&q=85",
+      "hero_photo": "/img/cat-tabiques-1000.jpg",
       "hero_alt": "Sala en construcción con estructura de tabiquería",
       "intro": "Desde tabiques estándar hasta versiones resistentes a la humedad, al fuego, al impacto o a la radiación, según lo exija el recinto.",
       "products": [
