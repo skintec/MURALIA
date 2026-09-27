@@ -69,11 +69,24 @@ def prepare(p):
         return f'<h2 id="{sid}">{text}</h2>'
     p["body_html"] = re.sub(r"<h2>(.*?)</h2>", add_id, p["body"])
     toc.append(("preguntas-frecuentes", "Preguntas frecuentes"))
+    if p.get("sources"):
+        toc.append(("fuentes", "Fuentes"))
     p["toc"] = toc
     words = len(re.sub(r"<[^>]+>", " ", p["body"]).split()) + sum(len((q + a).split()) for q, a in p["faq"])
     p["read_min"] = max(3, round(words / 200))
     for s in p["related"]:
         assert s in PRODUCTS, f"{p['slug']}: producto desconocido {s}"
+
+
+def sources_html(p):
+    # fuentes: (título, organismo/fabricante, url)
+    if not p.get("sources"):
+        return ""
+    items = "".join(f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a> — {e(org)}</li>' for t, org, u in p["sources"])
+    return ('        <div class="article-sources">\n          <h2 id="fuentes">Fuentes</h2>\n'
+            f'          <ol>{items}</ol>\n'
+            '          <p>Los valores citados corresponden a las fuentes indicadas a la fecha de publicación. '
+            'Normas y fichas técnicas se actualizan: verifica siempre la versión vigente para tu proyecto.</p>\n        </div>')
 
 
 def build_post(p, others):
@@ -87,6 +100,8 @@ def build_post(p, others):
         "author": ORG, "publisher": ORG, "inLanguage": "es-CL",
         "mainEntityOfPage": {"@type": "WebPage", "@id": url},
     }
+    if p.get("sources"):
+        article_ld["citation"] = [s[2] for s in p["sources"]]
     crumbs_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Inicio", "item": SITE + "/"},
         {"@type": "ListItem", "position": 2, "name": "Blog", "item": SITE + "/blog.html"},
@@ -104,6 +119,7 @@ def build_post(p, others):
         "READ_MIN": str(p["read_min"]), "IMG_SRC": src, "IMG_W": str(w), "IMG_H": str(h),
         "BODY": p["body_html"],
         "FAQ": "".join(f'<details class="faq-item"><summary>{e(q)}</summary><p>{e(a)}</p></details>' for q, a in p["faq"]),
+        "SOURCES": sources_html(p),
         "TOC": "".join(f'<li><a href="#{sid}">{e(t)}</a></li>' for sid, t in p["toc"]),
         "RELATED": "".join(f'<a href="/productos/{s}.html"><span>{e(PRODUCTS[s]["name"])}</span><span class="arrow">&#8594;</span></a>'
                            for s in p["related"]),
