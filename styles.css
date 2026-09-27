@@ -506,3 +506,9 @@ footer{padding:36px 0;background:var(--graphite);color:#c9c7bd;}
 .article-faq{margin-top:12px;}
 .article-faq .faq-list{max-width:none;}
 @media (max-width:640px){ .prose{font-size:16px;} .prose .lead-p{font-size:17px;} .article-section{padding:40px 0 56px;} }
+.article-sources{margin-top:40px;padding-top:8px;border-top:1px solid var(--line);}
+.article-sources h2{margin-top:28px;}
+.article-sources ol{font-size:var(--fs-body-sm);line-height:1.55;}
+.article-sources li{margin-bottom:8px;}
+.article-sources a{word-break:break-word;}
+.article-sources p{font-size:var(--fs-meta);color:#6b6a5d;}
