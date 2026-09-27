@@ -32,8 +32,8 @@ POSTS = [
 "meta": "Qué es la protección pasiva contra incendios, cómo se diferencia de la activa, sus sistemas (compartimentación, protección de estructuras y sellos) y la normativa chilena.",
 "kicker": "Protección pasiva contra incendios",
 "date": "2026-09-27",
-"image": ("/img/blog/proteccion-pasiva-contra-incendios.jpg", 800, 450),
-"image_alt": "Muro interior revestido con placas de fibrosilicato Promatect resistentes al fuego",
+"image": ("/img/blog/proteccion-pasiva-contra-incendios.jpg", 960, 540),
+"image_alt": "Construcción envuelta en llamas durante un incendio nocturno",
 "excerpt": "La parte de la seguridad contra incendios que no se ve: muros, placas, sellos y revestimientos que contienen el fuego y el humo el tiempo necesario para evacuar y combatirlo.",
 "related": ["placa-fibrosilicato", "yeso-carton-resistente-al-fuego", "masilla-cortafuego", "cinta-intumescente", "lana-mineral"],
 "body": f"""
