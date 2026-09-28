@@ -530,3 +530,18 @@ footer{padding:36px 0;background:var(--graphite);color:#c9c7bd;}
 .article-sources li{margin-bottom:8px;}
 .article-sources a{word-break:break-word;}
 .article-sources p{font-size:var(--fs-meta);color:#6b6a5d;}
+
+/* ---------- COTIZACIÓN (carrito) ---------- */
+.cart-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px;}
+.cart-clear{display:inline-flex;align-items:center;gap:6px;background:none;border:none;padding:6px 0;cursor:pointer;font-family:inherit;font-size:var(--fs-meta);font-weight:600;color:#6b6a5d;text-decoration:underline;text-underline-offset:3px;}
+.cart-clear svg{width:15px;height:15px;flex-shrink:0;}
+.cart-clear:hover{color:var(--clay-dark);}
+.cart-send{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+@media (max-width:640px){ .cart-send .btn{flex:1 1 100%;text-align:center;} }
+.cart-clear{white-space:nowrap;}
+@media (max-width:640px){
+  .cart-head{align-items:flex-start;}
+  .cart-row{flex-wrap:wrap;row-gap:10px !important;}
+  .cart-row-name{flex:1 1 100% !important;}
+  .cart-row-remove{margin-left:auto;padding:8px 0;}
+}

@@ -41,7 +41,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/archivo-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=20">
+<link rel="stylesheet" href="styles.css?v=21">
 <script src="cart.js" defer></script>
 <script src="muralia-tracking.js" defer></script>
 </head>
@@ -86,12 +86,18 @@
       </div>
 
       <div id="cart-full" style="display:none;">
+        <div class="cart-head">
+          <span class="kicker" id="cart-count-label" style="margin-bottom:0;">Tu cotización</span>
+          <button type="button" class="cart-clear" id="cart-clear-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Vaciar cotización
+          </button>
+        </div>
         <div class="product-list" id="cart-list" style="border-top:1px solid var(--line);margin-bottom:32px;"></div>
 
-        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+        <span class="kicker" style="margin-bottom:12px;">Enviar solicitud</span>
+        <div class="cart-send">
           <a class="btn btn-primary" id="cart-wa-btn" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
           <a class="btn btn-secondary" id="cart-email-btn" href="#" style="border-color:var(--line);color:var(--graphite);">Enviar por correo</a>
-          <button type="button" class="btn btn-secondary" id="cart-clear-btn" style="border-color:var(--line);color:var(--graphite);">Vaciar cotización</button>
         </div>
         <p class="detail-note" style="margin-top:18px;">Al elegir WhatsApp o correo se abrirá tu cotización con el detalle ya escrito; solo completa tu nombre y comuna y envíala. Te respondemos en horario hábil. Los datos que nos envíes se usan solo para responder tu cotización — revisa nuestra <a href="privacidad.html" style="color:inherit;text-decoration:underline;">política de privacidad</a>.</p>
       </div>
@@ -142,10 +148,13 @@
     }
     empty.style.display = 'none';
     full.style.display = '';
+    var countLabel = document.getElementById('cart-count-label');
+    if (countLabel) countLabel.textContent = 'Tu cotización · ' + items.length + (items.length === 1 ? ' producto' : ' productos');
 
     list.innerHTML = '';
     items.forEach(function (item, index) {
       var row = document.createElement('div');
+      row.className = 'cart-row';
       row.style.display = 'flex';
       row.style.alignItems = 'center';
       row.style.justifyContent = 'space-between';
@@ -154,6 +163,7 @@
       row.style.borderBottom = '1px solid var(--line)';
 
       var label = document.createElement('div');
+      label.className = 'cart-row-name';
       label.style.flex = '1';
       var typeTxt = item.type ? (' — Tipo: ' + esc(item.type)) : '';
       var thicknessTxt = item.thickness ? (' — Espesor: ' + esc(item.thickness)) : '';
@@ -187,6 +197,7 @@
       var removeBtn = document.createElement('button');
       removeBtn.type = 'button';
       removeBtn.textContent = 'Quitar';
+      removeBtn.className = 'cart-row-remove';
       removeBtn.style.cssText = 'background:none;border:none;color:var(--clay-dark);font-weight:700;font-size:var(--fs-meta);cursor:pointer;flex-shrink:0;';
       removeBtn.addEventListener('click', function () {
         window.MuraliaCart.removeItem(index);
@@ -205,7 +216,7 @@
   }
 
   document.getElementById('cart-clear-btn') && document.getElementById('cart-clear-btn').addEventListener('click', function () {
-    if (window.MuraliaCart) {
+    if (window.MuraliaCart && confirm('¿Vaciar la cotización? Se quitarán todos los productos que agregaste.')) {
       window.MuraliaCart.clearItems();
       render();
     }
