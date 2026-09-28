@@ -4,6 +4,7 @@
    Registra en GA las acciones de contacto que la etiqueta de
    Google no mide sola:
      - generate_lead   clic en "Enviar por correo" (#cart-email-btn)
+                       o "Enviar por WhatsApp" (#cart-wa-btn)
      - click_telefono  clic en un enlace tel:
      - click_email     clic en un enlace mailto:
      - add_to_quote    producto agregado al carrito de cotización
@@ -57,12 +58,12 @@
     var href = link.getAttribute("href") || "";
 
     try {
-      if (link.id === "cart-email-btn") {
+      if (link.id === "cart-email-btn" || link.id === "cart-wa-btn") {
         var items = cartItems();
         if (!items.length) return;
         var products = items.map(function (i) { return i.name; }).join(", ");
         track("generate_lead", {
-          lead_source: "cotizacion_email",
+          lead_source: link.id === "cart-wa-btn" ? "cotizacion_whatsapp" : "cotizacion_email",
           items: items.map(toGaItem),
           product_count: items.length,
           products: products.slice(0, 100)

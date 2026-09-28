@@ -3,8 +3,8 @@
    ------------------------------------------------------------
    Guarda los productos que el cliente quiere cotizar en el
    navegador, con la cantidad que necesita de cada uno. Al
-   terminar, genera un correo (mailto:) con el detalle completo,
-   dirigido a ventas@muralia.cl.
+   terminar, genera un correo (mailto:) o un mensaje de WhatsApp
+   (wa.me) con el detalle completo.
    ============================================================ */
 
 (function () {
@@ -12,6 +12,7 @@
 
   var KEY = "muralia_cotizacion_v1";
   var EMAIL = "ventas@muralia.cl";
+  var WHATSAPP = "56950441068"; // número de WhatsApp Business de Muralia (sin + ni espacios)
 
   function getItems() {
     try {
@@ -101,6 +102,24 @@
     return "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
   }
 
+  // Arma el mensaje de WhatsApp con el detalle de la cotización.
+  // Redactado en primera persona para que se lea como un mensaje normal del cliente.
+  function buildWhatsApp(items, note) {
+    var lines = ["Hola Muralia, quiero cotizar estos productos:", ""];
+    items.forEach(function (item, i) {
+      var qty = item.qty || 1;
+      var extra = [item.type, item.thickness, item.density, item.finish].filter(Boolean).join(", ");
+      var line = (i + 1) + ". " + item.name + (extra ? " \u00b7 " + extra : "") + " \u2014 " + qty + (item.unit ? " " + item.unit : "");
+      lines.push(line);
+    });
+    lines.push("");
+    if (note) { lines.push(note); lines.push(""); }
+    lines.push("Mi nombre: ");
+    lines.push("Comuna de despacho: ");
+    lines.push("RUT (si necesitas factura): ");
+    return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(lines.join("\n"));
+  }
+
   window.MuraliaCart = {
     getItems: getItems,
     addItem: addItem,
@@ -108,7 +127,8 @@
     removeItem: removeItem,
     clearItems: clearItems,
     updateBadges: updateBadges,
-    buildMailto: buildMailto
+    buildMailto: buildMailto,
+    buildWhatsApp: buildWhatsApp
   };
 
   document.addEventListener("DOMContentLoaded", updateBadges);
