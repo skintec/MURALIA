@@ -3,6 +3,8 @@
 // Variables: GITHUB_TOKEN (secreto, obligatorio) · ACCESS_KEY (secreto, opcional: clave corta que el generador envía).
 const REPO = "skintec/MURALIA", BRANCH = "main", PATH = "cotizaciones/data.json";
 const ORIGINS = ["https://muralia.cl", "https://www.muralia.cl"];
+// Acepta secretos normales (texto) o de Secrets Store (objeto con .get()).
+const secret = async (v) => (v && typeof v.get === "function" ? await v.get() : v);
 const MAX_BYTES = 4 * 1024 * 1024;
 
 export default {
@@ -18,10 +20,11 @@ export default {
     const reply = (body, status = 200) => new Response(body, { status, headers: { ...cors, "Content-Type": "application/json" } });
     if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
     if (!allowed) return reply('{"error":"origen no permitido"}', 403);
-    if (env.ACCESS_KEY && req.headers.get("X-Muralia-Key") !== env.ACCESS_KEY) return reply('{"error":"clave incorrecta"}', 401);
+    const accessKey = await secret(env.ACCESS_KEY);
+    if (accessKey && req.headers.get("X-Muralia-Key") !== accessKey) return reply('{"error":"clave incorrecta"}', 401);
 
     const url = `https://api.github.com/repos/${REPO}/contents/${PATH}`;
-    const gh = { Authorization: `Bearer ${env.GITHUB_TOKEN}`, Accept: "application/vnd.github+json", "User-Agent": "muralia-worker" };
+    const gh = { Authorization: `Bearer ${await secret(env.GITHUB_TOKEN)}`, Accept: "application/vnd.github+json", "User-Agent": "muralia-worker" };
 
     if (req.method === "GET") {
       const r = await fetch(`${url}?ref=${BRANCH}`, { headers: gh });
