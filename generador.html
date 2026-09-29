@@ -1420,7 +1420,7 @@ if (draft && draft.items && draft.form){
    ============================================================ */
 var GH = {repo:"skintec/MURALIA", branch:"main", path:"cotizaciones/data.json"};
 // URL del Worker de Cloudflare (ver tools/cloudflare-worker.js). No es un secreto. Si está vacío se usa el token personal.
-var WORKER_URL = "";
+var WORKER_URL = "https://round-brook-debe.skintecjavi.workers.dev/";
 var LS_KEY = "muralia_worker_key", LS_TOKEN = "muralia_gh_token", LS_HIST = "muralia_historial_cache_v1", LS_PEND = "muralia_historial_pendientes_v1";
 var history_ = readJSON(LS_HIST, []);      // cotizaciones conocidas (remoto + locales)
 var pending = readJSON(LS_PEND, {});       // id -> cotización aún no subida
