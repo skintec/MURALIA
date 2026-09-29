@@ -254,7 +254,7 @@
           <span class="sync-state" id="sync-state">Sin sincronizar</span>
           <span>
             <button class="btn btn-outline btn-sm" type="button" id="btn-sync">Sincronizar ahora</button>
-            <button class="btn-link" type="button" id="btn-token">Configurar acceso a GitHub</button>
+            <button class="btn-link" type="button" id="btn-token">Configurar acceso</button>
           </span>
         </div>
         <div class="card-body">
@@ -1419,7 +1419,9 @@ if (draft && draft.items && draft.form){
    Escritura: API de GitHub con token personal guardado en este navegador.
    ============================================================ */
 var GH = {repo:"skintec/MURALIA", branch:"main", path:"cotizaciones/data.json"};
-var LS_TOKEN = "muralia_gh_token", LS_HIST = "muralia_historial_cache_v1", LS_PEND = "muralia_historial_pendientes_v1";
+// URL del Worker de Cloudflare (ver tools/cloudflare-worker.js). No es un secreto. Si está vacío se usa el token personal.
+var WORKER_URL = "";
+var LS_KEY = "muralia_worker_key", LS_TOKEN = "muralia_gh_token", LS_HIST = "muralia_historial_cache_v1", LS_PEND = "muralia_historial_pendientes_v1";
 var history_ = readJSON(LS_HIST, []);      // cotizaciones conocidas (remoto + locales)
 var pending = readJSON(LS_PEND, {});       // id -> cotización aún no subida
 var ghSha = null;
@@ -1428,13 +1430,19 @@ function ghToken(){ return lsGet(LS_TOKEN) || ""; }
 function setSync(msg, cls){ var el = $("sync-state"); el.textContent = msg; el.className = "sync-state " + (cls||""); }
 function b64enc(str){ return btoa(unescape(encodeURIComponent(str))); }
 function b64dec(b64){ return decodeURIComponent(escape(atob(b64.replace(/\s/g,"")))); }
-function apiUrl(){ return "https://api.github.com/repos/" + GH.repo + "/contents/" + GH.path; }
-function apiHeaders(){ var h = {"Accept":"application/vnd.github+json"}; if (ghToken()) h.Authorization = "Bearer " + ghToken(); return h; }
+function canWrite(){ return !!(WORKER_URL || ghToken()); }
+function apiUrl(){ return WORKER_URL || ("https://api.github.com/repos/" + GH.repo + "/contents/" + GH.path); }
+function apiHeaders(){
+  var h = {"Accept":"application/vnd.github+json"};
+  if (WORKER_URL){ if (lsGet(LS_KEY)) h["X-Muralia-Key"] = lsGet(LS_KEY); }
+  else if (ghToken()) h.Authorization = "Bearer " + ghToken();
+  return h;
+}
 
 // Descarga la versión remota: {list, sha}. Con token usa la API (siempre al día); sin token, el archivo publicado.
 function fetchRemote(){
-  if (ghToken()){
-    return fetch(apiUrl() + "?ref=" + GH.branch + "&t=" + Date.now(), {headers: apiHeaders(), cache:"no-store"}).then(function(r){
+  if (canWrite()){
+    return fetch(apiUrl() + (WORKER_URL ? "?" : "?ref=" + GH.branch + "&") + "t=" + Date.now(), {headers: apiHeaders(), cache:"no-store"}).then(function(r){
       if (r.status === 404) return {list: [], sha: null};
       if (r.status === 401 || r.status === 403) throw new Error("token");
       if (!r.ok) throw new Error("http " + r.status);
@@ -1458,7 +1466,7 @@ function persistHist(){ lsSet(LS_HIST, JSON.stringify(history_)); lsSet(LS_PEND,
 function pushPending(tries){
   tries = tries == null ? 3 : tries;
   if (!pendingList().length) return Promise.resolve();
-  if (!ghToken()) return Promise.reject(new Error("notoken"));
+  if (!canWrite()) return Promise.reject(new Error("notoken"));
   return fetchRemote().then(function(rem){
     var merged = mergeList(rem.list, pendingList());
     var body = {message: "Cotizaciones: " + pendingList().map(function(q){ return q.numero; }).join(", "),
@@ -1466,7 +1474,7 @@ function pushPending(tries){
     if (rem.sha) body.sha = rem.sha;
     return fetch(apiUrl(), {method:"PUT", headers: Object.assign({"Content-Type":"application/json"}, apiHeaders()), body: JSON.stringify(body)}).then(function(r){
       if ((r.status === 409 || r.status === 422) && tries > 0) return pushPending(tries - 1);
-      if (r.status === 401 || r.status === 403 || r.status === 404) throw new Error("token");
+      if (r.status === 401 || r.status === 403) throw new Error("token");
       if (!r.ok) throw new Error("http " + r.status);
       pending = {}; history_ = merged; persistHist();
     });
@@ -1485,7 +1493,7 @@ function syncHistory(silent){
   }).catch(function(e){
     renderHistory();
     var msg = e.message === "notoken" ? "Sin token: " + pendingList().length + " cotización(es) sin subir a GitHub"
-            : e.message === "token" ? "Token inválido o sin permisos sobre el repositorio"
+            : e.message === "token" ? (WORKER_URL ? "Clave incorrecta o sin permiso" : "Token inválido o sin permisos sobre el repositorio")
             : "No se pudo sincronizar (sin conexión); se reintenta al volver a abrir";
     setSync(msg, "warn");
   });
@@ -1501,7 +1509,7 @@ function saveQuote(quiet){
   var q = snapshot();
   pending[q.id] = q; history_ = mergeList(history_.filter(function(x){ return x.id !== q.id; }), [q]);
   persistHist(); renderHistory();
-  if (!ghToken()){ setSync("Guardada en este navegador; falta el token para subirla a GitHub", "warn"); if (!quiet) toast("Guardada localmente. Configura el token para subirla a GitHub."); return Promise.resolve(); }
+  if (!canWrite()){ setSync("Guardada en este navegador; falta el token para subirla a GitHub", "warn"); if (!quiet) toast("Guardada localmente. Configura el token para subirla a GitHub."); return Promise.resolve(); }
   setSync("Subiendo a GitHub…", "");
   return pushPending().then(function(){ renderHistory(); setSync("Sincronizado con GitHub · " + history_.length + " cotizaciones", "ok"); if (!quiet) toast("Cotización " + q.numero + " guardada en GitHub."); })
     .catch(function(){ renderHistory(); setSync("No se pudo subir; queda pendiente y se reintenta al abrir el generador", "warn"); if (!quiet) toast("No se pudo subir a GitHub; quedó pendiente."); });
@@ -1549,9 +1557,9 @@ $("hist-body").addEventListener("click", function(e){
 $("hist-search").addEventListener("input", renderHistory);
 $("btn-sync").addEventListener("click", function(){ syncHistory(false); });
 $("btn-save-quote").addEventListener("click", function(){ saveQuote(false); });
-$("btn-token").addEventListener("click", function(){ $("token-box").classList.toggle("open"); $("gh-token").value = ghToken(); });
-$("btn-token-save").addEventListener("click", function(){ lsSet(LS_TOKEN, $("gh-token").value.trim()); $("token-box").classList.remove("open"); syncHistory(false); });
-$("btn-token-clear").addEventListener("click", function(){ lsDel(LS_TOKEN); $("gh-token").value = ""; setSync("Token quitado", "warn"); });
+$("btn-token").addEventListener("click", function(){ $("token-box").classList.toggle("open"); $("gh-token").value = WORKER_URL ? (lsGet(LS_KEY)||"") : ghToken(); });
+$("btn-token-save").addEventListener("click", function(){ lsSet(WORKER_URL ? LS_KEY : LS_TOKEN, $("gh-token").value.trim()); $("token-box").classList.remove("open"); syncHistory(false); });
+$("btn-token-clear").addEventListener("click", function(){ lsDel(WORKER_URL ? LS_KEY : LS_TOKEN); $("gh-token").value = ""; setSync("Token quitado", "warn"); });
 // Al descargar un PDF también se guarda en el historial
 ["btn-pdf-color","btn-pdf-print"].forEach(function(id){ $(id).addEventListener("click", function(){ if (items.length) saveQuote(true); }); });
 renderHistory();
