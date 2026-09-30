@@ -259,11 +259,11 @@
         </div>
         <div class="card-body">
           <div class="token-box" id="token-box">
-            <p>Para guardar en GitHub necesitas un <b>token personal</b> (GitHub → Settings → Developer settings → Fine-grained tokens, repositorio <b>skintec/MURALIA</b>, permiso <b>Contents: Read and write</b>). Se guarda solo en este navegador, nunca en el código. Sin token puedes ver el historial ya publicado, pero no guardar.</p>
+            <p id="token-help"></p>
             <div class="row">
-              <input type="password" id="gh-token" placeholder="github_pat_…" autocomplete="off">
-              <button class="btn btn-dark btn-sm" type="button" id="btn-token-save">Guardar token</button>
-              <button class="btn-link" type="button" id="btn-token-clear">Quitar token</button>
+              <input type="password" id="gh-token" autocomplete="off">
+              <button class="btn btn-dark btn-sm" type="button" id="btn-token-save">Guardar</button>
+              <button class="btn-link" type="button" id="btn-token-clear">Quitar</button>
             </div>
           </div>
           <div class="hist-tools"><input type="search" id="hist-search" placeholder="Buscar por N°, cliente, RUT, producto…"></div>
@@ -1444,7 +1444,7 @@ function fetchRemote(){
   if (canWrite()){
     return fetch(apiUrl() + (WORKER_URL ? "?" : "?ref=" + GH.branch + "&") + "t=" + Date.now(), {headers: apiHeaders(), cache:"no-store"}).then(function(r){
       if (r.status === 404) return {list: [], sha: null};
-      if (r.status === 401 || r.status === 403) throw new Error("token");
+      if (r.status === 401 || r.status === 403) return r.text().then(function(t){ throw new Error("token:" + t); });
       if (!r.ok) throw new Error("http " + r.status);
       return r.json().then(function(j){ return {list: JSON.parse(b64dec(j.content)).cotizaciones || [], sha: j.sha}; });
     });
@@ -1474,7 +1474,7 @@ function pushPending(tries){
     if (rem.sha) body.sha = rem.sha;
     return fetch(apiUrl(), {method:"PUT", headers: Object.assign({"Content-Type":"application/json"}, apiHeaders()), body: JSON.stringify(body)}).then(function(r){
       if ((r.status === 409 || r.status === 422) && tries > 0) return pushPending(tries - 1);
-      if (r.status === 401 || r.status === 403) throw new Error("token");
+      if (r.status === 401 || r.status === 403) return r.text().then(function(t){ throw new Error("token:" + t); });
       if (!r.ok) throw new Error("http " + r.status);
       pending = {}; history_ = merged; persistHist();
     });
@@ -1492,8 +1492,10 @@ function syncHistory(silent){
     if (!silent) toast("Historial sincronizado.");
   }).catch(function(e){
     renderHistory();
-    var msg = e.message === "notoken" ? "Sin token: " + pendingList().length + " cotización(es) sin subir a GitHub"
-            : e.message === "token" ? (WORKER_URL ? "Clave incorrecta o sin permiso" : "Token inválido o sin permisos sobre el repositorio")
+    var isTok = e.message.indexOf("token") === 0, detail = "";
+    if (isTok){ try{ var o = JSON.parse(e.message.slice(6)); detail = o.error || o.message || ""; }catch(x){} }
+    var msg = e.message === "notoken" ? (WORKER_URL ? "Falta la clave de acceso: " : "Sin token: ") + pendingList().length + " cotización(es) sin subir a GitHub"
+            : isTok ? (WORKER_URL ? "No autorizado: " + (detail || "clave incorrecta") : "Token inválido o sin permisos sobre el repositorio")
             : "No se pudo sincronizar (sin conexión); se reintenta al volver a abrir";
     setSync(msg, "warn");
   });
@@ -1557,6 +1559,15 @@ $("hist-body").addEventListener("click", function(e){
 $("hist-search").addEventListener("input", renderHistory);
 $("btn-sync").addEventListener("click", function(){ syncHistory(false); });
 $("btn-save-quote").addEventListener("click", function(){ saveQuote(false); });
+(function(){
+  var help = WORKER_URL
+    ? "Escribe la <b>clave de acceso</b> (la que definiste como ACCESS_KEY en Cloudflare). Se guarda solo en este dispositivo y se pide una vez."
+    : "Para guardar en GitHub necesitas un <b>token personal</b> (GitHub → Settings → Developer settings → Fine-grained tokens, repositorio <b>skintec/MURALIA</b>, permiso <b>Contents: Read and write</b>). Se guarda solo en este navegador, nunca en el código.";
+  $("token-help").innerHTML = help;
+  $("gh-token").placeholder = WORKER_URL ? "Clave de acceso" : "github_pat_…";
+  $("gh-token").type = WORKER_URL ? "text" : "password";
+  $("btn-token").textContent = WORKER_URL ? "Ingresar clave de acceso" : "Configurar acceso a GitHub";
+})();
 $("btn-token").addEventListener("click", function(){ $("token-box").classList.toggle("open"); $("gh-token").value = WORKER_URL ? (lsGet(LS_KEY)||"") : ghToken(); });
 $("btn-token-save").addEventListener("click", function(){ lsSet(WORKER_URL ? LS_KEY : LS_TOKEN, $("gh-token").value.trim()); $("token-box").classList.remove("open"); syncHistory(false); });
 $("btn-token-clear").addEventListener("click", function(){ lsDel(WORKER_URL ? LS_KEY : LS_TOKEN); $("gh-token").value = ""; setSync("Token quitado", "warn"); });
