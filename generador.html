@@ -248,7 +248,16 @@
       <div class="card">
         <div class="card-head">
           <div><span class="kicker">Guardadas en GitHub</span><h2>Cotizaciones realizadas</h2></div>
-          <p class="head-note">Cada cotización se guarda como código en <b>cotizaciones/data.json</b> del repositorio y se sincroniza cada vez que abres el generador. Usa "Copiar" para partir de una y hacer pequeños cambios.</p>
+          <div class="head-note">
+          <b>Cómo usar el historial</b>
+          <ol style="margin:6px 0 0 18px;">
+            <li>Primera vez en cada dispositivo: toca <b>Ingresar clave de acceso</b>, escribe la clave y guarda.</li>
+            <li>Al terminar una cotización toca <b>Guardar en historial</b>; al descargar un PDF también se guarda sola.</li>
+            <li>Aquí verás todas; usa el buscador por N°, cliente, RUT o producto.</li>
+            <li><b>Abrir</b> carga la cotización para seguir editándola. <b>Copiar</b> carga una copia con N° y fecha nuevos, para hacer pequeños cambios sin tocar la original.</li>
+            <li>Se sincroniza con GitHub cada vez que abres el generador; "Sincronizar ahora" fuerza la actualización.</li>
+          </ol>
+        </div>
         </div>
         <div class="sync-bar">
           <span class="sync-state" id="sync-state">Sin sincronizar</span>
@@ -1563,7 +1572,7 @@ $("btn-save-quote").addEventListener("click", function(){ saveQuote(false); });
   var help = WORKER_URL
     ? "Escribe la <b>clave de acceso</b> (la que definiste como ACCESS_KEY en Cloudflare). Se guarda solo en este dispositivo y se pide una vez."
     : "Para guardar en GitHub necesitas un <b>token personal</b> (GitHub → Settings → Developer settings → Fine-grained tokens, repositorio <b>skintec/MURALIA</b>, permiso <b>Contents: Read and write</b>). Se guarda solo en este navegador, nunca en el código.";
-  $("token-help").innerHTML = help;
+  $("token-help").innerHTML = help + (WORKER_URL ? " <b>Pista de la clave:</b> gata." : "");
   $("gh-token").placeholder = WORKER_URL ? "Clave de acceso" : "github_pat_…";
   $("gh-token").type = WORKER_URL ? "text" : "password";
   $("btn-token").textContent = WORKER_URL ? "Ingresar clave de acceso" : "Configurar acceso a GitHub";
