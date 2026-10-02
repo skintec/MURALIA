@@ -921,9 +921,25 @@ function parseMail(text){
       res.items.push({name: m[1].trim(), qty: num(m[2]), unit: unit, attrs: attrs, raw: line});
       return;
     }
-    var kv2 = line.match(/^(Nombre cliente|Nombre|Cliente|Raz[oó]n social|Empresa|RUT|Tel[eé]fono|Celular|Fono|Correo|E-?mail|Comuna\s*\/\s*direcci[oó]n de despacho(?:\s*\(opcional\))?|Direcci[oó]n(?: de despacho)?|Comuna|Atenci[oó]n|Contacto)\s*:\s*(.*)$/i);
+    // Formato de WhatsApp: "1. Producto · 40 mm — 226m²" (atributos separados por "·", cantidad sin la palabra "Cantidad")
+    var wa = line.match(/^\d+\s*[.)-]\s*(.+?)\s+[—–-]\s+([\d.,]+)\s*([A-Za-zµ²³\/.]*)\s*$/);
+    if (wa && !/^\s*cantidad\s*:/i.test(wa[1])){
+      var segs = wa[1].split(/\s*[·•|]\s*/), attrsW = {};
+      var nameW = segs.shift().trim();
+      segs.forEach(function(sg){
+        sg = sg.trim(); if (!sg) return;
+        var kvw = sg.match(/^(Espesor|Densidad|Recubrimiento|Terminaci[oó]n|Tipo|Formato)\s*:?\s*(.+)$/i);
+        if (kvw){ sg = kvw[2].trim(); }
+        if (/^[\d.,]+\s*mm$/i.test(sg) || (kvw && norm(kvw[1]) === "espesor")) attrsW.thickness = sg;
+        else if (/kg\s*\/\s*m/i.test(sg) || (kvw && norm(kvw[1]) === "densidad")) attrsW.density = sg;
+        else attrsW.finish = sg;
+      });
+      res.items.push({name: nameW, qty: num(wa[2]), unit: (wa[3] || "").trim(), attrs: attrsW, raw: line});
+      return;
+    }
+    var kv2 = line.match(/^(Mi nombre|Mi correo|Mi tel[eé]fono|Nombre cliente|Nombre|Cliente|Raz[oó]n social|Empresa|RUT(?:\s*\([^)]*\))?|Tel[eé]fono|Celular|Fono|Correo|E-?mail|Comuna\s*\/\s*direcci[oó]n de despacho(?:\s*\(opcional\))?|Comuna de despacho|Direcci[oó]n(?: de despacho)?|Comuna|Atenci[oó]n|Contacto)\s*:\s*(.*)$/i);
     if (kv2){
-      var key = norm(kv2[1]), val = kv2[2].trim();
+      var key = norm(kv2[1]).replace(/\s*\(.*\)\s*$/,"").replace(/^mi /,""), val = kv2[2].trim();
       if (!val) return;
       if (/^(nombre cliente|nombre|cliente|razon social|empresa)$/.test(key)) res.client.cliente = res.client.cliente || val;
       else if (key === "rut") res.client.rut = val;
