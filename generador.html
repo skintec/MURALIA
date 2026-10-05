@@ -123,8 +123,8 @@
   .toolbar .note b{color:var(--graphite);}
   .table-scroll{overflow-x:auto;}
   table.lines{width:100%;min-width:1080px;border-collapse:collapse;font-size:13.5px;}
-  table.lines thead th{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--paper);background:var(--graphite);padding:10px 8px;white-space:nowrap;}
-  table.lines thead th.num{text-align:right;}
+  table.lines thead th{text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--paper);background:var(--graphite);padding:10px 8px;white-space:nowrap;}
+  table.lines thead th.num{text-align:center;}
   table.lines tbody td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
   table.lines tbody tr:hover{background:#faf6ee;}
   table.lines tbody tr.no-price{background:#fbefe7;}
@@ -1186,6 +1186,7 @@ function generatePDF(color){
   var quien = [safe(d.cliente), safe(manaValue(d))].filter(Boolean).join(" ");
   var fname = "Cotizacion Muralia " + safe(d.numero) + (quien ? " - " + quien : "") + (color ? "" : " (imprimir)") + ".pdf";
   r.doc.save(fname);
+  saveQuote(true);   // al descargar, la cotización queda guardada en el historial (y en GitHub)
   return r.doc;
 }
 var PDF_MAX_LEVEL = 10;
@@ -1670,8 +1671,6 @@ $("btn-save-quote").addEventListener("click", function(){ saveQuote(false); });
 $("btn-token").addEventListener("click", function(){ $("token-box").classList.toggle("open"); $("gh-token").value = WORKER_URL ? (lsGet(LS_KEY)||"") : ghToken(); });
 $("btn-token-save").addEventListener("click", function(){ lsSet(WORKER_URL ? LS_KEY : LS_TOKEN, $("gh-token").value.trim()); $("token-box").classList.remove("open"); syncHistory(false); });
 $("btn-token-clear").addEventListener("click", function(){ lsDel(WORKER_URL ? LS_KEY : LS_TOKEN); $("gh-token").value = ""; setSync("Token quitado", "warn"); });
-// Al descargar un PDF también se guarda en el historial
-["btn-pdf-color","btn-pdf-print"].forEach(function(id){ $(id).addEventListener("click", function(){ if (items.length) saveQuote(true); }); });
 renderHistory();
 syncHistory(true);
 })();
