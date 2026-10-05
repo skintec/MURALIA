@@ -136,6 +136,11 @@
   .badge-warn{display:table;margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;background:var(--clay);color:var(--paper);padding:2px 6px;margin-top:5px;}
   .auto-resumen{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--plaster);border-left:3px solid var(--clay);padding:10px 14px;margin-bottom:14px;font-size:var(--fs-meta);}
   .auto-resumen b{color:var(--graphite);}
+  .resumen-edit{display:flex;align-items:center;gap:10px;flex:1;min-width:260px;flex-wrap:wrap;}
+  .resumen-edit input{flex:1;min-width:220px;background:#fff;}
+  .totals input.t-in{width:170px;text-align:right;border:1px solid transparent;background:transparent;padding:2px 6px;font:inherit;letter-spacing:inherit;color:inherit;}
+  .totals input.t-in:hover,.totals input.t-in:focus{border-color:var(--line);background:#fff;color:var(--graphite);}
+  table.lines td input.money,table.lines td input[data-f="recargo"]{text-align:right;}
   .auto-resumen .check-row{margin:0;}
   .remove-btn{background:none;border:none;color:var(--clay-dark);font-weight:700;cursor:pointer;font-size:17px;line-height:1;padding:8px 6px;}
   .remove-btn:hover{color:var(--clay);}
@@ -349,21 +354,21 @@
             <div><label for="f-recargo">% recargo</label><input type="number" id="f-recargo" min="0" step="0.5"></div>
             <button class="btn btn-outline btn-sm" type="button" id="btn-apply-all">Aplicar a todas</button>
           </div>
-          <p class="note">Elige primero la categoría de cada línea: los tres grupos del catálogo, <b>Despacho</b> u <b>Otro</b> (escribes el producto a mano). El % por defecto se usa en cada línea nueva y queda guardado en este navegador. Las líneas marcadas <b>sin precio</b> no tienen precio base en el catálogo: escríbelo directamente en la línea.</p>
+          <p class="note">Elige <b>Archivo</b> (Lanas, Promat, Volcanita), luego la <b>Categoría</b> y el <b>Producto</b>; <b>Despacho</b> y <b>Otro</b> se escriben a mano. <b>Todo se puede editar</b>: si cambias el precio final o el total de una línea (o los totales de abajo), el % de recargo se ajusta solo, y al revés. Las líneas marcadas <b>sin precio</b> no tienen precio base en el catálogo.</p>
         </div>
         <div class="table-scroll">
           <table class="lines">
             <thead>
               <tr>
-                <th style="width:13%">Categoría</th>
-                <th style="width:19%">Producto</th>
-                <th style="width:15%">Variante</th>
-                <th style="width:7%">Cantidad</th>
-                <th style="width:9%">Unidad</th>
+                <th style="width:9%">Archivo</th>
+                <th style="width:12%">Categoría</th>
+                <th style="width:22%">Producto</th>
+                <th style="width:7%">Unidad</th>
                 <th class="num" style="width:9%">Precio base</th>
                 <th style="width:7%">% rec.</th>
-                <th class="num" style="width:8%">Precio final</th>
-                <th class="num" style="width:9%">Total</th>
+                <th class="num" style="width:9%">Precio final</th>
+                <th style="width:7%">Cantidad</th>
+                <th class="num" style="width:10%">Total ($)</th>
                 <th style="width:3%"></th>
               </tr>
             </thead>
@@ -375,9 +380,9 @@
           <button class="btn btn-outline btn-sm" type="button" id="btn-add-custom">+ Línea personalizada</button>
         </div>
         <div class="totals">
-          <div><span>Total neto</span><span id="t-neto">$0</span></div>
-          <div><span>IVA 19%</span><span id="t-iva">$0</span></div>
-          <div class="grand"><span>Total</span><span id="t-total">$0</span></div>
+          <div><span>Total neto</span><input class="t-in" id="t-neto" type="text" inputmode="numeric" value="$0"></div>
+          <div><span>IVA 19%</span><input class="t-in" id="t-iva" type="text" inputmode="numeric" value="$0"></div>
+          <div class="grand"><span>Total</span><input class="t-in" id="t-total" type="text" inputmode="numeric" value="$0"></div>
         </div>
       </div>
     </div>
@@ -390,7 +395,7 @@
       </div>
       <div class="card-body">
         <div class="auto-resumen">
-          <span>Resumen automático: <b id="auto-resumen-txt">—</b></span>
+          <span class="resumen-edit"><label for="auto-resumen-txt" style="display:inline;margin:0;">Resumen</label> <input type="text" id="auto-resumen-txt" placeholder="Se calcula solo; puedes escribirlo tú"> <button class="btn-link" type="button" id="btn-resumen-auto">Volver al automático</button></span>
           <label class="check-row"><input type="checkbox" id="f-resumen" checked> Incluir en el comentario del PDF</label>
         </div>
         <label for="f-comentario">Comentario</label>
@@ -620,6 +625,28 @@ var GROUPS = [];
 CATALOG.forEach(function(c){ if (GROUPS.indexOf(c.cat) < 0) GROUPS.push(c.cat); });
 var G_DESPACHO = "Despacho", G_OTRO = "Otro";
 var ALL_GROUPS = GROUPS.concat([G_DESPACHO, G_OTRO]);
+// "Archivo" = planilla de costos de origen; "Categoría" = familia de producto dentro de cada archivo.
+var ARCHIVO_LABEL = {"Aislación térmica y acústica":"Lanas", "Protección pasiva contra incendios":"Promat", "Tabiques y cielos":"Volcanita"};
+function archivoLabel(g){ return ARCHIVO_LABEL[g] || g; }
+var FAMILY_OF = {
+  "lana-de-vidrio-libre":"Lana de vidrio", "lana-de-vidrio-papel-kraft":"Lana de vidrio", "lana-de-vidrio":"Lana de vidrio",
+  "lana-mineral":"Lana mineral", "frazada-lana-mineral":"Lana mineral", "colchoneta-lana-mineral":"Lana mineral", "panel-velo-negro":"Lana mineral",
+  "banda-elastoacustica":"Bandas, fibra cerámica y ductos", "fibra-ceramica":"Bandas, fibra cerámica y ductos", "panel-para-ductos":"Bandas, fibra cerámica y ductos",
+  "placa-fibrosilicato":"Placas Promatect", "placa-resistente-a-explosiones":"Placas Promatect",
+  "pasta-para-juntas":"Sellos y accesorios cortafuego", "masilla-cortafuego":"Sellos y accesorios cortafuego", "sellante-cortafuego":"Sellos y accesorios cortafuego",
+  "bidon-de-impregnacion":"Sellos y accesorios cortafuego", "cinta-intumescente":"Sellos y accesorios cortafuego",
+  "yeso-carton-estandar":"Placas yeso-cartón", "yeso-carton-resistente-al-fuego":"Placas yeso-cartón", "yeso-carton-resistente-a-la-humedad":"Placas yeso-cartón",
+  "rayos-x":"Placas especiales", "yeso-carton-resistente-al-impacto":"Placas especiales", "yeso-carton-con-atenuacion-acustica":"Placas especiales",
+  "planchas-de-fibrocemento":"Fibrocemento"
+};
+function familyOfSlug(slug, cat){ return FAMILY_OF[slug] || cat; }
+function familiesOf(g){
+  var out = [];
+  CATALOG.forEach(function(c){ if (c.cat === g){ var f = familyOfSlug(c.slug, c.cat); if (out.indexOf(f) < 0) out.push(f); } });
+  return out;
+}
+function entriesOfFamily(g, fam){ return CATALOG.filter(function(c){ return c.cat === g && familyOfSlug(c.slug, c.cat) === fam; }); }
+function entryLabel(c){ return c.producto + (c.variante ? " — " + c.variante : ""); }
 function variantsOf(slug){ return CATALOG.filter(function(c){ return c.slug === slug; }); }
 function variantLabel(c){ return c.variante || "Única"; }
 
@@ -682,10 +709,10 @@ function newItem(opts){
 function setFromCatalog(it, c){
   if (!c) return;
   it.grupo = c.cat; it.catId = c.id; it.slug = c.slug; it.producto = c.producto; it.variante = c.variante;
-  it.formato = c.formato; it.unidad = c.unidad; it.precioBase = c.precioBase;
+  it.formato = c.formato; it.unidad = c.unidad; it.precioBase = c.precioBase; it.precioFinalManual = null;
 }
 function setGroup(it, g){
-  it.note = "";
+  it.note = ""; it.precioFinalManual = null;
   if (GROUPS.indexOf(g) >= 0){
     var first = productsList().filter(function(p){ return p.cat === g; })[0];
     it.custom = false; setFromCatalog(it, variantsOf(first.slug)[0]);
@@ -730,70 +757,102 @@ function autoResumen(){
   if (bultos > 0) parts.push(fmtNum(bultos) + (bultos === 1 ? " bulto" : " bultos"));
   return parts.length ? "Total cotizado: " + parts.join(" y ") + "." : "";
 }
-function finalPrice(it){ return Math.round((Number(it.precioBase)||0) * (1 + (Number(it.recargo)||0)/100)); }
-function lineTotal(it){ return finalPrice(it) * (Number(it.cantidad)||0); }
-function totals(){
-  var neto = items.reduce(function(a,it){ return a + lineTotal(it); }, 0);
-  var iva = Math.round(neto*0.19);
-  return {neto:neto, iva:iva, total:neto+iva};
+// Precio final = base + recargo, salvo que se haya escrito a mano el precio final o el total (precioFinalManual);
+// en ese caso el % de recargo se recalcula para reflejarlo.
+function finalPrice(it){
+  if (it.precioFinalManual != null) return Number(it.precioFinalManual) || 0;
+  return Math.round((Number(it.precioBase)||0) * (1 + (Number(it.recargo)||0)/100));
 }
+function lineTotal(it){ return finalPrice(it) * (Number(it.cantidad)||0); }
+function round2(n){ return Math.round(n*100)/100; }
+function syncRecargo(it){
+  var base = Number(it.precioBase) || 0;
+  if (base > 0) it.recargo = round2((finalPrice(it) / base - 1) * 100);
+}
+function setFinal(it, v){ it.precioFinalManual = v; syncRecargo(it); }
+function setLineTotal(it, v){
+  var q = Number(it.cantidad) || 0;
+  if (q > 0) setFinal(it, v / q);
+}
+// Ajusta todas las líneas en la misma proporción para llegar a un total neto (los % se recalculan).
+function setNeto(target){
+  var sum = items.reduce(function(a,it){ return a + lineTotal(it); }, 0);
+  if (!(sum > 0) || !(target >= 0)) return;
+  var k = target / sum;
+  items.forEach(function(it){ if (lineTotal(it) > 0) setFinal(it, finalPrice(it) * k); });
+}
+function totals(){
+  var sum = items.reduce(function(a,it){ return a + lineTotal(it); }, 0);
+  var neto = Math.round(sum), total = Math.round(sum * 1.19);
+  return {neto:neto, iva:total-neto, total:total};
+}
+var resumenManual = null;   // texto escrito a mano en lugar del resumen automático
+function resumenText(){ return resumenManual != null ? resumenManual : autoResumen(); }
 
 /* ---------- Render de líneas ---------- */
-function productOptions(selSlug, grupo){
-  return productsList().filter(function(p){ return p.cat === grupo; }).map(function(p){
-    return '<option value="'+esc(p.slug)+'"'+(p.slug===selSlug?" selected":"")+'>'+esc(p.producto)+'</option>';
-  }).join("");
-}
 function groupOptions(sel){
-  return ALL_GROUPS.map(function(g){ return '<option'+(g===sel?" selected":"")+'>'+esc(g)+'</option>'; }).join("");
+  return ALL_GROUPS.map(function(g){ return '<option value="'+esc(g)+'"'+(g===sel?" selected":"")+'>'+esc(archivoLabel(g))+'</option>'; }).join("");
 }
 var UNITS = ["unidad","m²","m","ml","kg","rollo","caja","saco","balde","gl"];
+function unitSelect(cur){
+  return '<select data-f="unidad">' + UNITS.concat(UNITS.indexOf(cur)<0?[cur]:[]).map(function(u){ return '<option'+(u===cur?" selected":"")+'>'+esc(u)+'</option>'; }).join("") + '</select>';
+}
+function fmtMoney(n){ return Math.round(Number(n)||0).toLocaleString("es-CL"); }
+function moneyNum(v){ return num(String(v).replace(/[$\s]/g,"")); }
+function moneyInput(f, v, extra){ return '<input type="text" inputmode="decimal" class="money" data-f="'+f+'" data-money="1" value="'+fmtMoney(v)+'"'+(extra||"")+'>'; }
 function renderLines(){
   var body = $("lines-body");
   body.innerHTML = "";
   items.forEach(function(it){
     var tr = document.createElement("tr");
     tr.dataset.uid = it.uid;
-    if (!(Number(it.precioBase) > 0)) tr.className = "no-price";
-    var noPrice = !(Number(it.precioBase) > 0) ? '<span class="badge-warn">Sin precio</span>' : "";
-    var prodCell, varCell, unitCell, g = groupOf(it);
+    var g = groupOf(it), catCell, prodCell;
     if (it.custom){
       var desp = g === G_DESPACHO;
+      catCell = '<div class="sub-hint" style="margin:0;padding-top:8px;">—</div>';
       prodCell = '<input type="text" data-f="producto" placeholder="'+(desp ? "Despacho" : "Nombre del producto")+'" value="'+esc(it.producto)+'">' +
+                 '<input type="text" data-f="variante" style="margin-top:5px;" placeholder="'+(desp ? "Comuna / detalle (opcional)" : "Variante / detalle (opcional)")+'" value="'+esc(it.variante)+'">' +
                  (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : '<div class="sub-hint">'+(desp ? "Despacho a obra" : "Escrito a mano")+'</div>');
-      varCell  = '<input type="text" data-f="variante" placeholder="'+(desp ? "Comuna / detalle (opcional)" : "Variante / detalle (opcional)")+'" value="'+esc(it.variante)+'">';
-      unitCell = '<select data-f="unidad">' + UNITS.concat(UNITS.indexOf(it.unidad)<0?[it.unidad]:[]).map(function(u){ return '<option'+(u===it.unidad?" selected":"")+'>'+esc(u)+'</option>'; }).join("") + '</select>';
     } else {
-      var vs = variantsOf(it.slug);
-      prodCell = '<select data-f="slug">'+productOptions(it.slug, g)+'</select>' + (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : "");
-      varCell  = (vs.length > 1
-        ? '<select data-f="catId">'+vs.map(function(v){ return '<option value="'+esc(v.id)+'"'+(v.id===it.catId?" selected":"")+'>'+esc(variantLabel(v))+'</option>'; }).join("")+'</select>'
-        : '<div style="padding-top:8px;">'+esc(variantLabel(vs[0]||{}))+'</div>') +
-        (it.formato ? '<div class="sub-hint">'+esc(it.formato)+'</div>' : "");
-      unitCell = '<div style="padding-top:8px;">'+esc(it.unidad)+'</div>';
+      var fams = familiesOf(g), cur = byId[it.catId] || {}, fam = familyOfSlug(it.slug, g);
+      catCell = '<select data-f="familia">' + fams.map(function(f){ return '<option'+(f===fam?" selected":"")+'>'+esc(f)+'</option>'; }).join("") + '</select>';
+      prodCell = '<select data-f="catId">' + entriesOfFamily(g, fam).map(function(c){ return '<option value="'+esc(c.id)+'"'+(c.id===it.catId?" selected":"")+'>'+esc(entryLabel(c))+'</option>'; }).join("") + '</select>' +
+        (it.formato ? '<div class="sub-hint">'+esc(it.formato)+'</div>' : "") + (it.note ? '<div class="sub-hint">'+esc(it.note)+'</div>' : "");
     }
     tr.innerHTML =
-      '<td data-label="Categoría"><select data-f="grupo">'+groupOptions(g)+'</select></td>'+
+      '<td data-label="Archivo"><select data-f="grupo">'+groupOptions(g)+'</select></td>'+
+      '<td data-label="Categoría">'+catCell+'</td>'+
       '<td data-label="Producto">'+prodCell+'</td>'+
-      '<td data-label="Variante">'+varCell+'</td>'+
+      '<td data-label="Unidad">'+unitSelect(it.unidad)+'</td>'+
+      '<td data-label="Precio base" class="num">'+moneyInput("precioBase", it.precioBase)+'<span class="badge-warn" data-c="badge">Sin precio</span></td>'+
+      '<td data-label="% rec."><input type="text" inputmode="decimal" data-f="recargo" value="'+round2(Number(it.recargo)||0)+'"></td>'+
+      '<td data-label="Precio final" class="num">'+moneyInput("final", finalPrice(it))+'</td>'+
       '<td data-label="Cantidad"><input type="number" min="0" step="any" data-f="cantidad" value="'+it.cantidad+'"></td>'+
-      '<td data-label="Unidad">'+unitCell+'</td>'+
-      '<td data-label="Precio base" class="num"><input type="number" min="0" step="1" data-f="precioBase" value="'+(Number(it.precioBase)||0)+'" style="text-align:right;">'+noPrice+'</td>'+
-      '<td data-label="% recargo"><input type="number" min="0" step="0.5" data-f="recargo" value="'+it.recargo+'"></td>'+
-      '<td data-label="Precio final" class="num calc" data-c="final">'+fmtCLP(finalPrice(it))+'</td>'+
-      '<td data-label="Total" class="num calc" data-c="total">'+fmtCLP(lineTotal(it))+'</td>'+
+      '<td data-label="Total ($)" class="num">'+moneyInput("total", lineTotal(it))+'</td>'+
       '<td><button class="remove-btn" type="button" data-del="1" title="Quitar línea">✕</button></td>';
     body.appendChild(tr);
+    refreshRow(tr, it, null);
   });
   renderTotals();
 }
+// Actualiza los campos calculados de una fila (menos el que se está escribiendo)
+function refreshRow(tr, it, active){
+  function set(f, text){ var el = tr.querySelector('[data-f="'+f+'"]'); if (el && el !== active) el.value = text; }
+  set("precioBase", fmtMoney(it.precioBase));
+  set("recargo", String(round2(Number(it.recargo)||0)));
+  set("final", fmtMoney(finalPrice(it)));
+  set("total", fmtMoney(lineTotal(it)));
+  var noPrice = !(finalPrice(it) > 0);
+  tr.classList.toggle("no-price", noPrice);
+  var badge = tr.querySelector('[data-c="badge"]'); if (badge) badge.style.display = noPrice ? "" : "none";
+}
 function renderTotals(){
   var t = totals();
-  $("t-neto").textContent = fmtCLP(t.neto);
-  $("t-iva").textContent = fmtCLP(t.iva);
-  $("t-total").textContent = fmtCLP(t.total);
-  $("auto-resumen-txt").textContent = autoResumen() || "—";
+  function set(id, v){ var el = $(id); if (el !== document.activeElement) el.value = fmtCLP(v); }
+  set("t-neto", t.neto); set("t-iva", t.iva); set("t-total", t.total);
+  var rs = $("auto-resumen-txt"); if (rs !== document.activeElement) rs.value = resumenText();
 }
+function refreshAllRows(){ document.querySelectorAll("#lines-body tr[data-uid]").forEach(function(tr){ var r = findItem(tr); if (r && r.it) refreshRow(tr, r.it, null); }); }
 function findItem(el){
   var tr = el.closest("tr[data-uid]"); if(!tr) return null;
   var uid = Number(tr.dataset.uid);
@@ -802,22 +861,27 @@ function findItem(el){
 $("lines-body").addEventListener("input", function(e){
   var f = e.target.dataset.f; if(!f) return;
   var r = findItem(e.target); if(!r || !r.it) return;
-  if (f === "grupo" || f === "slug" || f === "catId" || f === "unidad") return; // se manejan en change
-  r.it[f] = (f==="producto"||f==="variante") ? e.target.value : num(e.target.value);
-  r.tr.querySelector('[data-c="final"]').textContent = fmtCLP(finalPrice(r.it));
-  r.tr.querySelector('[data-c="total"]').textContent = fmtCLP(lineTotal(r.it));
-  if (f === "precioBase"){
-    var has = Number(r.it.precioBase) > 0;
-    r.tr.classList.toggle("no-price", !has);
-    var b = r.tr.querySelector(".badge-warn"); if (b && has) b.remove();
-  }
+  if (f === "grupo" || f === "familia" || f === "catId" || f === "unidad") return; // se manejan en change
+  var it = r.it, v = e.target.dataset.money ? moneyNum(e.target.value) : num(e.target.value);
+  if (f === "producto" || f === "variante") it[f] = e.target.value;
+  else if (f === "precioBase"){ it.precioBase = v; it.precioFinalManual = null; }
+  else if (f === "recargo"){ it.recargo = v; it.precioFinalManual = null; }
+  else if (f === "final") setFinal(it, v);
+  else if (f === "total") setLineTotal(it, v);
+  else if (f === "cantidad") it.cantidad = v;
+  refreshRow(r.tr, it, e.target);
   renderTotals(); saveDraft();
 });
+$("lines-body").addEventListener("focusout", function(e){
+  if (!e.target.dataset.f) return;
+  var r = findItem(e.target); if (r && r.it) refreshRow(r.tr, r.it, null);
+});
+$("lines-body").addEventListener("focusin", function(e){ if (e.target.dataset.money) e.target.select(); });
 $("lines-body").addEventListener("change", function(e){
   var f = e.target.dataset.f;
   var r = findItem(e.target); if(!r || !r.it) return;
   if (f === "grupo"){ setGroup(r.it, e.target.value); renderLines(); }
-  else if (f === "slug"){ setFromCatalog(r.it, variantsOf(e.target.value)[0]); r.it.note = ""; renderLines(); }
+  else if (f === "familia"){ var first = entriesOfFamily(groupOf(r.it), e.target.value)[0]; setFromCatalog(r.it, first); r.it.note = ""; renderLines(); }
   else if (f === "catId"){ setFromCatalog(r.it, byId[e.target.value]); r.it.note = ""; renderLines(); }
   else if (f === "unidad"){ r.it.unidad = e.target.value; renderTotals(); }
   saveDraft();
@@ -828,6 +892,14 @@ $("lines-body").addEventListener("click", function(e){
   items = items.filter(function(i){ return i !== r.it; });
   renderLines(); saveDraft();
 });
+// Totales y resumen editables: ajustan las líneas (y sus %) en proporción
+[["t-neto",1],["t-iva",1/0.19],["t-total",1/1.19]].forEach(function(p){
+  $(p[0]).addEventListener("input", function(){ setNeto(moneyNum(this.value) * p[1]); refreshAllRows(); renderTotals(); saveDraft(); });
+  $(p[0]).addEventListener("focusin", function(){ this.select(); });
+  $(p[0]).addEventListener("blur", renderTotals);
+});
+$("auto-resumen-txt").addEventListener("input", function(){ resumenManual = this.value; saveDraft(); });
+$("btn-resumen-auto").addEventListener("click", function(){ resumenManual = null; $("auto-resumen-txt").blur(); renderTotals(); saveDraft(); });
 $("btn-add").addEventListener("click", function(){ items.push(newItem()); renderLines(); saveDraft(); });
 $("btn-add-custom").addEventListener("click", function(){ items.push(newItem({custom:true})); renderLines(); saveDraft(); });
 $("f-recargo").addEventListener("change", function(){
@@ -848,14 +920,14 @@ function writeForm(d){ FIELDS.forEach(function(f){ if (d[f] != null) $("f-"+f).v
 function syncMana(){ $("f-manaotro").style.display = $("f-mana").value === "Otro" ? "" : "none"; }
 function manaValue(d){ return String((d.mana === "Otro" ? d.manaotro : d.mana) || "").trim(); }
 $("f-mana").addEventListener("change", function(){ syncMana(); if (this.value === "Otro") $("f-manaotro").focus(); saveDraft(); });
-function saveDraft(){ lsSet(LS_DRAFT, JSON.stringify({form:readForm(), items:items, resumen:$("f-resumen").checked})); }
+function saveDraft(){ lsSet(LS_DRAFT, JSON.stringify({form:readForm(), items:items, resumen:$("f-resumen").checked, resumenManual:resumenManual})); }
 $("f-resumen").addEventListener("change", saveDraft);
 FIELDS.forEach(function(f){ $("f-"+f).addEventListener("input", saveDraft); });
 function freshQuote(){
   writeForm({numero: nextNumber(), fecha: todayISO(), vendedor: $("f-vendedor").value || "", validez: DEFAULTS.validez,
     cliente:"", mana:"", manaotro:"", rut:"", atencion:"", correo:"", telefono:"", direccion:"", comentario:"",
     plazo: DEFAULTS.plazo, lugar: DEFAULTS.lugar, pago: DEFAULTS.pago});
-  items = [newItem()];
+  items = [newItem()]; resumenManual = null;
   renderLines(); saveDraft();
 }
 $("btn-new").addEventListener("click", function(){
@@ -1319,7 +1391,7 @@ function buildPDF(color, d, lvl, allowPages, extra){
   }
 
   /* ---- Comentario (columnas 0-7) + totales (columnas 7-12), misma altura ---- */
-  var resumen = $("f-resumen").checked ? autoResumen() : "";
+  var resumen = $("f-resumen").checked ? resumenText() : "";
   var comment = [resumen, (d.comentario||"").trim()].filter(Boolean).join("\n");
   font(F.body, "normal", S.para, ink);
   var cLines = comment ? doc.splitTextToSize(comment, LEFT_W - 2*P - 1.5) : [];
@@ -1433,6 +1505,7 @@ if (draft && draft.items && draft.form){
   writeForm(draft.form);
   items = draft.items.map(function(it){ it.uid = uidSeq++; it.grupo = groupOf(it); return it; });
   if (draft.resumen === false) $("f-resumen").checked = false;
+  resumenManual = draft.resumenManual != null ? draft.resumenManual : null;
   renderLines();
 } else {
   freshQuote();
@@ -1528,7 +1601,7 @@ function syncHistory(silent){
 function snapshot(){
   var d = readForm(), t = totals();
   return {id: (d.numero||"").trim() || ("sin-numero-" + Date.now()), numero: (d.numero||"").trim() || "S/N",
-    guardado: new Date().toISOString(), form: d, resumen: $("f-resumen").checked, recargoDefault: recargoDefault,
+    guardado: new Date().toISOString(), form: d, resumen: $("f-resumen").checked, resumenManual: resumenManual, recargoDefault: recargoDefault,
     items: JSON.parse(JSON.stringify(items)), neto: t.neto, total: t.total};
 }
 function saveQuote(quiet){
@@ -1565,6 +1638,7 @@ function loadQuote(q, asCopy){
   writeForm(form);
   items = JSON.parse(JSON.stringify(q.items)).map(function(it){ it.uid = uidSeq++; it.grupo = groupOf(it); return it; });
   $("f-resumen").checked = q.resumen !== false;
+  resumenManual = q.resumenManual != null ? q.resumenManual : null;
   renderLines(); saveDraft(); showTab("editor");
   toast(asCopy ? "Copia lista: N° " + form.numero + " (cámbiale lo que necesites)." : "Cotización " + q.numero + " abierta.");
   window.scrollTo({top:0, behavior:"smooth"});
