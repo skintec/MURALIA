@@ -1,3 +1,78 @@
 {
- "cotizaciones": []
+ "cotizaciones": [
+  {
+   "id": "260924-01",
+   "numero": "260924-01",
+   "guardado": "2026-10-05T17:42:27.455Z",
+   "form": {
+    "numero": "260924-01",
+    "fecha": "2026-09-24",
+    "vendedor": "",
+    "validez": "5 días",
+    "cliente": "",
+    "mana": "",
+    "manaotro": "",
+    "rut": "",
+    "atencion": "",
+    "correo": "",
+    "telefono": "",
+    "direccion": "",
+    "comentario": "",
+    "plazo": "2 a 5 días, según disponibilidad de stock al momento de la compra.",
+    "lugar": "Sobre camión en obra del cliente en Santiago.",
+    "pago": "Contado con la OC (transferencia bancaria)."
+   },
+   "resumen": true,
+   "resumenManual": null,
+   "recargoDefault": 10,
+   "items": [
+    {
+     "uid": 1,
+     "custom": false,
+     "grupo": "Tabiques y cielos",
+     "catId": "yeso-carton-estandar--8mm",
+     "slug": "yeso-carton-estandar",
+     "producto": "Yeso cartón estándar (ST)",
+     "variante": "Espesor 8 mm",
+     "formato": "1200 x 2400 mm",
+     "unidad": "unidad",
+     "precioBase": 0,
+     "recargo": 10,
+     "cantidad": 1,
+     "note": ""
+    },
+    {
+     "uid": 2,
+     "custom": true,
+     "grupo": "Otro",
+     "catId": "",
+     "slug": "",
+     "producto": "",
+     "variante": "",
+     "formato": "",
+     "unidad": "unidad",
+     "precioBase": 0,
+     "recargo": 10,
+     "cantidad": 1,
+     "note": ""
+    },
+    {
+     "uid": 3,
+     "custom": false,
+     "grupo": "Aislación térmica y acústica",
+     "catId": "lana-de-vidrio-libre--40mm",
+     "slug": "lana-de-vidrio-libre",
+     "producto": "Lana de vidrio libre",
+     "variante": "Espesor 40 mm",
+     "formato": "1,2 x 24 m — rollo de 28,8 m²",
+     "unidad": "m²",
+     "precioBase": 1758,
+     "recargo": 10,
+     "cantidad": 6
+    }
+   ],
+   "neto": 11604,
+   "total": 13809
+  }
+ ]
 }
