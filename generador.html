@@ -203,6 +203,22 @@
   .token-box .row{display:flex;gap:10px;flex-wrap:wrap;}
   .token-box input{flex:1;min-width:240px;}
   #quote-editor.hidden,#tab-historial.hidden{display:none;}
+  table.hist tbody tr.hist-row{cursor:pointer;}
+  table.hist tr.hist-row.open td{background:#faf6ee;border-bottom-color:transparent;}
+  table.hist tr.hist-detail > td{padding:0;background:#faf6ee;border-bottom:2px solid var(--graphite);}
+  .prev{padding:16px 18px 20px;}
+  .prev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 18px;margin-bottom:16px;}
+  .prev-grid span{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--clay-dark);}
+  .prev-grid div{font-size:13.5px;word-break:break-word;}
+  table.prev-lines{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:12px;background:#fff;}
+  table.prev-lines th{text-align:center;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;background:var(--graphite);color:var(--paper);padding:7px 8px;}
+  table.prev-lines td{padding:7px 8px;border-bottom:1px solid var(--line);}
+  table.prev-lines td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .prev-tot{margin-left:auto;width:min(300px,100%);font-size:13.5px;font-variant-numeric:tabular-nums;}
+  .prev-tot div{display:flex;justify-content:space-between;padding:4px 0;}
+  .prev-tot .grand{font-weight:700;border-top:2px solid var(--graphite);margin-top:4px;padding-top:6px;}
+  .prev-note{font-size:13px;margin-top:10px;white-space:pre-line;}
+  .prev-note b{color:var(--clay-dark);text-transform:uppercase;font-size:11px;letter-spacing:0.8px;display:block;}
 
   @media (max-width:760px){
     table.lines{min-width:0;}
@@ -258,7 +274,7 @@
           <ol style="margin:6px 0 0 18px;">
             <li>Primera vez en cada dispositivo: toca <b>Ingresar clave de acceso</b>, escribe la clave y guarda.</li>
             <li>Al terminar una cotización toca <b>Guardar en historial</b>; al descargar un PDF también se guarda sola.</li>
-            <li>Aquí verás todas; usa el buscador por N°, cliente, RUT o producto.</li>
+            <li>Aquí verás todas; usa el buscador por N°, cliente, RUT o producto. Toca una fila (o <b>Ver</b>) para ver el detalle sin abrirla.</li>
             <li><b>Abrir</b> carga la cotización para seguir editándola. <b>Copiar</b> carga una copia con N° y fecha nuevos, para hacer pequeños cambios sin tocar la original.</li>
             <li>Se sincroniza con GitHub cada vez que abres el generador; "Sincronizar ahora" fuerza la actualización.</li>
           </ol>
@@ -1184,7 +1200,7 @@ function generatePDF(color){
 
   var safe = function(s){ return String(s||"").replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g," ").trim(); };
   var quien = [safe(d.cliente), safe(manaValue(d))].filter(Boolean).join(" ");
-  var fname = "Cotizacion Muralia " + safe(d.numero) + (quien ? " - " + quien : "") + (color ? "" : " (imprimir)") + ".pdf";
+  var fname = [quien, safe(d.numero)].filter(Boolean).join(" ") + (color ? "" : " imprimir") + ".pdf";
   r.doc.save(fname);
   saveQuote(true);   // al descargar, la cotización queda guardada en el historial (y en GitHub)
   return r.doc;
@@ -1625,12 +1641,34 @@ function renderHistory(){
   $("hist-count").textContent = history_.length ? "(" + history_.length + ")" : "";
   $("hist-empty").style.display = history_.length ? "none" : "block";
   $("hist-body").innerHTML = rows.map(function(q){
-    return '<tr data-id="'+esc(q.id)+'"><td><b>'+esc(q.numero)+'</b>'+(pending[q.id]?'<span class="pending-tag">Sin subir</span>':"")+'</td>'+
+    var open = !!histOpen[q.id];
+    return '<tr class="hist-row'+(open?" open":"")+'" data-id="'+esc(q.id)+'"><td><b>'+esc(q.numero)+'</b>'+(pending[q.id]?'<span class="pending-tag">Sin subir</span>':"")+'</td>'+
       '<td>'+esc(prettyDate(q.form.fecha))+'</td><td>'+esc(q.form.cliente||"—")+'</td><td>'+esc(q.form.vendedor||"—")+'</td>'+
       '<td class="num">'+q.items.length+'</td><td class="num">'+fmtCLP(q.total)+'</td>'+
-      '<td><div class="row-acts"><button class="btn btn-outline btn-sm" type="button" data-act="open">Abrir</button>'+
-      '<button class="btn btn-dark btn-sm" type="button" data-act="copy">Copiar</button></div></td></tr>';
+      '<td><div class="row-acts"><button class="btn btn-outline btn-sm" type="button" data-act="view">'+(open?"Ocultar":"Ver")+'</button>'+
+      '<button class="btn btn-outline btn-sm" type="button" data-act="open">Abrir</button>'+
+      '<button class="btn btn-dark btn-sm" type="button" data-act="copy">Copiar</button></div></td></tr>' +
+      (open ? '<tr class="hist-detail"><td colspan="7">'+previewHtml(q)+'</td></tr>' : "");
   }).join("");
+}
+var histOpen = {};
+function previewHtml(q){
+  var f = q.form || {};
+  var info = [["Cliente", f.cliente], ["RUT", f.rut], ["Atención", f.atencion], ["Correo", f.correo], ["Teléfono", f.telefono],
+              ["Despacho", f.direccion], ["Vendedor", f.vendedor], ["Maña", manaValue(f)], ["Fecha", prettyDate(f.fecha)], ["Validez", f.validez]]
+    .filter(function(r){ return r[1]; })
+    .map(function(r){ return '<div><span>'+esc(r[0])+'</span><div>'+esc(r[1])+'</div></div>'; }).join("");
+  var lines = q.items.map(function(it){
+    var name = it.producto + (it.variante ? " — " + it.variante : "");
+    return '<tr><td>'+esc(name)+'</td><td>'+esc(it.unidad||"")+'</td><td class="num">'+esc(fmtNum(Number(it.cantidad)||0))+'</td><td class="num">'+fmtCLP(finalPrice(it))+'</td><td class="num">'+fmtCLP(lineTotal(it))+'</td></tr>';
+  }).join("");
+  var notes = [["Comentario", [q.resumenManual, f.comentario].filter(Boolean).join("\n")], ["Plazo de entrega", f.plazo], ["Lugar de entrega", f.lugar], ["Condiciones de pago", f.pago]]
+    .filter(function(r){ return r[1]; })
+    .map(function(r){ return '<div class="prev-note"><b>'+esc(r[0])+'</b>'+esc(r[1])+'</div>'; }).join("");
+  return '<div class="prev"><div class="prev-grid">'+info+'</div>'+
+    '<div class="table-scroll"><table class="prev-lines"><thead><tr><th>Producto</th><th>Unidad</th><th>Cantidad</th><th>Precio final</th><th>Total</th></tr></thead><tbody>'+lines+'</tbody></table></div>'+
+    '<div class="prev-tot"><div><span>Total neto</span><span>'+fmtCLP(q.neto)+'</span></div><div><span>IVA 19%</span><span>'+fmtCLP(q.total - q.neto)+'</span></div><div class="grand"><span>Total</span><span>'+fmtCLP(q.total)+'</span></div></div>'+
+    notes+'</div>';
 }
 function loadQuote(q, asCopy){
   if (!confirm(asCopy ? "¿Cargar una copia de la cotización " + q.numero + "? Se reemplaza la cotización que estás editando." : "¿Abrir la cotización " + q.numero + "? Se reemplaza la cotización que estás editando.")) return;
@@ -1651,10 +1689,11 @@ function showTab(name){
 }
 document.querySelectorAll(".tab-btn").forEach(function(b){ b.addEventListener("click", function(){ showTab(b.dataset.tab); }); });
 $("hist-body").addEventListener("click", function(e){
-  var act = e.target.dataset.act; if (!act) return;
-  var id = e.target.closest("tr").dataset.id;
+  var tr = e.target.closest("tr.hist-row"); if (!tr) return;
+  var id = tr.dataset.id, act = e.target.dataset.act;
   var q = history_.filter(function(x){ return x.id === id; })[0]; if (!q) return;
-  loadQuote(q, act === "copy");
+  if (act === "open" || act === "copy") return loadQuote(q, act === "copy");
+  histOpen[id] = !histOpen[id]; renderHistory();   // clic en la fila o en "Ver": mostrar/ocultar el detalle
 });
 $("hist-search").addEventListener("input", renderHistory);
 $("btn-sync").addEventListener("click", function(){ syncHistory(false); });
